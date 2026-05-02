@@ -1,0 +1,26 @@
+{
+  "name": "@propjockey/doubledash.css",
+  "version": "0.0.0",
+  "description": "a collection of 100% CSS custom utility --functions()",
+  "keywords": [
+    "css",
+    "functions"
+  ],
+  "homepage": "https://github.com/propjockey/doubledash.css#readme",
+  "bugs": {
+    "url": "https://github.com/propjockey/doubledash.css/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/propjockey/doubledash.css.git"
+  },
+  "license": "BSD-2-Clause",
+  "author": "Jane Ori",
+  "main": "doubledash.css",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

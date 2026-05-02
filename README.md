@@ -42,7 +42,27 @@ Outputs --x repeated --n times.
 /* 👽 👽 👽 */
 ```
 
+### --repeat-join(--n, --join, --x)
+
+`./functions/repeat-join.css`
+
+`--n` is an integer greater than 0, less than 256
+
+`--join` is a separator
+
+`--x` is anything
+
+Outputs --x repeated --n times, each separated by --join
+
+```css
+text-shadow: --repeat-join(4, {, }, 0px 0px 2px black);
+/* 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black */
+```
+
 ## CHANGELOG:
+
+v0.0.1 - May 3rd, 2026:
+* --repeat-join(--n, --join, --x);
 
 v0.0.0 - May 3rd, 2026:
 * Initial release

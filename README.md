@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.0.1/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.0.2/doubledash.css">
 ```
 
 OR
@@ -22,7 +22,7 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.0.1/functions/repeat.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.0.2/functions/repeat.css");
 ```
 
 ## Functions
@@ -61,10 +61,10 @@ text-shadow: --repeat-join(4, {, }, 0px 0px 2px black);
 
 ## CHANGELOG:
 
-v0.0.1 - May 3rd, 2026:
+v0.0.2 - May 3rd, 2026:
 * --repeat-join(--n, --join, --x);
 
-v0.0.1 - May 3rd, 2026:
+v0.0.0 - May 3rd, 2026:
 * Initial release
 * --repeat(--n, --x);
 

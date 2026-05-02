@@ -6,7 +6,7 @@
 
 @function --repeat-join(--n, --join, --x) {
   --bit7: calc(round(down, (var(--n) - 1) / 128));
-  --val6: calc(var(--n) - var(--bit7) * 128);
+  --val6: calc(var(--n) - 1 - var(--bit7) * 128);
 
   --bit6: calc(round(down, var(--val6) / 64));
   --val5: calc(var(--val6) - var(--bit6) * 64);

@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.0.2/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.1.0/doubledash.css">
 ```
 
 OR
@@ -22,14 +22,14 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.0.2/functions/repeat.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.1.0/functions/repeat/index.css");
 ```
 
 ## Functions
 
-### --repeat(--n, --x)
+### --dd-repeat(--n, --x)
 
-`./functions/repeat.css`
+`./functions/repeat/repeat.css`
 
 `--n` is an integer greater than 0, less than 256
 
@@ -38,13 +38,13 @@ Use your favorite NPM CDN and import specific functions straight into your CSS f
 Outputs --x repeated --n times.
 
 ```css
---star-family: --repeat(3, 👽);
+--star-family: --dd-repeat(3, 👽);
 /* 👽 👽 👽 */
 ```
 
-### --repeat-join(--n, --join, --x)
+### --dd-repeat-join(--n, --join, --x)
 
-`./functions/repeat-join.css`
+`./functions/repeat/repeat-join.css`
 
 `--n` is an integer greater than 0, less than 256
 
@@ -55,11 +55,104 @@ Outputs --x repeated --n times.
 Outputs --x repeated --n times, each separated by --join
 
 ```css
-text-shadow: --repeat-join(4, {, }, 0px 0px 2px black);
+text-shadow: --dd-repeat-join(4, {, }, 0px 0px 2px black);
 /* 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black */
 ```
 
+### Compare
+
+* /functions/compare/*
+  * cmp.css --dd-cmp(--left, --right)
+  * eq.css --dd-eq(--left, --right)
+  * neq.css --dd-neq(--left, --right)
+  * gt.css --dd-gt(--left, --right)
+  * gte.css --dd-gte(--left, --right)
+  * lt.css --dd-lt(--left, --right)
+  * lte.css --dd-lte(--left, --right)
+
+These all take --left and --right which must be the same type:
+`<length>|<number>`
+
+cmp returns an integer, -1, 0, or 1 for less than, equal to, and greater than, respectively
+
+the rest return a boolean bit flag 0 or 1
+"is left gte right?"
+
+```css
+opacity: --dd-gte(50cqw, 20rem);
+```
+
+### TODO: Document the rest shown in the changelog
+
+So many ✨
+
+And as soon as we have ...vargument spreading (which absolutely should have happened by default and unfortunately doesn't), maybe up to another 100 functins will be added for array processing.
+
+Miiiight add mixins once those are here too.
+
 ## CHANGELOG:
+
+v0.1.0 - May 3rd, 2026:
+* Added --dd- prefix
+* Organized into folders
+  * /repeat/repeat.css
+  * /repeat/repeat-join.css
+* Added index.css files in each folder that includes all functions from that folder
+  * /repeat/index.css
+* /functions/compare/*
+  * cmp.css --dd-cmp(--left, --right)
+  * eq.css --dd-eq(--left, --right)
+  * neq.css --dd-neq(--left, --right)
+  * gt.css --dd-gt(--left, --right)
+  * gte.css --dd-gte(--left, --right)
+  * lt.css --dd-lt(--left, --right)
+  * lte.css --dd-lte(--left, --right)
+* /functions/cast/*
+  * bit-to-inverted-space-toggle.css --dd-bit-to-ist(--dd-bit)
+  * bit-to-space-toggle.css --dd-bit-to-st(--dd-bit)
+  * inverted-space-toggle-to-bit.css --dd-ist-to-bit(--dd-bit)
+  * space-toggle-to-bit.css --dd-st-to-bit(--dd-bit)
+  * digit-to-string.css --dd-digit-to-string(--digit)
+  * number-to-string.css --dd-number-to-string(--dd-number, --dd-fixed: 0, --dd-round: nearest)
+  * length-to-string.css --dd-length-to-string(--dd-len, --dd-basis: 1px, --dd-unit: "", --dd-fixed: 0, --dd-round: nearest)
+  * length-to-px-number.css --dd-length-to-px-number(--dd-length)
+* /functions/logic/*
+  * bit/*
+    * and-bit.css --dd-and-bit(--bit-a, --bit-b)
+    * nand-bit.css --dd-nand-bit(--bit-a, --bit-b)
+    * nor-bit.css --dd-nor-bit(--bit-a, --bit-b)
+    * not-bit.css --dd-not-bit(--bit)
+    * or-bit.css --dd-or-bit(--bit-a, --bit-b)
+    * xnor-bit.css --dd-xnor-bit(--bit-a, --bit-b)
+    * xor-bit.css --dd-xor-bit(--bit-a, --bit-b)
+  * int16/*
+    * and-int16.css --dd-and-int16(--int16-a, --int16-b)
+    * nand-int16.css --dd-nand-int16(--int16-a, --int16-b)
+    * nor-int16.css --dd-nor-int16(--int16-a, --int16-b)
+    * not-int16.css --dd-not-int16(--int16)
+    * or-int16.css --dd-or-int16(--int16-a, --int16-b)
+    * xnor-int16.css --dd-xnor-int16(--int16-a, --int16-b)
+    * xor-int16.css --dd-xor-int16(--int16-a, --int16-b)
+    * toggle-int16.css --dd-toggle-int16(--int16, --which-bit)
+    * set-int16.css --dd-set-int16(--int16, --which-bit, --to-bit-value)
+    * get-int16.css --dd-get-int16(--int16, --which-bit)
+    * bitwise.css --dd-bitwise(--int16-a, --operator, --int16-b-or-which-bit, --set-to: 0)
+  * space-toggle/*
+    * and-st.css --dd-and-st(--st-a, --st-b)
+    * nand-st.css --dd-nand-st(--st-a, --st-b)
+    * nor-st.css --dd-nor-st(--st-a, --st-b)
+    * not-st.css --dd-not-st(--st)
+    * or-st.css --dd-or-st(--st-a, --st-b)
+    * xnor-st.css --dd-xnor-st(--st-a, --st-b)
+    * xor-st.css --dd-xor-st(--st-a, --st-b)
+  * inverted-space-toggle/*
+    * and-ist.css --dd-and-ist(--ist-a, --ist-b)
+    * nand-ist.css --dd-nand-ist(--ist-a, --ist-b)
+    * nor-ist.css --dd-nor-ist(--ist-a, --ist-b)
+    * not-ist.css --dd-not-ist(--ist)
+    * or-ist.css --dd-or-ist(--ist-a, --ist-b)
+    * xnor-ist.css --dd-xnor-ist(--ist-a, --ist-b)
+    * xor-ist.css --dd-xor-ist(--ist-a, --ist-b)
 
 v0.0.2 - May 3rd, 2026:
 * --repeat-join(--n, --join, --x);

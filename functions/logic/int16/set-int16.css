@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./bitwise.css");
+
+@function --dd-set-int16(--dd-bit-a <integer>, --which-bit <integer>, --to-bit-value <integer>) returns <integer> {
+  result: --dd-bitwise(var(--dd-bit-a), set, var(--which-bit), var(--to-bit-value));
+}

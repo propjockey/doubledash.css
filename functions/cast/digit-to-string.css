@@ -1,0 +1,22 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-digit-to-string(--dd-digit <integer>) returns <string> {
+  --_dd-digit-abs: calc(abs(var(--dd-digit)));
+  result: if(
+    style(--_dd-digit-abs = 0): "0";
+    style(--_dd-digit-abs = 1): "1";
+    style(--_dd-digit-abs = 2): "2";
+    style(--_dd-digit-abs = 3): "3";
+    style(--_dd-digit-abs = 4): "4";
+    style(--_dd-digit-abs = 5): "5";
+    style(--_dd-digit-abs = 6): "6";
+    style(--_dd-digit-abs = 7): "7";
+    style(--_dd-digit-abs = 8): "8";
+    style(--_dd-digit-abs = 9): "9";
+    else: "";
+  );
+}

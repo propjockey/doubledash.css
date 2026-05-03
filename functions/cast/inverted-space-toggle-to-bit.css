@@ -1,0 +1,10 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-ist-to-bit(--dd-ist) returns <integer> {
+  --_dd-0-if-not-ist: var(--dd-ist) 0;
+  result: var(--_dd-0-if-not-ist, 1);
+}

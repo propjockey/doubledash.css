@@ -1,0 +1,9 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-cmp(--dd-left, --dd-right) returns <integer> {
+  result: sign(var(--dd-left) - var(--dd-right));
+}

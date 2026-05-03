@@ -1,0 +1,12 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-xor-bit(--dd-bit-a <integer>, --dd-bit-b <integer>) returns <integer> {
+  result: calc(
+    min(1, var(--dd-bit-a) + var(--dd-bit-b)) *
+    (1 - var(--dd-bit-a) * var(--dd-bit-b))
+  );
+}

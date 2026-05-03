@@ -4,4 +4,6 @@
 // Copyright © 2026 Jane Ori, PropJockey
 */
 
-@import url("./functions/index.css");
+@function --dd-bit-to-st(--dd-bit <integer>) {
+  result: if(style(--dd-bit = 1): ;);
+}

@@ -4,4 +4,6 @@
 // Copyright © 2026 Jane Ori, PropJockey
 */
 
-@import url("./functions/index.css");
+@function --dd-and-ist(--dd-ist-a, --dd-ist-b) {
+  result: var(--dd-ist-a, var(--dd-ist-b));
+}

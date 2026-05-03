@@ -1,0 +1,16 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./or-st.css");
+@import url("./and-st.css");
+@import url("./nand-st.css");
+
+@function --dd-xor-st(--dd-st-a, --dd-st-b) {
+  result: --dd-and-st(
+    --dd-or-st(var(--dd-st-a), var(--dd-st-b)),
+    --dd-nand-st(var(--dd-st-a), var(--dd-st-b))
+  );
+}

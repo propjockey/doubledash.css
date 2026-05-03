@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./cmp.css");
+
+@function --dd-eq(--dd-left, --dd-right) returns <integer> {
+  result: calc(1 - abs(--dd-cmp(var(--dd-left), var(--dd-right))));
+}

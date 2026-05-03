@@ -1,0 +1,21 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./number-to-string.css");
+
+@function --dd-length-to-string(
+  --dd-len <length>,
+  --dd-basis <length>: 1px,
+  --dd-unit <string>: "",
+  --dd-fixed <integer>: 0,
+  --dd-round: nearest
+) {
+  result: --dd-number-to-string(
+    calc(var(--dd-len) / var(--dd-basis)),
+    var(--dd-fixed),
+    var(--dd-round)
+  ) var(--dd-unit);
+}

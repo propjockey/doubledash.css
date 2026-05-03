@@ -1,0 +1,46 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-repeat(--dd-total, --dd-data) {
+  --_dd-bit7: calc(round(down, var(--dd-total) / 128));
+  --_dd-7-bits: calc(var(--dd-total) - var(--_dd-bit7) * 128);
+
+  --_dd-bit6: calc(round(down, var(--_dd-7-bits) / 64));
+  --_dd-6-bits: calc(var(--_dd-7-bits) - var(--_dd-bit6) * 64);
+
+  --_dd-bit5: calc(round(down, var(--_dd-6-bits) / 32));
+  --_dd-5-bits: calc(var(--_dd-6-bits) - var(--_dd-bit5) * 32);
+
+  --_dd-bit4: calc(round(down, var(--_dd-5-bits) / 16));
+  --_dd-4-bits: calc(var(--_dd-5-bits) - var(--_dd-bit4) * 16);
+
+  --_dd-bit3: calc(round(down, var(--_dd-4-bits) / 8));
+  --_dd-3-bits: calc(var(--_dd-4-bits) - var(--_dd-bit3) * 8);
+
+  --_dd-bit2: calc(round(down, var(--_dd-3-bits) / 4));
+  --_dd-2-bits: calc(var(--_dd-3-bits) - var(--_dd-bit2) * 4);
+
+  --_dd-bit1: calc(round(down, var(--_dd-2-bits) / 2));
+  --_dd-bit0: calc(var(--_dd-2-bits) - var(--_dd-bit1) * 2);
+ 
+  --_dd-pow0: var(--dd-data);
+  --_dd-pow1: var(--_dd-pow0) var(--_dd-pow0);
+  --_dd-pow2: var(--_dd-pow1) var(--_dd-pow1);
+  --_dd-pow3: var(--_dd-pow2) var(--_dd-pow2);
+  --_dd-pow4: var(--_dd-pow3) var(--_dd-pow3);
+  --_dd-pow5: var(--_dd-pow4) var(--_dd-pow4);
+  --_dd-pow6: var(--_dd-pow5) var(--_dd-pow5);
+  --_dd-pow7: var(--_dd-pow6) var(--_dd-pow6);
+
+  result: if(style(--_dd-bit0 = 1): var(--_dd-pow0); else: ;)
+    if(style(--_dd-bit1 = 1): var(--_dd-pow1); else: ;)
+    if(style(--_dd-bit2 = 1): var(--_dd-pow2); else: ;)
+    if(style(--_dd-bit3 = 1): var(--_dd-pow3); else: ;)
+    if(style(--_dd-bit4 = 1): var(--_dd-pow4); else: ;)
+    if(style(--_dd-bit5 = 1): var(--_dd-pow5); else: ;)
+    if(style(--_dd-bit6 = 1): var(--_dd-pow6); else: ;)
+    if(style(--_dd-bit7 = 1): var(--_dd-pow7); else: ;);
+}

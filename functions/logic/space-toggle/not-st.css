@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-not-st(--dd-st) {
+  --_dd-1-if-st: var(--dd-st) 1;
+  --_dd-bit-from-st: var(--_dd-1-if-st, 0);
+  result: if(style(--_dd-bit-from-st = 0): ;);
+}

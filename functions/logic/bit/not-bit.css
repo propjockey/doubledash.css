@@ -4,4 +4,6 @@
 // Copyright © 2026 Jane Ori, PropJockey
 */
 
-@import url("./functions/index.css");
+@function --dd-not-bit(--dd-bit <integer>) returns <integer> {
+  result: calc(1 - var(--dd-bit));
+}

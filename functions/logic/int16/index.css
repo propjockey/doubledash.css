@@ -1,0 +1,17 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./bitwise.css");
+@import url("./and-int16.css");
+@import url("./nand-int16.css");
+@import url("./nor-int16.css");
+@import url("./not-int16.css");
+@import url("./or-int16.css");
+@import url("./xnor-int16.css");
+@import url("./xor-int16.css");
+@import url("./get-int16.css");
+@import url("./set-int16.css");
+@import url("./toggle-int16.css");

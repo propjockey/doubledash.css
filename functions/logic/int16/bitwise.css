@@ -5,11 +5,98 @@
 */
 
 @import url("../bit/index.css");
+@import url("../../cast/digit-to-string.css");
+@import url("../../compare/gte.css");
+
+@function --_dd-bw-string-exe(--dd-int16-op, --dd-min-length) {
+  result: if(
+    style(--dd-int16-op: bit-string):
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 15), --dd-gte(var(--_dd-bw-msb), 15)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-15)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 14), --dd-gte(var(--_dd-bw-msb), 14)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-14)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 13), --dd-gte(var(--_dd-bw-msb), 13)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-13)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 12), --dd-gte(var(--_dd-bw-msb), 12)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-12)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 11), --dd-gte(var(--_dd-bw-msb), 11)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-11)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 10), --dd-gte(var(--_dd-bw-msb), 10)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-10)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 9), --dd-gte(var(--_dd-bw-msb), 9)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-9)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 8), --dd-gte(var(--_dd-bw-msb), 8)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-8)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 7), --dd-gte(var(--_dd-bw-msb), 7)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-7)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 6), --dd-gte(var(--_dd-bw-msb), 6)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-6)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 5), --dd-gte(var(--_dd-bw-msb), 5)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-5)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 4), --dd-gte(var(--_dd-bw-msb), 4)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-4)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 3), --dd-gte(var(--_dd-bw-msb), 3)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-3)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 2), --dd-gte(var(--_dd-bw-msb), 2)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-2)); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length) - 1, 1), --dd-gte(var(--_dd-bw-msb), 1)
+      ) = 1): --dd-digit-to-string(var(--_dd-bw-a-1)); else: "";)
+      --dd-digit-to-string(var(--_dd-bw-a-0))
+    ;
+    style(--dd-int16-op: hex-string):
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length), 4), --dd-gte(var(--_dd-bw-msb), 12)
+      ) = 1): --dd-digit-to-string(
+        var(--_dd-bw-a-15) * 8 +
+        var(--_dd-bw-a-14) * 4 +
+        var(--_dd-bw-a-13) * 2 +
+        var(--_dd-bw-a-12)
+      ); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length), 3), --dd-gte(var(--_dd-bw-msb), 8)
+      ) = 1): --dd-digit-to-string(
+        var(--_dd-bw-a-11) * 8 +
+        var(--_dd-bw-a-10) * 4 +
+        var(--_dd-bw-a-9) * 2 +
+        var(--_dd-bw-a-8)
+      ); else: "";)
+      if(style(--dd-or-bit(
+        --dd-gte(var(--dd-min-length), 2), --dd-gte(var(--_dd-bw-msb), 4)
+      ) = 1): --dd-digit-to-string(
+        var(--_dd-bw-a-7) * 8 +
+        var(--_dd-bw-a-6) * 4 +
+        var(--_dd-bw-a-5) * 2 +
+        var(--_dd-bw-a-4)
+      ); else: "";)
+      --dd-digit-to-string(
+        var(--_dd-bw-a-3) * 8 +
+        var(--_dd-bw-a-2) * 4 +
+        var(--_dd-bw-a-1) * 2 +
+        var(--_dd-bw-a-0)
+      )
+    ; else: "";
+  );
+}
 
 /* and|nand|nor|or|xor|xnor */
 @function --_dd-bw-exe(--dd-int16-a, --dd-int16-op, --dd-int16-b) {
   result: if(
-    style(--dd-int16-op = and): calc(
+    style(--dd-int16-op: and): calc(
       var(--_dd-a-sign) * (
         --dd-and-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
         --dd-and-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
@@ -29,122 +116,120 @@
         --dd-and-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
       )
     );
-    else: if(
-      style(--dd-int16-op = nand): calc(
-        var(--_dd-a-sign) * (
-          --dd-nand-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
-          --dd-nand-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
-          --dd-nand-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
-          --dd-nand-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
-          --dd-nand-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
-          --dd-nand-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
-          --dd-nand-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
-          --dd-nand-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
-          --dd-nand-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
-          --dd-nand-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
-          --dd-nand-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
-          --dd-nand-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
-          --dd-nand-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
-          --dd-nand-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
-          --dd-nand-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
-          --dd-nand-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
-        )
-      );
-      else: if(
-        style(--dd-int16-op = nor): calc(
-          var(--_dd-a-sign) * (
-            --dd-nor-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
-            --dd-nor-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
-            --dd-nor-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
-            --dd-nor-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
-            --dd-nor-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
-            --dd-nor-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
-            --dd-nor-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
-            --dd-nor-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
-            --dd-nor-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
-            --dd-nor-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
-            --dd-nor-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
-            --dd-nor-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
-            --dd-nor-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
-            --dd-nor-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
-            --dd-nor-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
-            --dd-nor-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
-          )
-        );
-        else: if(
-          style(--dd-int16-op = or): calc(
-            var(--_dd-a-sign) * (
-              --dd-or-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
-              --dd-or-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
-              --dd-or-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
-              --dd-or-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
-              --dd-or-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
-              --dd-or-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
-              --dd-or-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
-              --dd-or-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
-              --dd-or-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
-              --dd-or-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
-              --dd-or-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
-              --dd-or-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
-              --dd-or-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
-              --dd-or-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
-              --dd-or-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
-              --dd-or-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
-            )
-          );
-          else: if(
-            style(--dd-int16-op = xor): calc(
-              var(--_dd-a-sign) * (
-                --dd-xor-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
-                --dd-xor-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
-                --dd-xor-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
-                --dd-xor-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
-                --dd-xor-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
-                --dd-xor-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
-                --dd-xor-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
-                --dd-xor-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
-                --dd-xor-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
-                --dd-xor-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
-                --dd-xor-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
-                --dd-xor-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
-                --dd-xor-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
-                --dd-xor-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
-                --dd-xor-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
-                --dd-xor-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
-              )
-            );
-            else: if(
-              style(--dd-int16-op = xnor): calc(
-                var(--_dd-a-sign) * (
-                  --dd-xnor-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
-                  --dd-xnor-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
-                  --dd-xnor-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
-                  --dd-xnor-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
-                  --dd-xnor-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
-                  --dd-xnor-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
-                  --dd-xnor-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
-                  --dd-xnor-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
-                  --dd-xnor-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
-                  --dd-xnor-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
-                  --dd-xnor-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
-                  --dd-xnor-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
-                  --dd-xnor-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
-                  --dd-xnor-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
-                  --dd-xnor-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
-                  --dd-xnor-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
-                )
-              );
-              else: NaN;
-            );
-          );
-        );
-      );
+    style(--dd-int16-op: nand): calc(
+      var(--_dd-a-sign) * (
+        --dd-nand-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
+        --dd-nand-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
+        --dd-nand-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
+        --dd-nand-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
+        --dd-nand-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
+        --dd-nand-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
+        --dd-nand-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
+        --dd-nand-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
+        --dd-nand-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
+        --dd-nand-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
+        --dd-nand-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
+        --dd-nand-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
+        --dd-nand-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
+        --dd-nand-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
+        --dd-nand-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
+        --dd-nand-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
+      )
     );
+    style(--dd-int16-op: nor): calc(
+      var(--_dd-a-sign) * (
+        --dd-nor-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
+        --dd-nor-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
+        --dd-nor-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
+        --dd-nor-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
+        --dd-nor-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
+        --dd-nor-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
+        --dd-nor-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
+        --dd-nor-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
+        --dd-nor-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
+        --dd-nor-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
+        --dd-nor-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
+        --dd-nor-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
+        --dd-nor-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
+        --dd-nor-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
+        --dd-nor-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
+        --dd-nor-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
+      )
+    );
+    style(--dd-int16-op: or): calc(
+      var(--_dd-a-sign) * (
+        --dd-or-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
+        --dd-or-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
+        --dd-or-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
+        --dd-or-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
+        --dd-or-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
+        --dd-or-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
+        --dd-or-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
+        --dd-or-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
+        --dd-or-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
+        --dd-or-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
+        --dd-or-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
+        --dd-or-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
+        --dd-or-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
+        --dd-or-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
+        --dd-or-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
+        --dd-or-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
+      )
+    );
+    style(--dd-int16-op: xor): calc(
+      var(--_dd-a-sign) * (
+        --dd-xor-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
+        --dd-xor-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
+        --dd-xor-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
+        --dd-xor-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
+        --dd-xor-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
+        --dd-xor-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
+        --dd-xor-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
+        --dd-xor-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
+        --dd-xor-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
+        --dd-xor-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
+        --dd-xor-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
+        --dd-xor-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
+        --dd-xor-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
+        --dd-xor-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
+        --dd-xor-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
+        --dd-xor-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
+      )
+    );
+    style(--dd-int16-op: xnor): calc(
+      var(--_dd-a-sign) * (
+        --dd-xnor-bit(var(--_dd-bw-a-15), var(--_dd-bw-b-15)) * pow(2, 15) +
+        --dd-xnor-bit(var(--_dd-bw-a-14), var(--_dd-bw-b-14)) * pow(2, 14) +
+        --dd-xnor-bit(var(--_dd-bw-a-13), var(--_dd-bw-b-13)) * pow(2, 13) +
+        --dd-xnor-bit(var(--_dd-bw-a-12), var(--_dd-bw-b-12)) * pow(2, 12) +
+        --dd-xnor-bit(var(--_dd-bw-a-11), var(--_dd-bw-b-11)) * 2048 +
+        --dd-xnor-bit(var(--_dd-bw-a-10), var(--_dd-bw-b-10)) * 1024 +
+        --dd-xnor-bit(var(--_dd-bw-a-9), var(--_dd-bw-b-9)) * 512 +
+        --dd-xnor-bit(var(--_dd-bw-a-8), var(--_dd-bw-b-8)) * 256 +
+        --dd-xnor-bit(var(--_dd-bw-a-7), var(--_dd-bw-b-7)) * 128 +
+        --dd-xnor-bit(var(--_dd-bw-a-6), var(--_dd-bw-b-6)) * 64 +
+        --dd-xnor-bit(var(--_dd-bw-a-5), var(--_dd-bw-b-5)) * 32 +
+        --dd-xnor-bit(var(--_dd-bw-a-4), var(--_dd-bw-b-4)) * 16 +
+        --dd-xnor-bit(var(--_dd-bw-a-3), var(--_dd-bw-b-3)) * 8 +
+        --dd-xnor-bit(var(--_dd-bw-a-2), var(--_dd-bw-b-2)) * 4 +
+        --dd-xnor-bit(var(--_dd-bw-a-1), var(--_dd-bw-b-1)) * 2 +
+        --dd-xnor-bit(var(--_dd-bw-a-0), var(--_dd-bw-b-0))
+      )
+    );
+    else: NaN;
   );
 }
 
-@function --_dd-bw-split-b(--dd-int16-a, --dd-int16-op, --dd-int16-b) {
-  --_dd-b-sign: sign(--dd-int16-b);
+/* register a few internal vars using unused params to make the calc()s work */
+@function --_dd-bw-split-b(
+  --dd-int16-a,
+  --dd-int16-op,
+  --dd-int16-b,
+  --_dd-bw-b-11 <integer>: 0,
+  --_dd-bw-b-7 <integer>: 0,
+  --_dd-bw-b-3 <integer>: 0
+) {
+  --_dd-b-sign: sign(var(--dd-int16-b));
   --_dd-b-down-to-int: clamp(
     0,
     round(down, abs(var(--dd-int16-b)), 1),
@@ -193,12 +278,21 @@
   --_dd-bw-b-2-bits: calc(var(--_dd-bw-b-3-bits) - var(--_dd-bw-b-2) * 4);
 
   --_dd-bw-b-1: calc(round(down, var(--_dd-bw-b-2-bits) / 2));
-  --_dd-bw-b-0: calc(var(--_dd-bw-b-2-bits) - var(--_dd-bw-b-1) * 2);
+  --_dd-bw-b-0: calc(round(down, var(--_dd-bw-b-2-bits) - var(--_dd-bw-b-1) * 2));
 
   result: --_dd-bw-exe(var(--dd-int16-a), var(--dd-int16-op), var(--dd-int16-b));
 }
 
-@function --_dd-bw-split-a(--dd-int16-a, --dd-int16-op, --dd-int16-b, --dd-int16-set-bit-to) {
+@function --_dd-bw-split-a(
+  --dd-int16-a,
+  --dd-int16-op,
+  --dd-int16-b,
+  --dd-int16-set-bit-to,
+  --_dd-bw-a-11 <integer>: 0,
+  --_dd-bw-a-7 <integer>: 0,
+  --_dd-bw-a-3 <integer>: 0,
+  --_dd-bw-msb <integer>: 0
+) {
   /* split a then call split b then call exe */
   --_dd-bw-a-15: calc(round(down, var(--_dd-a-down-to-int) / pow(2, 15)));
   --_dd-bw-a-15-bits: calc(var(--_dd-a-down-to-int) - var(--_dd-bw-a-15) * pow(2, 15));
@@ -243,10 +337,34 @@
   --_dd-bw-a-2-bits: calc(var(--_dd-bw-a-3-bits) - var(--_dd-bw-a-2) * 4);
 
   --_dd-bw-a-1: calc(round(down, var(--_dd-bw-a-2-bits) / 2));
-  --_dd-bw-a-0: calc(var(--_dd-bw-a-2-bits) - var(--_dd-bw-a-1) * 2);
+  /* this next var exceedes the max vars in calc(), by exactly
+  // one. So we register an <integer> half way through with an
+  // extra, unused parameter hack... --_dd-bw-a-7 <integer>: 0
+  */
+  --_dd-bw-a-0: calc(round(down, var(--_dd-bw-a-2-bits) - var(--_dd-bw-a-1) * 2));
+
+  --_dd-bw-msb: calc(max(
+    var(--_dd-bw-a-15) * 15,
+    var(--_dd-bw-a-14) * 14,
+    var(--_dd-bw-a-13) * 13,
+    var(--_dd-bw-a-12) * 12,
+    var(--_dd-bw-a-11) * 11,
+    var(--_dd-bw-a-10) * 10,
+    var(--_dd-bw-a-9) * 9,
+    var(--_dd-bw-a-8) * 8,
+    var(--_dd-bw-a-7) * 7,
+    var(--_dd-bw-a-6) * 6,
+    var(--_dd-bw-a-5) * 5,
+    var(--_dd-bw-a-4) * 4,
+    var(--_dd-bw-a-3) * 3,
+    var(--_dd-bw-a-2) * 2,
+    var(--_dd-bw-a-1)
+  ));
 
   result: if(
-    style(--dd-int16-op = left): calc(
+    style(--dd-int16-op: bit-string) or style(--dd-int16-op: hex-string):
+      --_dd-bw-string-exe(var(--dd-int16-op), var(--dd-int16-b));
+    style(--dd-int16-op: left): calc(
       var(--_dd-a-sign) *
       if(
         style(--dd-int16-b = 15): var(--_dd-bw-a-0);
@@ -266,118 +384,180 @@
         style(--dd-int16-b = 1): var(--_dd-bw-a-15-bits);
         style(--dd-int16-b = 0): var(--_dd-a-down-to-int);
       ) * pow(2, clamp(0, var(--dd-int16-b), 15))
-    ); else: if(
-      style(--dd-int16-op = not): calc(
-        var(--_dd-a-sign) * (
-          (1 - var(--_dd-bw-a-15)) * pow(2, 15) +
-          (1 - var(--_dd-bw-a-14)) * pow(2, 14) +
-          (1 - var(--_dd-bw-a-13)) * pow(2, 13) +
-          (1 - var(--_dd-bw-a-12)) * pow(2, 12) +
-          (1 - var(--_dd-bw-a-11)) * 2048 +
-          (1 - var(--_dd-bw-a-10)) * 1024 +
-          (1 - var(--_dd-bw-a-9)) * 512 +
-          (1 - var(--_dd-bw-a-8)) * 256 +
-          (1 - var(--_dd-bw-a-7)) * 128 +
-          (1 - var(--_dd-bw-a-6)) * 64 +
-          (1 - var(--_dd-bw-a-5)) * 32 +
-          (1 - var(--_dd-bw-a-4)) * 16 +
-          (1 - var(--_dd-bw-a-3)) * 8 +
-          (1 - var(--_dd-bw-a-2)) * 4 +
-          (1 - var(--_dd-bw-a-1)) * 2 +
-          (1 - var(--_dd-bw-a-0))
-        )
-      ); else: if(
-        style(--dd-int16-op = get): if(
-          style(--dd-int16-b = 15): var(--_dd-bw-a-15);
-          style(--dd-int16-b = 14): var(--_dd-bw-a-14);
-          style(--dd-int16-b = 13): var(--_dd-bw-a-13);
-          style(--dd-int16-b = 12): var(--_dd-bw-a-12);
-          style(--dd-int16-b = 11): var(--_dd-bw-a-11);
-          style(--dd-int16-b = 10): var(--_dd-bw-a-10);
-          style(--dd-int16-b = 9): var(--_dd-bw-a-9);
-          style(--dd-int16-b = 8): var(--_dd-bw-a-8);
-          style(--dd-int16-b = 7): var(--_dd-bw-a-7);
-          style(--dd-int16-b = 6): var(--_dd-bw-a-6);
-          style(--dd-int16-b = 5): var(--_dd-bw-a-5);
-          style(--dd-int16-b = 4): var(--_dd-bw-a-4);
-          style(--dd-int16-b = 3): var(--_dd-bw-a-3);
-          style(--dd-int16-b = 2): var(--_dd-bw-a-2);
-          style(--dd-int16-b = 1): var(--_dd-bw-a-1);
-          style(--dd-int16-b = 0): var(--_dd-bw-a-0);
-          else: 2; /* sorry Bender */
-        ); else: if(
-          style(--dd-int16-op = set): calc(
-            var(--_dd-a-sign) * (
-              if(style(--dd-int16-b = 15): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-15);) * pow(2, 15) +
-              if(style(--dd-int16-b = 14): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-14);) * pow(2, 14) +
-              if(style(--dd-int16-b = 13): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-13);) * pow(2, 13) +
-              if(style(--dd-int16-b = 12): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-12);) * pow(2, 12) +
-              if(style(--dd-int16-b = 11): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-11);) * 2048 +
-              if(style(--dd-int16-b = 10): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-10);) * 1024 +
-              if(style(--dd-int16-b = 9): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-9);) * 512 +
-              if(style(--dd-int16-b = 8): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-8);) * 256 +
-              if(style(--dd-int16-b = 7): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-7);) * 128 +
-              if(style(--dd-int16-b = 6): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-6);) * 64 +
-              if(style(--dd-int16-b = 5): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-5);) * 32 +
-              if(style(--dd-int16-b = 4): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-4);) * 16 +
-              if(style(--dd-int16-b = 3): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-3);) * 8 +
-              if(style(--dd-int16-b = 2): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-2);) * 4 +
-              if(style(--dd-int16-b = 1): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-1);) * 2 +
-              if(style(--dd-int16-b = 0): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-0);)
-            )
-          ); else: if(
-            style(--dd-int16-op = toggle): calc(
-              var(--_dd-a-sign) * (
-                if(style(--dd-int16-b = 15): (1 - var(--_dd-bw-a-15)); else: var(--_dd-bw-a-15);) * pow(2, 15) +
-                if(style(--dd-int16-b = 14): (1 - var(--_dd-bw-a-14)); else: var(--_dd-bw-a-14);) * pow(2, 14) +
-                if(style(--dd-int16-b = 13): (1 - var(--_dd-bw-a-13)); else: var(--_dd-bw-a-13);) * pow(2, 13) +
-                if(style(--dd-int16-b = 12): (1 - var(--_dd-bw-a-12)); else: var(--_dd-bw-a-12);) * pow(2, 12) +
-                if(style(--dd-int16-b = 11): (1 - var(--_dd-bw-a-11)); else: var(--_dd-bw-a-11);) * 2048 +
-                if(style(--dd-int16-b = 10): (1 - var(--_dd-bw-a-10)); else: var(--_dd-bw-a-10);) * 1024 +
-                if(style(--dd-int16-b = 9): (1 - var(--_dd-bw-a-9)); else: var(--_dd-bw-a-9);) * 512 +
-                if(style(--dd-int16-b = 8): (1 - var(--_dd-bw-a-8)); else: var(--_dd-bw-a-8);) * 256 +
-                if(style(--dd-int16-b = 7): (1 - var(--_dd-bw-a-7)); else: var(--_dd-bw-a-7);) * 128 +
-                if(style(--dd-int16-b = 6): (1 - var(--_dd-bw-a-6)); else: var(--_dd-bw-a-6);) * 64 +
-                if(style(--dd-int16-b = 5): (1 - var(--_dd-bw-a-5)); else: var(--_dd-bw-a-5);) * 32 +
-                if(style(--dd-int16-b = 4): (1 - var(--_dd-bw-a-4)); else: var(--_dd-bw-a-4);) * 16 +
-                if(style(--dd-int16-b = 3): (1 - var(--_dd-bw-a-3)); else: var(--_dd-bw-a-3);) * 8 +
-                if(style(--dd-int16-b = 2): (1 - var(--_dd-bw-a-2)); else: var(--_dd-bw-a-2);) * 4 +
-                if(style(--dd-int16-b = 1): (1 - var(--_dd-bw-a-1)); else: var(--_dd-bw-a-1);) * 2 +
-                if(style(--dd-int16-b = 0): (1 - var(--_dd-bw-a-0)); else: var(--_dd-bw-a-0);)
-              )
-            ); else: --_dd-bw-split-b(var(--dd-int16-a), var(--dd-int16-op), var(--dd-int16-b))
-          ;)
-        ;)
-      ;)
-    ;)
-  ;);
+    );
+    style(--dd-int16-op: not): calc(
+      var(--_dd-a-sign) * (
+        (1 - var(--_dd-bw-a-15)) * pow(2, 15) +
+        (1 - var(--_dd-bw-a-14)) * pow(2, 14) +
+        (1 - var(--_dd-bw-a-13)) * pow(2, 13) +
+        (1 - var(--_dd-bw-a-12)) * pow(2, 12) +
+        (1 - var(--_dd-bw-a-11)) * 2048 +
+        (1 - var(--_dd-bw-a-10)) * 1024 +
+        (1 - var(--_dd-bw-a-9)) * 512 +
+        (1 - var(--_dd-bw-a-8)) * 256 +
+        (1 - var(--_dd-bw-a-7)) * 128 +
+        (1 - var(--_dd-bw-a-6)) * 64 +
+        (1 - var(--_dd-bw-a-5)) * 32 +
+        (1 - var(--_dd-bw-a-4)) * 16 +
+        (1 - var(--_dd-bw-a-3)) * 8 +
+        (1 - var(--_dd-bw-a-2)) * 4 +
+        (1 - var(--_dd-bw-a-1)) * 2 +
+        (1 - var(--_dd-bw-a-0))
+      )
+    );
+    style(--dd-int16-op: get): if(
+      style(--dd-int16-b = 15): var(--_dd-bw-a-15);
+      style(--dd-int16-b = 14): var(--_dd-bw-a-14);
+      style(--dd-int16-b = 13): var(--_dd-bw-a-13);
+      style(--dd-int16-b = 12): var(--_dd-bw-a-12);
+      style(--dd-int16-b = 11): var(--_dd-bw-a-11);
+      style(--dd-int16-b = 10): var(--_dd-bw-a-10);
+      style(--dd-int16-b = 9): var(--_dd-bw-a-9);
+      style(--dd-int16-b = 8): var(--_dd-bw-a-8);
+      style(--dd-int16-b = 7): var(--_dd-bw-a-7);
+      style(--dd-int16-b = 6): var(--_dd-bw-a-6);
+      style(--dd-int16-b = 5): var(--_dd-bw-a-5);
+      style(--dd-int16-b = 4): var(--_dd-bw-a-4);
+      style(--dd-int16-b = 3): var(--_dd-bw-a-3);
+      style(--dd-int16-b = 2): var(--_dd-bw-a-2);
+      style(--dd-int16-b = 1): var(--_dd-bw-a-1);
+      style(--dd-int16-b = 0): var(--_dd-bw-a-0);
+      else: NaN;
+    );
+    style(--dd-int16-op: set): calc(
+      var(--_dd-a-sign) * (
+        if(style(--dd-int16-b = 15): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-15);) * pow(2, 15) +
+        if(style(--dd-int16-b = 14): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-14);) * pow(2, 14) +
+        if(style(--dd-int16-b = 13): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-13);) * pow(2, 13) +
+        if(style(--dd-int16-b = 12): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-12);) * pow(2, 12) +
+        if(style(--dd-int16-b = 11): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-11);) * 2048 +
+        if(style(--dd-int16-b = 10): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-10);) * 1024 +
+        if(style(--dd-int16-b = 9): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-9);) * 512 +
+        if(style(--dd-int16-b = 8): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-8);) * 256 +
+        if(style(--dd-int16-b = 7): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-7);) * 128 +
+        if(style(--dd-int16-b = 6): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-6);) * 64 +
+        if(style(--dd-int16-b = 5): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-5);) * 32 +
+        if(style(--dd-int16-b = 4): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-4);) * 16 +
+        if(style(--dd-int16-b = 3): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-3);) * 8 +
+        if(style(--dd-int16-b = 2): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-2);) * 4 +
+        if(style(--dd-int16-b = 1): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-1);) * 2 +
+        if(style(--dd-int16-b = 0): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-0);)
+      )
+    );
+    style(--dd-int16-op: toggle): calc(
+      var(--_dd-a-sign) * (
+        if(style(--dd-int16-b = 15): (1 - var(--_dd-bw-a-15)); else: var(--_dd-bw-a-15);) * pow(2, 15) +
+        if(style(--dd-int16-b = 14): (1 - var(--_dd-bw-a-14)); else: var(--_dd-bw-a-14);) * pow(2, 14) +
+        if(style(--dd-int16-b = 13): (1 - var(--_dd-bw-a-13)); else: var(--_dd-bw-a-13);) * pow(2, 13) +
+        if(style(--dd-int16-b = 12): (1 - var(--_dd-bw-a-12)); else: var(--_dd-bw-a-12);) * pow(2, 12) +
+        if(style(--dd-int16-b = 11): (1 - var(--_dd-bw-a-11)); else: var(--_dd-bw-a-11);) * 2048 +
+        if(style(--dd-int16-b = 10): (1 - var(--_dd-bw-a-10)); else: var(--_dd-bw-a-10);) * 1024 +
+        if(style(--dd-int16-b = 9): (1 - var(--_dd-bw-a-9)); else: var(--_dd-bw-a-9);) * 512 +
+        if(style(--dd-int16-b = 8): (1 - var(--_dd-bw-a-8)); else: var(--_dd-bw-a-8);) * 256 +
+        if(style(--dd-int16-b = 7): (1 - var(--_dd-bw-a-7)); else: var(--_dd-bw-a-7);) * 128 +
+        if(style(--dd-int16-b = 6): (1 - var(--_dd-bw-a-6)); else: var(--_dd-bw-a-6);) * 64 +
+        if(style(--dd-int16-b = 5): (1 - var(--_dd-bw-a-5)); else: var(--_dd-bw-a-5);) * 32 +
+        if(style(--dd-int16-b = 4): (1 - var(--_dd-bw-a-4)); else: var(--_dd-bw-a-4);) * 16 +
+        if(style(--dd-int16-b = 3): (1 - var(--_dd-bw-a-3)); else: var(--_dd-bw-a-3);) * 8 +
+        if(style(--dd-int16-b = 2): (1 - var(--_dd-bw-a-2)); else: var(--_dd-bw-a-2);) * 4 +
+        if(style(--dd-int16-b = 1): (1 - var(--_dd-bw-a-1)); else: var(--_dd-bw-a-1);) * 2 +
+        if(style(--dd-int16-b = 0): (1 - var(--_dd-bw-a-0)); else: var(--_dd-bw-a-0);)
+      )
+    );
+    style(--dd-int16-op: msb): var(--_dd-bw-msb);
+    style(--dd-int16-op: byte): --_dd-bw-byte(var(--dd-int16-b));
+    style(--dd-int16-op: nibble): --_dd-bw-nibble(var(--dd-int16-b), var(--dd-int16-set-bit-to));
+    else: --_dd-bw-split-b(var(--dd-int16-a), var(--dd-int16-op), var(--dd-int16-b));
+  );
+}
+
+@function --_dd-bw-byte(--dd-which-byte: 0) {
+  result: if(
+    style(--dd-which-byte = 1): calc(
+      var(--_dd-bw-a-15) * 128 +
+      var(--_dd-bw-a-14) * 64 +
+      var(--_dd-bw-a-13) * 32 +
+      var(--_dd-bw-a-12) * 16 +
+      var(--_dd-bw-a-11) * 8 +
+      var(--_dd-bw-a-10) * 4 +
+      var(--_dd-bw-a-9) * 2 +
+      var(--_dd-bw-a-8)
+    );
+    style(--dd-which-byte = 0): calc(
+      var(--_dd-bw-a-7) * 128 +
+      var(--_dd-bw-a-6) * 64 +
+      var(--_dd-bw-a-5) * 32 +
+      var(--_dd-bw-a-4) * 16 +
+      var(--_dd-bw-a-3) * 8 +
+      var(--_dd-bw-a-2) * 4 +
+      var(--_dd-bw-a-1) * 2 +
+      var(--_dd-bw-a-0)
+    );
+    else: NaN;
+  );
+}
+
+@function --_dd-bw-nibble(--dd-which-nibble: 0, --dd-power-base: 2) {
+  result: if(
+    style(--dd-which-nibble = 3): calc(
+      var(--_dd-bw-a-15) * pow(var(--dd-power-base), 3) +
+      var(--_dd-bw-a-14) * pow(var(--dd-power-base), 2) +
+      var(--_dd-bw-a-13) * pow(var(--dd-power-base), 1) +
+      var(--_dd-bw-a-12)
+    );
+    style(--dd-which-nibble = 2): calc(
+      var(--_dd-bw-a-11) * pow(var(--dd-power-base), 3) +
+      var(--_dd-bw-a-10) * pow(var(--dd-power-base), 2) +
+      var(--_dd-bw-a-9) * pow(var(--dd-power-base), 1) +
+      var(--_dd-bw-a-8)
+    );
+    style(--dd-which-nibble = 1): calc(
+      var(--_dd-bw-a-7) * pow(var(--dd-power-base), 3) +
+      var(--_dd-bw-a-6) * pow(var(--dd-power-base), 2) +
+      var(--_dd-bw-a-5) * pow(var(--dd-power-base), 1) +
+      var(--_dd-bw-a-4)
+    );
+    style(--dd-which-nibble = 0): calc(
+      var(--_dd-bw-a-3) * pow(var(--dd-power-base), 3) +
+      var(--_dd-bw-a-2) * pow(var(--dd-power-base), 2) +
+      var(--_dd-bw-a-1) * pow(var(--dd-power-base), 1) +
+      var(--_dd-bw-a-0)
+    );
+    else: NaN;
+  );
 }
 
 /*
-// --dd-int16-op: and|nand|nor|or|xor|xnor|left|right|not|set|get
+// --dd-int16-op: and|nand|nor|or|xor|xnor|left|right|not|toggle|set|get|nibble|byte
 // these don't split a and don't split b:
 // right
 // these don't split b:
-// not|toggle|set|get
+// not|toggle|set|get|msb|hex-string|bit-string|nibble|byte
 // toggle, set, and get use --dd-int16-b to index the bit
 // set uses --dd-int16-set-bit-to to write the bit indicated by --dd-int16-b in --dd-int16-a
 // --dd-int16-a, --dd-int16-b, and --dd-int16-set-bit-to are integers,
-// --dd-int16-set-bit-to is 0 or 1 only and only used by set
+// --dd-int16-set-bit-to is 0 or 1 only when used by set
+// --dd-int16-set-bit-to is 2 or 10 when used by nibble
 */
 @function --dd-bitwise(--dd-int16-a, --dd-int16-op, --dd-int16-b: 0, --dd-int16-set-bit-to: 0) {
-  --_dd-a-sign: sign(--dd-int16-a);
+  --_dd-a-sign: sign(var(--dd-int16-a));
   --_dd-a-down-to-int: clamp(
     0,
     round(down, abs(var(--dd-int16-a)), 1),
     pow(2, 16) - 1
   );
   result: if(
-    style(--dd-int16-op = right): calc(
+    style(--dd-int16-op: right): calc(
       var(--_dd-a-sign) * clamp(
         0,
         round(down, var(--_dd-a-down-to-int) / pow(2, var(--dd-int16-b)), 1),
-        pow(2, 17) - 1
-      ); 
-    ); else: --_dd-bw-split-a(var(--dd-int16-a), var(--dd-int16-op), var(--dd-int16-b), var(--dd-int16-set-bit-to))
-  ;)
+        pow(2, 16) - 1
+      )
+    ); else: --_dd-bw-split-a(
+      var(--dd-int16-a),
+      var(--dd-int16-op),
+      var(--dd-int16-b),
+      var(--dd-int16-set-bit-to)
+    );
+  );
 }

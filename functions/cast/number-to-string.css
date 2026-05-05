@@ -19,54 +19,54 @@
   ));
 
   --_dd-dec-10-5: calc(round(down, var(--_dd-nts-fixed) / 100000));
-  --_dd-dec-number-4-digits: calc(var(--_dd-nts-fixed) - var(--_dd-dec-10-5) * 100000);
+  --_dd-dec-number-5-digits: calc(var(--_dd-nts-fixed) - var(--_dd-dec-10-5) * 100000);
 
-  --_dd-dec-10-4: calc(round(down, var(--_dd-dec-number-4-digits) / 10000));
+  --_dd-dec-10-4: calc(round(down, var(--_dd-dec-number-5-digits) / 10000));
+  --_dd-dec-number-4-digits: calc(
+    var(--_dd-dec-number-5-digits) - var(--_dd-dec-10-4) * 10000
+  );
+
+  --_dd-dec-10-3: calc(round(down, var(--_dd-dec-number-4-digits) / 1000));
   --_dd-dec-number-3-digits: calc(
-    var(--_dd-dec-number-4-digits) - var(--_dd-dec-10-4) * 10000
+    var(--_dd-dec-number-4-digits) - var(--_dd-dec-10-3) * 1000
   );
 
-  --_dd-dec-10-3: calc(round(down, var(--_dd-dec-number-3-digits) / 1000));
+  --_dd-dec-10-2: calc(round(down, var(--_dd-dec-number-3-digits) / 100));
   --_dd-dec-number-2-digits: calc(
-    var(--_dd-dec-number-3-digits) - var(--_dd-dec-10-3) * 1000
+    var(--_dd-dec-number-3-digits) - var(--_dd-dec-10-2) * 100
   );
 
-  --_dd-dec-10-2: calc(round(down, var(--_dd-dec-number-2-digits) / 100));
-  --_dd-dec-number-1-digits: calc(
-    var(--_dd-dec-number-2-digits) - var(--_dd-dec-10-2) * 100
-  );
-
-  --_dd-dec-10-1: calc(round(down, var(--_dd-dec-number-1-digits) / 10));
-  --_dd-dec-10-0: calc(
-    var(--_dd-dec-number-1-digits) - var(--_dd-dec-10-1) * 10
-  );
+  --_dd-dec-10-1: calc(round(down, var(--_dd-dec-number-2-digits) / 10));
+  --_dd-dec-10-0: calc(round(down,
+    var(--_dd-dec-number-2-digits) - var(--_dd-dec-10-1) * 10
+  ));
 
   --_dd-nts-remainder: calc((var(--_dd-nts-fixed) - round(down, var(--_dd-nts-fixed))) * 1000000);
 
   --_dd-dec-rem-10-5: calc(round(down, var(--_dd-nts-remainder) / 100000));
-  --_dd-dec-rem-number-4-digits: calc(
+  --_dd-dec-rem-number-5-digits: calc(
     var(--_dd-nts-remainder) - var(--_dd-dec-rem-10-5) * 100000
   );
 
-  --_dd-dec-rem-10-4: calc(round(down, var(--_dd-dec-rem-number-4-digits) / 10000));
+  --_dd-dec-rem-10-4: calc(round(down, var(--_dd-dec-rem-number-5-digits) / 10000));
+  --_dd-dec-rem-number-4-digits: calc(
+    var(--_dd-dec-rem-number-5-digits) - var(--_dd-dec-rem-10-4) * 10000
+  );
+
+  --_dd-dec-rem-10-3: calc(round(down, var(--_dd-dec-rem-number-4-digits) / 1000));
   --_dd-dec-rem-number-3-digits: calc(
-    var(--_dd-dec-rem-number-4-digits) - var(--_dd-dec-rem-10-4) * 10000
+    var(--_dd-dec-rem-number-4-digits) - var(--_dd-dec-rem-10-3) * 1000
   );
 
-  --_dd-dec-rem-10-3: calc(round(down, var(--_dd-dec-rem-number-3-digits) / 1000));
+  --_dd-dec-rem-10-2: calc(round(down, var(--_dd-dec-rem-number-3-digits) / 100));
   --_dd-dec-rem-number-2-digits: calc(
-    var(--_dd-dec-rem-number-3-digits) - var(--_dd-dec-rem-10-3) * 1000
+    var(--_dd-dec-rem-number-3-digits) - var(--_dd-dec-rem-10-2) * 100
   );
 
-  --_dd-dec-rem-10-2: calc(round(down, var(--_dd-dec-rem-number-2-digits) / 100));
-  --_dd-dec-rem-number-1-digits: calc(
-    var(--_dd-dec-rem-number-2-digits) - var(--_dd-dec-rem-10-2) * 100
-  );
-
-  --_dd-dec-rem-10-1: calc(round(down, var(--_dd-dec-rem-number-1-digits) / 10));
-  --_dd-dec-rem-10-0: calc(
-    var(--_dd-dec-rem-number-1-digits) - var(--_dd-dec-rem-10-1) * 10
-  );
+  --_dd-dec-rem-10-1: calc(round(down, var(--_dd-dec-rem-number-2-digits) / 10));
+  --_dd-dec-rem-10-0: calc(round(down,
+    var(--_dd-dec-rem-number-2-digits) - var(--_dd-dec-rem-10-1) * 10
+  ));
 
   result: if(style(--_dd-nts-sign = -1): "-"; else: ;)
     if(style(--_dd-dec-10-5 = 0): ; else: --dd-digit-to-string(var(--_dd-dec-10-5));)

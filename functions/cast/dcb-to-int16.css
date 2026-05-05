@@ -1,0 +1,75 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-dcb-to-nibble(--dd-nibble <integer>) returns <integer> {
+  --_dd-dec-10-3: calc(round(down, abs(var(--dd-nibble)) / 1000));
+  --_dd-dec-number-3-digits: calc(
+    abs(var(--dd-nibble)) - var(--_dd-dec-10-3) * 1000
+  );
+
+  --_dd-dec-10-2: calc(round(down, var(--_dd-dec-number-3-digits) / 100));
+  --_dd-dec-number-2-digits: calc(
+    var(--_dd-dec-number-3-digits) - var(--_dd-dec-10-2) * 100
+  );
+
+  --_dd-dec-10-1: calc(round(down, var(--_dd-dec-number-2-digits) / 10));
+  --_dd-dec-10-0: calc(round(down,
+    var(--_dd-dec-number-2-digits) - var(--_dd-dec-10-1) * 10
+  ));
+
+  result: calc(
+    min(1, var(--_dd-dec-10-3)) * 8 +
+    min(1, var(--_dd-dec-10-2)) * 4 +
+    min(1, var(--_dd-dec-10-1)) * 2 +
+    min(1, var(--_dd-dec-10-0))
+  );
+}
+
+@function --dd-dcb-to-int16(
+  --dd-arg1 <integer>,
+  --dd-arg2 <integer>: -1,
+  --dd-arg3 <integer>: -1,
+  --dd-arg4 <integer>: -1
+) {
+  --_dd-least-significant: if(
+    style(--dd-arg4: -1): if(
+      style(--dd-arg3: -1): if(
+        style(--dd-arg2: -1): var(--dd-arg1);
+        else: var(--dd-arg2);
+      );
+      else: var(--dd-arg3);
+    );
+    else: var(--dd-arg4);
+  );
+  --_dd-2nd-least-significant: if(
+    style(--dd-arg4: -1): if(
+      style(--dd-arg3: -1): if(
+        style(--dd-arg2: -1): 0;
+        else: var(--dd-arg1);
+      );
+      else: var(--dd-arg2);
+    );
+    else: var(--dd-arg3);
+  );
+  --_dd-3rd-least-significant: if(
+    style(--dd-arg4: -1): if(
+      style(--dd-arg3: -1): 0;
+      else: var(--dd-arg1);
+    );
+    else: var(--dd-arg2);
+  );
+  --_dd-4th-least-significant: if(
+    style(--dd-arg4: -1): 0;
+    else: var(--dd-arg1);
+  );
+
+  result: calc(
+    --dd-dcb-to-nibble(var(--_dd-4th-least-significant)) * pow(2, 12) +
+    --dd-dcb-to-nibble(var(--_dd-3rd-least-significant)) * pow(2, 8) +
+    --dd-dcb-to-nibble(var(--_dd-2nd-least-significant)) * pow(2, 4) +
+    --dd-dcb-to-nibble(var(--_dd-least-significant))
+  );
+}

@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("../logic/int16/bitwise.css");
+
+@function --dd-int16-to-dcb-nibble(--dd-int16 <integer>, --dd-which-nibble <integer>: 0) {
+  result: --dd-bitwise(var(--dd-int16), nibble, var(--dd-which-nibble), 10);
+}

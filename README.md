@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.1.0/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.1.1/doubledash.css">
 ```
 
 OR
@@ -22,7 +22,7 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.1.0/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.1.1/functions/repeat/index.css");
 ```
 
 ## Functions
@@ -82,6 +82,52 @@ the rest return a boolean bit flag 0 or 1
 opacity: --dd-gte(50cqw, 20rem);
 ```
 
+### Cast number to string
+
+`./functions/cast/number-to-string.css`
+
+`--dd-number-to-string(--dd-number, --dd-fixed: 0, --dd-round: nearest)`
+
+`--dd-number` is the number to cast to string
+
+`--dd-fixed` is an integer for the decimal precision to show in the string, defaulting to 0, maximum 6 decimal places though native CSS precision only allows up to 6 if the number is between 1 and 0, and with 6 digits left of the decimal, it doesn't have room for any decimal precision. The outuput remains fixed length in any case, using 0 as needed.
+
+`--dd-round` is the rounding strategy used to reach the precision specified, defaulting to `nearest`.
+
+Demo: https://codepen.io/propjockey/pen/JobdXLz?editors=0100
+
+### Cast length to string
+
+`./functions/cast/length-to-string.css`
+
+`--dd-length-to-string(--dd-len <length>, --dd-basis <length>: 1px, --dd-unit <string>: "", --dd-fixed <integer>: 0, --dd-round: nearest)`
+
+basis (optional) is the single unit value of the length provided, defaulting to 1px which will show the length as pixels
+
+unit (optional) is the string to append after the number, eg "px", defaulting to an empty string.
+
+fixed (optional) is the decimal precision, same as in `cast/number-to-string.css`
+
+round (optional) defaulting to `nearest`, same as in `cast/number-to-string.css`
+
+Demo: https://codepen.io/propjockey/pen/dPOoMmx?editors=0100
+
+### --dd-bit-to-st(--dd-bit)
+
+takes a bit, 0 or 1, and returns a space toggle (space if 1, initial if 0)
+
+### --dd-bit-to-ist(--dd-bit)
+
+takes a bit, 0 or 1, and returns an [inverted space toggle](https://propjockey.breakpoint-system.com/#space-toggle-brief) (initial if 1, space if 0)
+
+### --dd-st-to-bit(--dd-st)
+
+takes a space toggle and returns a bit (1 if space, 0 if initial)
+
+### --dd-ist-to-bit(--dd-ist)
+
+takes an [inverted space toggle](https://propjockey.breakpoint-system.com/#space-toggle-brief) and returns a bit (1 if initial, 0 if space)
+
 ### TODO: Document the rest shown in the changelog
 
 So many ✨
@@ -91,6 +137,40 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.1.1 - May 5th, 2026:
+* Fixed rounding on number-to-string thanks to Jakob E
+  - https://bsky.app/profile/jakob-e.bsky.social/post/3mkzgiem3322y
+  - the same rounding omission affected bitwise operations so it has been fixed in two additional places as well (thank you times 3!)
+* Clean up: Corrected poor naming of several internal variables
+* Fixed all /functions/logic/int16/* functions
+* /functions/logic/int16/*
+  * shift-left-int16.css --dd-shift-left-int16(--int16, --distance)
+  * shift-right-int16.css --dd-shift-right-int16(--int16, --distance)
+  * msb-int16.css --dd-msb-int16(--dd-int16) // most significant bit returns [0, 15]
+  * byte-int16.css --dd-byte-int16(--dd-int16, --which-byte[0, 1])
+  * nibble-int16.css --dd-nibble-int16(--dd-int16, --which-nibble[0, 3])
+* Added an optional base param to --dd-digit-to-string(--dd-digit, --dd-base)
+  * extended the default set as base32hex number base
+  * base32hex, base32, base64 are the current options
+* /functions/cast/*
+  * int16-to-bit-string.css --dd-int16-to-bit-string(--dd-int16, --dd-min-length: 0)
+    * maximum min length is 16
+    * pads left with 0 to reach the minimum length
+  * int16-to-hex-string.css --dd-int16-to-bit-string(--dd-int16, --dd-min-length: 0)
+    * maximum min length is 4
+    * pads left with 0 to reach the minimum length
+  * dcb-to-int16.css --dd-dcb-to-int16(--dd-arg1, --dd-arg2, --dd-arg3, --dd-arg4)
+    * dcb = decimal coded binary.
+    * allows you to write binary in CSS
+    * decimal number 11 is interpreted as binary so it equals 3
+    * the most significant bit is the first bit of the first argument
+    * the least significant bit is the last bit of the last argument you provide
+    * only --dd-arg1 is required, each arg is 4 bits (a nibble)
+    * --dd-dcb-to-int16(11,1001,1101) = 925
+    * --dd-dcb-to-int16(0011,1001,1101) = 925
+    * --dd-dcb-to-int16(1111,1111,1111,1110) = 65534
+  * int16-to-dcb-nibble.css --dd-int16-to-dcb-nibble(--dd-int16, --which-nibble[0, 3])
 
 v0.1.0 - May 3rd, 2026:
 * Added --dd- prefix
@@ -108,10 +188,10 @@ v0.1.0 - May 3rd, 2026:
   * lt.css --dd-lt(--left, --right)
   * lte.css --dd-lte(--left, --right)
 * /functions/cast/*
-  * bit-to-inverted-space-toggle.css --dd-bit-to-ist(--dd-bit)
   * bit-to-space-toggle.css --dd-bit-to-st(--dd-bit)
-  * inverted-space-toggle-to-bit.css --dd-ist-to-bit(--dd-bit)
-  * space-toggle-to-bit.css --dd-st-to-bit(--dd-bit)
+  * space-toggle-to-bit.css --dd-st-to-bit(--dd-st)
+  * bit-to-inverted-space-toggle.css --dd-bit-to-ist(--dd-bit)
+  * inverted-space-toggle-to-bit.css --dd-ist-to-bit(--dd-ist)
   * digit-to-string.css --dd-digit-to-string(--digit)
   * number-to-string.css --dd-number-to-string(--dd-number, --dd-fixed: 0, --dd-round: nearest)
   * length-to-string.css --dd-length-to-string(--dd-len, --dd-basis: 1px, --dd-unit: "", --dd-fixed: 0, --dd-round: nearest)

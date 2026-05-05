@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./bitwise.css");
+
+@function --dd-shift-right-int16(--dd-int16 <integer>, --dd-distance <integer>) returns <integer> {
+  result: --dd-bitwise(var(--dd-int16), right, var(--dd-distance));
+}

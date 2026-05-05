@@ -6,6 +6,6 @@
 
 @import url("./bitwise.css");
 
-@function --dd-get-int16(--dd-bit-a <integer>, --which-bit <integer>) returns <integer> {
-  result: --dd-bitwise(var(--dd-bit-a), get, var(--which-bit));
+@function --dd-get-int16(--dd-int16-a <integer>, --dd-which-bit <integer>) returns <integer> {
+  result: --dd-bitwise(var(--dd-int16-a), get, var(--dd-which-bit));
 }

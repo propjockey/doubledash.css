@@ -6,6 +6,6 @@
 
 @import url("./bitwise.css");
 
-@function --dd-nand-int16(--dd-bit-a <integer>, --dd-bit-b <integer>) returns <integer> {
-  result: --dd-bitwise(var(--dd-bit-a), nand, var(--dd-bit-b));
+@function --dd-nand-int16(--dd-int16-a <integer>, --dd-int16-b <integer>) returns <integer> {
+  result: --dd-bitwise(var(--dd-int16-a), nand, var(--dd-int16-b));
 }

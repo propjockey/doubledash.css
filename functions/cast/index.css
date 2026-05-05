@@ -12,3 +12,7 @@
 @import url("./number-to-string.css");
 @import url("./length-to-string.css");
 @import url("./length-to-px-number.css");
+@import url("./int16-to-bit-string.css");
+@import url("./int16-to-hex-string.css");
+@import url("./int16-to-dcb-nibble.css");
+@import url("./dcb-to-int16.css");

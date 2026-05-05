@@ -6,6 +6,6 @@
 
 @import url("./bitwise.css");
 
-@function --dd-not-int16(--dd-int16 <integer>) returns <integer> {
-  result: --dd-bitwise(var(--dd-int16), not);
+@function --dd-msb-int16(--dd-int16 <integer>) returns <integer> {
+  result: --dd-bitwise(var(--dd-int16), msb);
 }

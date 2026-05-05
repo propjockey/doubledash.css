@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("../logic/int16/bitwise.css");
+
+@function --dd-int16-to-hex-string(--dd-int16 <integer>, --dd-min-length <integer>: 0) {
+  result: --dd-bitwise(var(--dd-int16), hex-string, var(--dd-min-length));
+}

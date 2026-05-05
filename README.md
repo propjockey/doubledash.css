@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.1.1/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.1.2/doubledash.css">
 ```
 
 OR
@@ -22,7 +22,7 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.1.1/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.1.2/functions/repeat/index.css");
 ```
 
 ## Functions
@@ -137,6 +137,9 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.1.2 - May 5th, 2026:
+* Fix filename for int16-to-hex-string.css
 
 v0.1.1 - May 5th, 2026:
 * Fixed rounding on number-to-string thanks to Jakob E

@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.2.1/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.2.2/doubledash.css">
 ```
 
 OR
@@ -22,7 +22,7 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.2.1/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.2.2/functions/repeat/index.css");
 ```
 
 ## Functions
@@ -187,9 +187,13 @@ The remaining parameters are optional. In order, they are:
    * It can be a number if you want to modify your loop in each context you use it in.
    * etc
 
-8. The last 3 optional parameters are
-   * `--dd-arg2`, `--dd-arg3`, and `--dd-arg4`
+8. The remaining optional parameters are
+   * `--dd-arg2`, through `--dd-arg16`
    * The same as `--dd-arg1`, can be anything or nothing.
+
+> [!NOTE]
+> We can't pass them as actual args because the spec is overly strict with no reason provided about calling a function with more parameters than defined (but not with fewer), which means *YOU* would have to define _all of them_ every time you define a loop function in order for me to pass them at all, or else it would just silently not work. 🙄
+> (there are a TON of extremely unfortunate and irritating authoring problems with the current CSS function spec, I hide what I can for you.)
 
 ### Cast number to string
 
@@ -246,6 +250,10 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.2.2 - May 7th, 2026:
+* Added more optional argument parameters to `--dd-loop()` after looking more closely at [Ana Tudor's beautiful CSS work](https://codepen.io/thebabydino/pen/AvqmXO?editors=0100) and seeing how often she needs more than I originally shipped.
+* `--dd-arg4` was the previous maximum, `--dd-arg16` is now the max.
 
 v0.2.1 - May 7th, 2026:
 * Improved loop implementation so it can do 1024 iterations max instead of 128.

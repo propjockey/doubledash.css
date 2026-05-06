@@ -186,27 +186,41 @@
   );
 }
 
+@function --_dd-O1-iterations-required-a-eq-1(
+  --_dd-a <number>: 1, --_dd-b <number>: 1, --_dd-iterations-req <number>: 1
+) returns <number> {
+  --_dd-iterations-req: calc((var(--dd-x-end) - var(--dd-x-start)) / var(--_dd-b));
+  --_dd-is-reachable: --dd-gte(var(--_dd-iterations-req), 0);
+  result: if(
+    style(--_dd-is-reachable = 0): var(--_dd-max-iterations);
+    else: var(--_dd-iterations-req);
+  );
+}
+
+@function --_dd-O1-iterations-required-a-neq-1(
+  --_dd-a <number>: 1, --_dd-b <number>: 1, --_dd-iter-vector <number>: 1
+) returns <number> {
+  --_dd-iter-vector: calc(
+    (var(--dd-x-end) * (var(--_dd-a) - 1) + var(--_dd-b)) /
+    (var(--dd-x-start) * (var(--_dd-a) - 1) + var(--_dd-b))
+  );
+  --_dd-is-reachable: --dd-gt(var(--_dd-iter-vector), 0);
+  result: if(
+    style(--_dd-is-reachable = 0): var(--_dd-max-iterations);
+    else: calc(log(var(--_dd-iter-vector)) / log(var(--_dd-a)));
+  );
+}
+
+/* given the internals of the calc partial a & b, solve for i at --dd-x-end */
 @function --_dd-O1-iterations-required(
   --_dd-a <number>: 1, --_dd-b <number>: 1, --_dd-reachability <number>: 1
 ) returns <number> {
   --_dd-a: var(--_dd-extract-a-from-partial);
   --_dd-b: var(--_dd-extract-b-from-partial);
-  --_dd-reachability: if(
-    style(--_dd-a = 1): calc(
-      (var(--dd-x-end) - var(--dd-x-start)) / var(--_dd-b)
-    ); else: calc(
-      (var(--dd-x-end) * (var(--_dd-a) - 1) + var(--_dd-b)) /
-      (var(--dd-x-start) * (var(--_dd-a) - 1) + var(--_dd-b))
-    );
-  );
-  --_dd-is-reachable: if(
-    style(--_dd-a = 1): --dd-gte(var(--_dd-reachability), 0);
-    else: --dd-gt(var(--_dd-reachability), 0);
-  );
+  --_dd-max-iterations: 1023;
   result: if(
-    style(--_dd-is-reachable = 0): 1023;
-    style(--_dd-a = 1): var(--_dd-reachability);
-    else: calc(log(var(--_dd-reachability)) / log(var(--_dd-a)));
+    style(--_dd-a = 1): --_dd-O1-iterations-required-a-eq-1(var(--_dd-a), var(--_dd-b));
+    else: --_dd-O1-iterations-required-a-neq-1(var(--_dd-a), var(--_dd-b));
   );
 }
 
@@ -220,7 +234,19 @@
   --dd-arg1: initial,
   --dd-arg2: initial,
   --dd-arg3: initial,
-  --dd-arg4: initial
+  --dd-arg4: initial,
+  --dd-arg5: initial,
+  --dd-arg6: initial,
+  --dd-arg7: initial,
+  --dd-arg8: initial,
+  --dd-arg9: initial,
+  --dd-arg10: initial,
+  --dd-arg11: initial,
+  --dd-arg12: initial,
+  --dd-arg13: initial,
+  --dd-arg14: initial,
+  --dd-arg15: initial,
+  --dd-arg16: initial
 ) {
   /* --dd-calc-partial-iter is generically only possibly in the form of "* a + b" */
   /* We don't know what a & b are in the calc partial, but we can solve for them! */
@@ -253,11 +279,3 @@
     ); else: ;
   );
 }
-
-/*
-:root { --my-loop-alias: --dd-loop-id-0; }
-body::after {
-  white-space: pre;
-  content: --dd-loop(0, lt, 10, * 1.05 + 2, var(--my-loop-alias), none, {"asdef" "hi"}, var(--xxxx, ), 10.2dpcm);
-}
-*/

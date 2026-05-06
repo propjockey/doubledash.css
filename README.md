@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.2.0/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.2.1/doubledash.css">
 ```
 
 OR
@@ -22,7 +22,7 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.2.0/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.2.1/functions/repeat/index.css");
 ```
 
 ## Functions
@@ -86,7 +86,7 @@ text-shadow: --dd-repeat-join(4, {, }, 0px 0px 2px black);
 
 `./functions/repeat/loop.css`
 
-The maximum iteration count is 128.
+The maximum iteration count is 1024.
 
 You can register up to 64 individual loops for use in any property contexts.
 (functions are global so make sure not to overwrite any of your definitions)
@@ -127,7 +127,7 @@ Define their output functions like so:
 
 Your loop function body has access to the variables shown in the example.
 
-`--dd-i` is the current integer iteration index, starting from 0. The maximum value is 127 (128 iterations)
+`--dd-i` is the current integer iteration index, starting from 0. The maximum value is 1023 (1024 iterations)
 
 `--dd-x-start` is the initial loop controller value, typically set to 0 or 1
 
@@ -154,12 +154,12 @@ body::after {
 The required parameters in order are:
 
 1. `--dd-x-start` a number value to begin with
-  * you can cast lengths and other dimensions to a number using the cast functions if needed
+   * you can cast lengths and other dimensions to a number using the cast functions if needed
 
 2. `--dd-condition`
-  * One of the following identifiers:
-    * eq | gt | gte | lt | lte | neq
-  * Before an iteration executes, it calculates the next would-be --dd-x and compares it to the --dd-x-end value, which is the next parameter.
+   * One of the following identifiers:
+     * eq | gt | gte | lt | lte | neq
+   * Before an iteration executes, it calculates the next would-be --dd-x and compares it to the --dd-x-end value, which is the next parameter.
 
 3. `--dd-x-end` a number value to compare --dd-x to in order to determine if the loop should continue.
 
@@ -177,19 +177,19 @@ Not dissimilar to the `for (let x = 0; x < 10, x = x + 1) {...}` loop in js.
 The remaining parameters are optional. In order, they are:
 
 6. `--dd-joiner` - a value to output in between iterations.
-  * It does not output before the first iteration nor after the last.
-  * set it to the identifier `none` to not produce anything between iterations.
-  * set it to a comma with the do-not-spread `{ , }` syntax if you want your output to be joined by commas:
-    * `--dd-loop(0, + 1, lt, 10, var(--my-first-css-loop), { , });`
+   * It does not output before the first iteration nor after the last.
+   * set it to the identifier `none` to not produce anything between iterations.
+   * set it to a comma with the do-not-spread `{ , }` syntax if you want your output to be joined by commas:
+     * `--dd-loop(0, + 1, lt, 10, var(--my-first-css-loop), { , });`
 
 7. `--dd-arg1` - any value you wish to pass into this context
-  * It can be a color if you want to use this loop in multiple places with different colors.
-  * It can be a number if you want to modify your loop in each context you use it in.
-  * etc
+   * It can be a color if you want to use this loop in multiple places with different colors.
+   * It can be a number if you want to modify your loop in each context you use it in.
+   * etc
 
 8. The last 3 optional parameters are
-  * `--dd-arg2`, `--dd-arg3`, and `--dd-arg4`
-  * The same as `--dd-arg1`, can be anything or nothing.
+   * `--dd-arg2`, `--dd-arg3`, and `--dd-arg4`
+   * The same as `--dd-arg1`, can be anything or nothing.
 
 ### Cast number to string
 
@@ -246,6 +246,9 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.2.1 - May 7th, 2026:
+* Improved loop implementation so it can do 1024 iterations max instead of 128.
 
 v0.2.0 - May 6th, 2026:
 * /functions/repeat/*

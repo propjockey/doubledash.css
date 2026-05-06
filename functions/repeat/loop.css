@@ -1,0 +1,432 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("../compare/index.css");
+
+@layer {
+  @function --dd-loop-id-0() {
+    result: "--dd-i: " --dd-number-to-string(var(--dd-i))
+      "\A --dd-x: " --dd-number-to-string(var(--dd-x), 2)
+      "\A --dd-x-start: " --dd-number-to-string(var(--dd-x-start), 2)
+      "\A --dd-x-end: " --dd-number-to-string(var(--dd-x-end), 2)
+      "\A --dd-arg1: " --dd-to-string(var(--dd-arg1))
+      "\A --dd-arg2: " --dd-to-string(var(--dd-arg2))
+      "\A --dd-arg3: " --dd-to-string(var(--dd-arg3))
+      "\A --dd-arg4: " --dd-to-string(var(--dd-arg4))
+      "\A\A"
+    ;
+  }
+}
+
+@function --_dd-O1-x(
+  --dd-i <integer>: 0, --_dd-a <number>: 1, --_dd-b <number>: 1
+) returns <number> {
+  --_dd-a: var(--_dd-extract-a-from-partial);
+  --_dd-b: var(--_dd-extract-b-from-partial);
+  result: if(
+    style(--_dd-a = 1): calc(
+      var(--dd-x-start) + var(--dd-i) * var(--_dd-b)
+    ); else: calc(
+      pow(var(--_dd-a), var(--dd-i)) * var(--dd-x-start) +
+      var(--_dd-b) * (pow(var(--_dd-a), var(--dd-i)) - 1) /
+      (var(--_dd-a) - 1)
+    );
+  );
+}
+
+@function --_dd-loop-condition(
+  --dd-i <integer>: 0, --dd-x <number>: 0
+) returns <integer> {
+  --dd-x: --_dd-O1-x(var(--dd-i));
+  result: if(
+    style(--dd-comparitor: eq): --dd-eq(var(--dd-x), var(--dd-x-end));
+    style(--dd-comparitor: gt): --dd-gt(var(--dd-x), var(--dd-x-end));
+    style(--dd-comparitor: gte): --dd-gte(var(--dd-x), var(--dd-x-end));
+    style(--dd-comparitor: lt): --dd-lt(var(--dd-x), var(--dd-x-end));
+    style(--dd-comparitor: lte): --dd-lte(var(--dd-x), var(--dd-x-end));
+    style(--dd-comparitor: neq): --dd-neq(var(--dd-x), var(--dd-x-end));
+    else: 0;
+  );
+}
+
+@function --_dd-global-loops(
+  --dd-i <integer>: 0, --dd-x <number>: 0
+) {
+  --dd-x: --_dd-O1-x(var(--dd-i));
+  result:
+    if(style(--dd-i: 0) or style(--dd-joiner: none): ; else: var(--dd-joiner, );)
+    if(
+      style(--dd-use-loop: --dd-loop-id-0): --dd-loop-id-0();
+      style(--dd-use-loop: --dd-loop-id-1): --dd-loop-id-1();
+      style(--dd-use-loop: --dd-loop-id-2): --dd-loop-id-2();
+      style(--dd-use-loop: --dd-loop-id-3): --dd-loop-id-3();
+      style(--dd-use-loop: --dd-loop-id-4): --dd-loop-id-4();
+      style(--dd-use-loop: --dd-loop-id-5): --dd-loop-id-5();
+      style(--dd-use-loop: --dd-loop-id-6): --dd-loop-id-6();
+      style(--dd-use-loop: --dd-loop-id-7): --dd-loop-id-7();
+      style(--dd-use-loop: --dd-loop-id-8): --dd-loop-id-8();
+      style(--dd-use-loop: --dd-loop-id-9): --dd-loop-id-9();
+      style(--dd-use-loop: --dd-loop-id-10): --dd-loop-id-10();
+      style(--dd-use-loop: --dd-loop-id-11): --dd-loop-id-11();
+      style(--dd-use-loop: --dd-loop-id-12): --dd-loop-id-12();
+      style(--dd-use-loop: --dd-loop-id-13): --dd-loop-id-13();
+      style(--dd-use-loop: --dd-loop-id-14): --dd-loop-id-14();
+      style(--dd-use-loop: --dd-loop-id-15): --dd-loop-id-15();
+      style(--dd-use-loop: --dd-loop-id-16): --dd-loop-id-16();
+      style(--dd-use-loop: --dd-loop-id-17): --dd-loop-id-17();
+      style(--dd-use-loop: --dd-loop-id-18): --dd-loop-id-18();
+      style(--dd-use-loop: --dd-loop-id-19): --dd-loop-id-19();
+      style(--dd-use-loop: --dd-loop-id-20): --dd-loop-id-20();
+      style(--dd-use-loop: --dd-loop-id-21): --dd-loop-id-21();
+      style(--dd-use-loop: --dd-loop-id-22): --dd-loop-id-22();
+      style(--dd-use-loop: --dd-loop-id-23): --dd-loop-id-23();
+      style(--dd-use-loop: --dd-loop-id-24): --dd-loop-id-24();
+      style(--dd-use-loop: --dd-loop-id-25): --dd-loop-id-25();
+      style(--dd-use-loop: --dd-loop-id-26): --dd-loop-id-26();
+      style(--dd-use-loop: --dd-loop-id-27): --dd-loop-id-27();
+      style(--dd-use-loop: --dd-loop-id-28): --dd-loop-id-28();
+      style(--dd-use-loop: --dd-loop-id-29): --dd-loop-id-29();
+      style(--dd-use-loop: --dd-loop-id-30): --dd-loop-id-30();
+      style(--dd-use-loop: --dd-loop-id-31): --dd-loop-id-31();
+      style(--dd-use-loop: --dd-loop-id-32): --dd-loop-id-32();
+      style(--dd-use-loop: --dd-loop-id-33): --dd-loop-id-33();
+      style(--dd-use-loop: --dd-loop-id-34): --dd-loop-id-34();
+      style(--dd-use-loop: --dd-loop-id-35): --dd-loop-id-35();
+      style(--dd-use-loop: --dd-loop-id-36): --dd-loop-id-36();
+      style(--dd-use-loop: --dd-loop-id-37): --dd-loop-id-37();
+      style(--dd-use-loop: --dd-loop-id-38): --dd-loop-id-38();
+      style(--dd-use-loop: --dd-loop-id-39): --dd-loop-id-39();
+      style(--dd-use-loop: --dd-loop-id-40): --dd-loop-id-40();
+      style(--dd-use-loop: --dd-loop-id-41): --dd-loop-id-41();
+      style(--dd-use-loop: --dd-loop-id-42): --dd-loop-id-42();
+      style(--dd-use-loop: --dd-loop-id-43): --dd-loop-id-43();
+      style(--dd-use-loop: --dd-loop-id-44): --dd-loop-id-44();
+      style(--dd-use-loop: --dd-loop-id-45): --dd-loop-id-45();
+      style(--dd-use-loop: --dd-loop-id-46): --dd-loop-id-46();
+      style(--dd-use-loop: --dd-loop-id-47): --dd-loop-id-47();
+      style(--dd-use-loop: --dd-loop-id-48): --dd-loop-id-48();
+      style(--dd-use-loop: --dd-loop-id-49): --dd-loop-id-49();
+      style(--dd-use-loop: --dd-loop-id-50): --dd-loop-id-50();
+      style(--dd-use-loop: --dd-loop-id-51): --dd-loop-id-51();
+      style(--dd-use-loop: --dd-loop-id-52): --dd-loop-id-52();
+      style(--dd-use-loop: --dd-loop-id-53): --dd-loop-id-53();
+      style(--dd-use-loop: --dd-loop-id-54): --dd-loop-id-54();
+      style(--dd-use-loop: --dd-loop-id-55): --dd-loop-id-55();
+      style(--dd-use-loop: --dd-loop-id-56): --dd-loop-id-56();
+      style(--dd-use-loop: --dd-loop-id-57): --dd-loop-id-57();
+      style(--dd-use-loop: --dd-loop-id-58): --dd-loop-id-58();
+      style(--dd-use-loop: --dd-loop-id-59): --dd-loop-id-59();
+      style(--dd-use-loop: --dd-loop-id-60): --dd-loop-id-60();
+      style(--dd-use-loop: --dd-loop-id-61): --dd-loop-id-61();
+      style(--dd-use-loop: --dd-loop-id-62): --dd-loop-id-62();
+      style(--dd-use-loop: --dd-loop-id-63): --dd-loop-id-63();
+      else: "loop not registered";
+    )
+  ;
+}
+
+/* find replace
+\n(          +);
+
+ if(
+$1  style(--_dd-loop-condition(127) = 1): --_dd-global-loops(2)
+$1  ; else: ;
+$1);
+*/
+@function --dd-loop(
+  --dd-x-start,
+  --dd-comparitor,
+  --dd-x-end,
+  --dd-calc-partial-iter,
+  --dd-use-loop,
+  --dd-joiner: ,
+  --dd-arg1: initial,
+  --dd-arg2: initial,
+  --dd-arg3: initial,
+  --dd-arg4: initial
+) {
+  /* --dd-calc-partial-iter is generically only possibly in the form of "* a + b" */
+  /* We don't know what a & b are in the calc partial, but we can solve for them! */
+  /* (divide and subtract are the same as multiply and and add so it still holds) */
+  /* We first generate the next 2 iterations as a basis. Once a and b are solved, */
+  /* the rest of the iterations can be generically solved in O(1), w/o iteration. */
+  /* Necessary to avoid max calc depth - else we'd have to register tons of vars. */
+  --_dd-x-0: var(--dd-x-start);
+  --_dd-x-1: calc(var(--_dd-x-0) var(--dd-calc-partial-iter));
+  --_dd-x-2: calc(var(--_dd-x-1) var(--dd-calc-partial-iter));
+  --_dd-extract-a-from-partial: calc(
+    (var(--_dd-x-2) - var(--_dd-x-1)) / (var(--_dd-x-1) - var(--_dd-x-0))
+  );
+  --_dd-extract-b-from-partial: calc(
+    var(--_dd-x-1) - var(--_dd-x-0) * var(--_dd-extract-a-from-partial)
+  );
+  result: if(
+    style(--_dd-loop-condition(0) = 1): --_dd-global-loops(0) if(
+      style(--_dd-loop-condition(1) = 1): --_dd-global-loops(1) if(
+        style(--_dd-loop-condition(2) = 1): --_dd-global-loops(2) if(
+          style(--_dd-loop-condition(3) = 1): --_dd-global-loops(3) if(
+            style(--_dd-loop-condition(4) = 1): --_dd-global-loops(4) if(
+              style(--_dd-loop-condition(5) = 1): --_dd-global-loops(5) if(
+                style(--_dd-loop-condition(6) = 1): --_dd-global-loops(6) if(
+                  style(--_dd-loop-condition(7) = 1): --_dd-global-loops(7) if(
+                    style(--_dd-loop-condition(8) = 1): --_dd-global-loops(8) if(
+                      style(--_dd-loop-condition(9) = 1): --_dd-global-loops(9) if(
+                        style(--_dd-loop-condition(10) = 1): --_dd-global-loops(10) if(
+                          style(--_dd-loop-condition(11) = 1): --_dd-global-loops(11) if(
+                            style(--_dd-loop-condition(12) = 1): --_dd-global-loops(12) if(
+                              style(--_dd-loop-condition(13) = 1): --_dd-global-loops(13) if(
+                                style(--_dd-loop-condition(14) = 1): --_dd-global-loops(14) if(
+                                  style(--_dd-loop-condition(15) = 1): --_dd-global-loops(15) if(
+                                    style(--_dd-loop-condition(16) = 1): --_dd-global-loops(16) if(
+                                      style(--_dd-loop-condition(17) = 1): --_dd-global-loops(17) if(
+                                        style(--_dd-loop-condition(18) = 1): --_dd-global-loops(18) if(
+                                          style(--_dd-loop-condition(19) = 1): --_dd-global-loops(19) if(
+                                            style(--_dd-loop-condition(20) = 1): --_dd-global-loops(20) if(
+                                              style(--_dd-loop-condition(21) = 1): --_dd-global-loops(21) if(
+                                                style(--_dd-loop-condition(22) = 1): --_dd-global-loops(22) if(
+                                                  style(--_dd-loop-condition(23) = 1): --_dd-global-loops(23) if(
+                                                    style(--_dd-loop-condition(24) = 1): --_dd-global-loops(24) if(
+                                                      style(--_dd-loop-condition(25) = 1): --_dd-global-loops(25) if(
+                                                        style(--_dd-loop-condition(26) = 1): --_dd-global-loops(26) if(
+                                                          style(--_dd-loop-condition(27) = 1): --_dd-global-loops(27) if(
+                                                            style(--_dd-loop-condition(28) = 1): --_dd-global-loops(28) if(
+                                                              style(--_dd-loop-condition(29) = 1): --_dd-global-loops(29) if(
+                                                                style(--_dd-loop-condition(30) = 1): --_dd-global-loops(30) if(
+                                                                  style(--_dd-loop-condition(31) = 1): --_dd-global-loops(31) if(
+                                                                    style(--_dd-loop-condition(32) = 1): --_dd-global-loops(32) if(
+                                                                      style(--_dd-loop-condition(33) = 1): --_dd-global-loops(33) if(
+                                                                        style(--_dd-loop-condition(34) = 1): --_dd-global-loops(34) if(
+                                                                          style(--_dd-loop-condition(35) = 1): --_dd-global-loops(35) if(
+                                                                            style(--_dd-loop-condition(36) = 1): --_dd-global-loops(36) if(
+                                                                              style(--_dd-loop-condition(37) = 1): --_dd-global-loops(37) if(
+                                                                                style(--_dd-loop-condition(38) = 1): --_dd-global-loops(38) if(
+                                                                                  style(--_dd-loop-condition(39) = 1): --_dd-global-loops(39) if(
+                                                                                    style(--_dd-loop-condition(40) = 1): --_dd-global-loops(40) if(
+                                                                                      style(--_dd-loop-condition(41) = 1): --_dd-global-loops(41) if(
+                                                                                        style(--_dd-loop-condition(42) = 1): --_dd-global-loops(42) if(
+                                                                                          style(--_dd-loop-condition(43) = 1): --_dd-global-loops(43) if(
+                                                                                            style(--_dd-loop-condition(44) = 1): --_dd-global-loops(44) if(
+                                                                                              style(--_dd-loop-condition(45) = 1): --_dd-global-loops(45) if(
+                                                                                                style(--_dd-loop-condition(46) = 1): --_dd-global-loops(46) if(
+                                                                                                  style(--_dd-loop-condition(47) = 1): --_dd-global-loops(47) if(
+                                                                                                    style(--_dd-loop-condition(48) = 1): --_dd-global-loops(48) if(
+                                                                                                      style(--_dd-loop-condition(49) = 1): --_dd-global-loops(49) if(
+                                                                                                        style(--_dd-loop-condition(50) = 1): --_dd-global-loops(50) if(
+                                                                                                          style(--_dd-loop-condition(51) = 1): --_dd-global-loops(51) if(
+                                                                                                            style(--_dd-loop-condition(52) = 1): --_dd-global-loops(52) if(
+                                                                                                              style(--_dd-loop-condition(53) = 1): --_dd-global-loops(53) if(
+                                                                                                                style(--_dd-loop-condition(54) = 1): --_dd-global-loops(54) if(
+                                                                                                                  style(--_dd-loop-condition(55) = 1): --_dd-global-loops(55) if(
+                                                                                                                    style(--_dd-loop-condition(56) = 1): --_dd-global-loops(56) if(
+                                                                                                                      style(--_dd-loop-condition(57) = 1): --_dd-global-loops(57) if(
+                                                                                                                        style(--_dd-loop-condition(58) = 1): --_dd-global-loops(58) if(
+                                                                                                                          style(--_dd-loop-condition(59) = 1): --_dd-global-loops(59) if(
+                                                                                                                            style(--_dd-loop-condition(60) = 1): --_dd-global-loops(60) if(
+                                                                                                                              style(--_dd-loop-condition(61) = 1): --_dd-global-loops(61) if(
+                                                                                                                                style(--_dd-loop-condition(62) = 1): --_dd-global-loops(62) if(
+                                                                                                                                  style(--_dd-loop-condition(63) = 1): --_dd-global-loops(63) if(
+                                                                                                                                    style(--_dd-loop-condition(64) = 1): --_dd-global-loops(64) if(
+                                                                                                                                      style(--_dd-loop-condition(65) = 1): --_dd-global-loops(65) if(
+                                                                                                                                        style(--_dd-loop-condition(66) = 1): --_dd-global-loops(66) if(
+                                                                                                                                          style(--_dd-loop-condition(67) = 1): --_dd-global-loops(67) if(
+                                                                                                                                            style(--_dd-loop-condition(68) = 1): --_dd-global-loops(68) if(
+                                                                                                                                              style(--_dd-loop-condition(69) = 1): --_dd-global-loops(69) if(
+                                                                                                                                                style(--_dd-loop-condition(70) = 1): --_dd-global-loops(70) if(
+                                                                                                                                                  style(--_dd-loop-condition(71) = 1): --_dd-global-loops(71) if(
+                                                                                                                                                    style(--_dd-loop-condition(72) = 1): --_dd-global-loops(72) if(
+                                                                                                                                                      style(--_dd-loop-condition(73) = 1): --_dd-global-loops(73) if(
+                                                                                                                                                        style(--_dd-loop-condition(74) = 1): --_dd-global-loops(74) if(
+                                                                                                                                                          style(--_dd-loop-condition(75) = 1): --_dd-global-loops(75) if(
+                                                                                                                                                            style(--_dd-loop-condition(76) = 1): --_dd-global-loops(76) if(
+                                                                                                                                                              style(--_dd-loop-condition(77) = 1): --_dd-global-loops(77) if(
+                                                                                                                                                                style(--_dd-loop-condition(78) = 1): --_dd-global-loops(78) if(
+                                                                                                                                                                  style(--_dd-loop-condition(79) = 1): --_dd-global-loops(79) if(
+                                                                                                                                                                    style(--_dd-loop-condition(80) = 1): --_dd-global-loops(80) if(
+                                                                                                                                                                      style(--_dd-loop-condition(81) = 1): --_dd-global-loops(81) if(
+                                                                                                                                                                        style(--_dd-loop-condition(82) = 1): --_dd-global-loops(82) if(
+                                                                                                                                                                          style(--_dd-loop-condition(83) = 1): --_dd-global-loops(83) if(
+                                                                                                                                                                            style(--_dd-loop-condition(84) = 1): --_dd-global-loops(84) if(
+                                                                                                                                                                              style(--_dd-loop-condition(85) = 1): --_dd-global-loops(85) if(
+                                                                                                                                                                                style(--_dd-loop-condition(86) = 1): --_dd-global-loops(86) if(
+                                                                                                                                                                                  style(--_dd-loop-condition(87) = 1): --_dd-global-loops(87) if(
+                                                                                                                                                                                    style(--_dd-loop-condition(88) = 1): --_dd-global-loops(88) if(
+                                                                                                                                                                                      style(--_dd-loop-condition(89) = 1): --_dd-global-loops(89) if(
+                                                                                                                                                                                        style(--_dd-loop-condition(90) = 1): --_dd-global-loops(90) if(
+                                                                                                                                                                                          style(--_dd-loop-condition(91) = 1): --_dd-global-loops(91) if(
+                                                                                                                                                                                            style(--_dd-loop-condition(92) = 1): --_dd-global-loops(92) if(
+                                                                                                                                                                                              style(--_dd-loop-condition(93) = 1): --_dd-global-loops(93) if(
+                                                                                                                                                                                                style(--_dd-loop-condition(94) = 1): --_dd-global-loops(94) if(
+                                                                                                                                                                                                  style(--_dd-loop-condition(95) = 1): --_dd-global-loops(95) if(
+                                                                                                                                                                                                    style(--_dd-loop-condition(96) = 1): --_dd-global-loops(96) if(
+                                                                                                                                                                                                      style(--_dd-loop-condition(97) = 1): --_dd-global-loops(97) if(
+                                                                                                                                                                                                        style(--_dd-loop-condition(98) = 1): --_dd-global-loops(98) if(
+                                                                                                                                                                                                          style(--_dd-loop-condition(99) = 1): --_dd-global-loops(99) if(
+                                                                                                                                                                                                            style(--_dd-loop-condition(100) = 1): --_dd-global-loops(100) if(
+                                                                                                                                                                                                              style(--_dd-loop-condition(101) = 1): --_dd-global-loops(101) if(
+                                                                                                                                                                                                                style(--_dd-loop-condition(102) = 1): --_dd-global-loops(102) if(
+                                                                                                                                                                                                                  style(--_dd-loop-condition(103) = 1): --_dd-global-loops(103) if(
+                                                                                                                                                                                                                    style(--_dd-loop-condition(104) = 1): --_dd-global-loops(104) if(
+                                                                                                                                                                                                                      style(--_dd-loop-condition(105) = 1): --_dd-global-loops(105) if(
+                                                                                                                                                                                                                        style(--_dd-loop-condition(106) = 1): --_dd-global-loops(106) if(
+                                                                                                                                                                                                                          style(--_dd-loop-condition(107) = 1): --_dd-global-loops(107) if(
+                                                                                                                                                                                                                            style(--_dd-loop-condition(108) = 1): --_dd-global-loops(108) if(
+                                                                                                                                                                                                                              style(--_dd-loop-condition(109) = 1): --_dd-global-loops(109) if(
+                                                                                                                                                                                                                                style(--_dd-loop-condition(110) = 1): --_dd-global-loops(110) if(
+                                                                                                                                                                                                                                  style(--_dd-loop-condition(111) = 1): --_dd-global-loops(111) if(
+                                                                                                                                                                                                                                    style(--_dd-loop-condition(112) = 1): --_dd-global-loops(112) if(
+                                                                                                                                                                                                                                      style(--_dd-loop-condition(113) = 1): --_dd-global-loops(113) if(
+                                                                                                                                                                                                                                        style(--_dd-loop-condition(114) = 1): --_dd-global-loops(114) if(
+                                                                                                                                                                                                                                          style(--_dd-loop-condition(115) = 1): --_dd-global-loops(115) if(
+                                                                                                                                                                                                                                            style(--_dd-loop-condition(116) = 1): --_dd-global-loops(116) if(
+                                                                                                                                                                                                                                              style(--_dd-loop-condition(117) = 1): --_dd-global-loops(117) if(
+                                                                                                                                                                                                                                                style(--_dd-loop-condition(118) = 1): --_dd-global-loops(118) if(
+                                                                                                                                                                                                                                                  style(--_dd-loop-condition(119) = 1): --_dd-global-loops(119) if(
+                                                                                                                                                                                                                                                    style(--_dd-loop-condition(120) = 1): --_dd-global-loops(120) if(
+                                                                                                                                                                                                                                                      style(--_dd-loop-condition(121) = 1): --_dd-global-loops(121) if(
+                                                                                                                                                                                                                                                        style(--_dd-loop-condition(122) = 1): --_dd-global-loops(122) if(
+                                                                                                                                                                                                                                                          style(--_dd-loop-condition(123) = 1): --_dd-global-loops(123) if(
+                                                                                                                                                                                                                                                            style(--_dd-loop-condition(124) = 1): --_dd-global-loops(124) if(
+                                                                                                                                                                                                                                                              style(--_dd-loop-condition(125) = 1): --_dd-global-loops(125) if(
+                                                                                                                                                                                                                                                                style(--_dd-loop-condition(126) = 1): --_dd-global-loops(126) if(
+                                                                                                                                                                                                                                                                  style(--_dd-loop-condition(127) = 1): --_dd-global-loop(127)
+                                                                                                                                                                                                                                                                  ; else: ;
+                                                                                                                                                                                                                                                                ); else: ;
+                                                                                                                                                                                                                                                              ); else: ;
+                                                                                                                                                                                                                                                            ); else: ;
+                                                                                                                                                                                                                                                          ); else: ;
+                                                                                                                                                                                                                                                        ); else: ;
+                                                                                                                                                                                                                                                      ); else: ;
+                                                                                                                                                                                                                                                    ); else: ;
+                                                                                                                                                                                                                                                  ); else: ;
+                                                                                                                                                                                                                                                ); else: ;
+                                                                                                                                                                                                                                              ); else: ;
+                                                                                                                                                                                                                                            ); else: ;
+                                                                                                                                                                                                                                          ); else: ;
+                                                                                                                                                                                                                                        ); else: ;
+                                                                                                                                                                                                                                      ); else: ;
+                                                                                                                                                                                                                                    ); else: ;
+                                                                                                                                                                                                                                  ); else: ;
+                                                                                                                                                                                                                                ); else: ;
+                                                                                                                                                                                                                              ); else: ;
+                                                                                                                                                                                                                            ); else: ;
+                                                                                                                                                                                                                          ); else: ;
+                                                                                                                                                                                                                        ); else: ;
+                                                                                                                                                                                                                      ); else: ;
+                                                                                                                                                                                                                    ); else: ;
+                                                                                                                                                                                                                  ); else: ;
+                                                                                                                                                                                                                ); else: ;
+                                                                                                                                                                                                              ); else: ;
+                                                                                                                                                                                                            ); else: ;
+                                                                                                                                                                                                          ); else: ;
+                                                                                                                                                                                                        ); else: ;
+                                                                                                                                                                                                      ); else: ;
+                                                                                                                                                                                                    ); else: ;
+                                                                                                                                                                                                  ); else: ;
+                                                                                                                                                                                                ); else: ;
+                                                                                                                                                                                              ); else: ;
+                                                                                                                                                                                            ); else: ;
+                                                                                                                                                                                          ); else: ;
+                                                                                                                                                                                        ); else: ;
+                                                                                                                                                                                      ); else: ;
+                                                                                                                                                                                    ); else: ;
+                                                                                                                                                                                  ); else: ;
+                                                                                                                                                                                ); else: ;
+                                                                                                                                                                              ); else: ;
+                                                                                                                                                                            ); else: ;
+                                                                                                                                                                          ); else: ;
+                                                                                                                                                                        ); else: ;
+                                                                                                                                                                      ); else: ;
+                                                                                                                                                                    ); else: ;
+                                                                                                                                                                  ); else: ;
+                                                                                                                                                                ); else: ;
+                                                                                                                                                              ); else: ;
+                                                                                                                                                            ); else: ;
+                                                                                                                                                          ); else: ;
+                                                                                                                                                        ); else: ;
+                                                                                                                                                      ); else: ;
+                                                                                                                                                    ); else: ;
+                                                                                                                                                  ); else: ;
+                                                                                                                                                ); else: ;
+                                                                                                                                              ); else: ;
+                                                                                                                                            ); else: ;
+                                                                                                                                          ); else: ;
+                                                                                                                                        ); else: ;
+                                                                                                                                      ); else: ;
+                                                                                                                                    ); else: ;
+                                                                                                                                  ); else: ;
+                                                                                                                                ); else: ;
+                                                                                                                              ); else: ;
+                                                                                                                            ); else: ;
+                                                                                                                          ); else: ;
+                                                                                                                        ); else: ;
+                                                                                                                      ); else: ;
+                                                                                                                    ); else: ;
+                                                                                                                  ); else: ;
+                                                                                                                ); else: ;
+                                                                                                              ); else: ;
+                                                                                                            ); else: ;
+                                                                                                          ); else: ;
+                                                                                                        ); else: ;
+                                                                                                      ); else: ;
+                                                                                                    ); else: ;
+                                                                                                  ); else: ;
+                                                                                                ); else: ;
+                                                                                              ); else: ;
+                                                                                            ); else: ;
+                                                                                          ); else: ;
+                                                                                        ); else: ;
+                                                                                      ); else: ;
+                                                                                    ); else: ;
+                                                                                  ); else: ;
+                                                                                ); else: ;
+                                                                              ); else: ;
+                                                                            ); else: ;
+                                                                          ); else: ;
+                                                                        ); else: ;
+                                                                      ); else: ;
+                                                                    ); else: ;
+                                                                  ); else: ;
+                                                                ); else: ;
+                                                              ); else: ;
+                                                            ); else: ;
+                                                          ); else: ;
+                                                        ); else: ;
+                                                      ); else: ;
+                                                    ); else: ;
+                                                  ); else: ;
+                                                ); else: ;
+                                              ); else: ;
+                                            ); else: ;
+                                          ); else: ;
+                                        ); else: ;
+                                      ); else: ;
+                                    ); else: ;
+                                  ); else: ;
+                                ); else: ;
+                              ); else: ;
+                            ); else: ;
+                          ); else: ;
+                        ); else: ;
+                      ); else: ;
+                    ); else: ;
+                  ); else: ;
+                ); else: ;
+              ); else: ;
+            ); else: ;
+          ); else: ;
+        ); else: ;
+      ); else: ;
+    ); else: ;
+  );
+}
+
+/*
+:root { --my-loop-alias: --dd-loop-id-0; }
+body::after {
+  white-space: pre;
+  content: --dd-loop(0, lt, 10, * 1.05 + 2, var(--my-loop-alias), none, {"asdef" "hi"}, var(--xxxx, ), 10.2dpcm);
+}
+*/

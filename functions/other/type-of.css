@@ -1,0 +1,154 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./is-int.css");
+
+/* Reports <initial> for initial because it's
+// more useful than being technically correct
+*/
+@function --dd-type-of(
+  --dd-any,
+  --_dd-number <number>: -1,
+  --_dd-string <string>: "0",
+  --_dd-color <color>: red,
+  --_dd-identifier <custom-ident>: id,
+  --_dd-angle <angle>: -1deg,
+  --_dd-time <time>: -1s,
+  --_dd-resolution <resolution>: 1dpi,
+  --_dd-length <length>: 0px,
+  --_dd-percentage <percentage>: -1%,
+  --_dd-length-percentage <length-percentage>: calc(-1px - 1%),
+  --_dd-image <image>: linear-gradient(red 0% 100%),
+  --_dd-url <url>: url("./"),
+  --_dd-transform-function <transform-function>: rotate(-1deg),
+  --_dd-transform-list <transform-list>: rotate(-1deg),
+  --_dd-space-toggle-empty <integer>: -1,
+  
+  --_dd-number-csv <number>#: -1,
+  --_dd-string-csv <string>#: "0",
+  --_dd-color-csv <color>#: red,
+  --_dd-identifier-csv <custom-ident>#: id,
+  --_dd-angle-csv <angle>#: -1deg,
+  --_dd-time-csv <time>#: -1s,
+  --_dd-resolution-csv <resolution>#: 1dpi,
+  --_dd-length-csv <length>#: 0px,
+  --_dd-percentage-csv <percentage>#: -1%,
+  --_dd-length-percentage-csv <length-percentage>#: calc(-1px - 1%),
+  --_dd-image-csv <image>#: linear-gradient(red 0% 100%),
+  --_dd-url-csv <url>#: url("./"),
+  --_dd-transform-function-csv <transform-function>#: rotate(-1deg),
+  /* --_dd-transform-list-csv <transform-list>#: rotate(-1deg), */
+
+  --_dd-number-ssv <number>+: -1,
+  --_dd-string-ssv <string>+: "0",
+  --_dd-color-ssv <color>+: red,
+  --_dd-identifier-ssv <custom-ident>+: id,
+  --_dd-angle-ssv <angle>+: -1deg,
+  --_dd-time-ssv <time>+: -1s,
+  --_dd-resolution-ssv <resolution>+: 1dpi,
+  --_dd-length-ssv <length>+: 0px,
+  --_dd-percentage-ssv <percentage>+: -1%,
+  --_dd-length-percentage-ssv <length-percentage>+: calc(-1px - 1%),
+  --_dd-image-ssv <image>+: linear-gradient(red 0% 100%),
+  --_dd-url-ssv <url>+: url("./")
+) {
+  --_dd-number: calc(var(--dd-any) - var(--dd-any));
+  --_dd-string: var(--dd-any);
+  --_dd-color: var(--dd-any);
+  --_dd-identifier: var(--dd-any);
+  --_dd-length: var(--dd-any);
+  --_dd-percentage: var(--dd-any);
+  --_dd-length-percentage: var(--dd-any);
+  --_dd-url: var(--dd-any);
+  --_dd-image: var(--dd-any);
+  --_dd-angle: var(--dd-any);
+  --_dd-time: var(--dd-any);
+  --_dd-resolution: var(--dd-any);
+  --_dd-transform-function: var(--dd-any);
+  --_dd-transform-list: var(--dd-any);
+
+  --_dd-space-toggle-empty: var(--dd-any) 1;
+  --_dd-space-toggle-initial1: var(--dd-any, 1);
+  --_dd-space-toggle-initial2: var(--dd-any, 2);
+
+  --_dd-number-csv: var(--dd-any);
+  --_dd-string-csv: var(--dd-any);
+  --_dd-color-csv: var(--dd-any);
+  --_dd-identifier-csv: var(--dd-any);
+  --_dd-angle-csv: var(--dd-any);
+  --_dd-time-csv: var(--dd-any);
+  --_dd-resolution-csv: var(--dd-any);
+  --_dd-length-csv: var(--dd-any);
+  --_dd-percentage-csv: var(--dd-any);
+  --_dd-length-percentage-csv: var(--dd-any);
+  --_dd-image-csv: var(--dd-any);
+  --_dd-url-csv: var(--dd-any);
+  --_dd-transform-function-csv: var(--dd-any);
+
+  --_dd-number-ssv: var(--dd-any);
+  --_dd-string-ssv: var(--dd-any);
+  --_dd-color-ssv: var(--dd-any);
+  --_dd-identifier-ssv: var(--dd-any);
+  --_dd-angle-ssv: var(--dd-any);
+  --_dd-time-ssv: var(--dd-any);
+  --_dd-resolution-ssv: var(--dd-any);
+  --_dd-length-ssv: var(--dd-any);
+  --_dd-percentage-ssv: var(--dd-any);
+  --_dd-length-percentage-ssv: var(--dd-any);
+  --_dd-image-ssv: var(--dd-any);
+  --_dd-url-ssv: var(--dd-any);
+
+  result: if(
+    style(--dd-is-int(var(--dd-any)) = 1): "<integer>";
+    style(--_dd-number: 0): "<number>";
+    not style(var(--_dd-string, 1) = 1): "<string>";
+    not style(var(--_dd-color, 1) = 1): "<color>";
+    not style(var(--_dd-identifier, 1) = 1): "<custom-ident>";
+    not style(var(--_dd-angle, 1) = 1): "<angle>";
+    not style(var(--_dd-time, 1) = 1): "<time>";
+    not style(var(--_dd-resolution, 1) = 1): "<resolution>";
+    not style(var(--_dd-length, 1) = 1): "<length>";
+    not style(var(--_dd-percentage, 1) = 1): "<percentage>";
+    not style(var(--_dd-length-percentage, 1) = 1): "<length-percentage>";
+    not style(var(--_dd-url, 1) = 1): "<url>";
+    not style(var(--_dd-image, 1) = 1): "<image>";
+    not style(var(--_dd-transform-function, 1) = 1): "<transform-function>";
+    not style(var(--_dd-transform-list, 1) = 1): "<transform-list>";
+
+    style(--_dd-space-toggle-empty: 1): "<empty>";
+    (style(--_dd-space-toggle-initial1 = 1) and
+      style(--_dd-space-toggle-initial2 = 2)
+    ): "<initial>";
+
+    not style(var(--_dd-number-csv, 1) = 1): "<number>#";
+    not style(var(--_dd-string-csv, 1) = 1): "<string>#";
+    not style(var(--_dd-color-csv, 1) = 1): "<color>#";
+    not style(var(--_dd-identifier-csv, 1) = 1): "<custom-ident>#";
+    not style(var(--_dd-angle-csv, 1) = 1): "<angle>#";
+    not style(var(--_dd-time-csv, 1) = 1): "<time>#";
+    not style(var(--_dd-resolution-csv, 1) = 1): "<resolution>#";
+    not style(var(--_dd-length-csv, 1) = 1): "<length>#";
+    not style(var(--_dd-percentage-csv, 1) = 1): "<percentage>#";
+    not style(var(--_dd-length-percentage-csv, 1) = 1): "<length-percentage>#";
+    not style(var(--_dd-image-csv, 1) = 1): "<image>#";
+    not style(var(--_dd-url-csv, 1) = 1): "<url>#";
+    not style(var(--_dd-transform-function-csv, 1) = 1): "<transform-function>#";
+
+    not style(var(--_dd-number-ssv, 1) = 1): "<number>+";
+    not style(var(--_dd-string-ssv, 1) = 1): "<string>+";
+    not style(var(--_dd-color-ssv, 1) = 1): "<color>+";
+    not style(var(--_dd-identifier-ssv, 1) = 1): "<custom-ident>+";
+    not style(var(--_dd-angle-ssv, 1) = 1): "<angle>+";
+    not style(var(--_dd-time-ssv, 1) = 1): "<time>+";
+    not style(var(--_dd-resolution-ssv, 1) = 1): "<resolution>+";
+    not style(var(--_dd-length-ssv, 1) = 1): "<length>+";
+    not style(var(--_dd-percentage-ssv, 1) = 1): "<percentage>+";
+    not style(var(--_dd-length-percentage-ssv, 1) = 1): "<length-percentage>+";
+    not style(var(--_dd-image-ssv, 1) = 1): "<image>+";
+    not style(var(--_dd-url-ssv, 1) = 1): "<url>+";
+    else: "*";
+  );
+}

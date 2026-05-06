@@ -1,0 +1,27 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./number-to-string.css");
+@import url("../other/type-of.css");
+
+@function --dd-to-string(
+  --dd-any,
+  --_dd-type <string>: ""
+) returns <string>+ {
+  --_dd-type: --dd-type-of(var(--dd-any));
+  result: if(
+    style(--_dd-type: "<string>") or
+    style(--_dd-type: "<string>+"): var(--dd-any);
+    style(--_dd-type: "<number>"): --dd-number-to-string(var(--dd-any), 2);
+    style(--_dd-type: "<integer>"): --dd-number-to-string(var(--dd-any));
+    style(--_dd-type: "<length>"): --dd-number-to-string(calc(var(--dd-any) / 1px), 2) "px";
+    style(--_dd-type: "<percentage>"): --dd-number-to-string(calc(var(--dd-any) / 1%), 2) "%";
+    style(--_dd-type: "<angle>"): --dd-number-to-string(calc(var(--dd-any) / 1deg), 2) "deg";
+    style(--_dd-type: "<time>"): --dd-number-to-string(calc(var(--dd-any) / 1s), 2) "s";
+    style(--_dd-type: "<resolution>"): --dd-number-to-string(calc(var(--dd-any) / 1dpi), 2) "dpi";
+    else: var(--_dd-type);
+  );
+}

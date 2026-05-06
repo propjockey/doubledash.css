@@ -14,7 +14,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.1.2/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.2.0/doubledash.css">
 ```
 
 OR
@@ -22,10 +22,33 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.1.2/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.2.0/functions/repeat/index.css");
 ```
 
 ## Functions
+
+### Compare
+
+* /functions/compare/*
+  * cmp.css --dd-cmp(--left, --right)
+  * eq.css --dd-eq(--left, --right)
+  * neq.css --dd-neq(--left, --right)
+  * gt.css --dd-gt(--left, --right)
+  * gte.css --dd-gte(--left, --right)
+  * lt.css --dd-lt(--left, --right)
+  * lte.css --dd-lte(--left, --right)
+
+These all take --left and --right which must be the same type:
+`<length>|<number>`
+
+cmp returns an integer, -1, 0, or 1 for less than, equal to, and greater than, respectively
+
+the rest return a boolean bit flag 0 or 1
+"is left gte right?"
+
+```css
+opacity: --dd-gte(50cqw, 20rem);
+```
 
 ### --dd-repeat(--n, --x)
 
@@ -59,28 +82,114 @@ text-shadow: --dd-repeat-join(4, {, }, 0px 0px 2px black);
 /* 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black */
 ```
 
-### Compare
+### Iterative Looping (like for loops in JS)
 
-* /functions/compare/*
-  * cmp.css --dd-cmp(--left, --right)
-  * eq.css --dd-eq(--left, --right)
-  * neq.css --dd-neq(--left, --right)
-  * gt.css --dd-gt(--left, --right)
-  * gte.css --dd-gte(--left, --right)
-  * lt.css --dd-lt(--left, --right)
-  * lte.css --dd-lte(--left, --right)
+`./functions/repeat/loop.css`
 
-These all take --left and --right which must be the same type:
-`<length>|<number>`
+The maximum iteration count is 128.
 
-cmp returns an integer, -1, 0, or 1 for less than, equal to, and greater than, respectively
+You can register up to 64 individual loops for use in any property contexts.
+(functions are global so make sure not to overwrite any of your definitions)
 
-the rest return a boolean bit flag 0 or 1
-"is left gte right?"
+They must be named `--dd-loop-id-0`, `--dd-loop-id-1`, etc up to index `63`.
+
+You can alias them globally for easier use later:
 
 ```css
-opacity: --dd-gte(50cqw, 20rem);
+:root {
+  --my-first-css-loop:       --dd-loop-id-0;
+  --my-other-loop-alias:     --dd-loop-id-1;
+  --propjockey-ftw:          --dd-loop-id-2;
+  --give-jane-ori-abundance: --dd-loop-id-3;
+}
 ```
+
+Define their output functions like so:
+
+```css
+@function --dd-loop-id-0() {
+  result: "--dd-i: " --dd-number-to-string(var(--dd-i))
+    "\A --dd-x: " --dd-number-to-string(var(--dd-x), 2)
+    "\A --dd-x-start: " --dd-number-to-string(var(--dd-x-start), 2)
+    "\A --dd-x-end: " --dd-number-to-string(var(--dd-x-end), 2)
+    "\A --dd-arg1: " --dd-to-string(var(--dd-arg1))
+    "\A --dd-arg2: " --dd-to-string(var(--dd-arg2))
+    "\A --dd-arg3: " --dd-to-string(var(--dd-arg3))
+    "\A --dd-arg4: " --dd-to-string(var(--dd-arg4))
+    "\A\A"
+  ;
+}
+
+@function --dd-loop-id-3() {
+  result: calc(var(--dd-i) + var(--dd-x)) calc(-1 * var(--dd-i) - var(--dd-x));
+}
+```
+
+Your loop function body has access to the variables shown in the example.
+
+`--dd-i` is the current integer iteration index, starting from 0. The maximum value is 127 (128 iterations)
+
+`--dd-x-start` is the initial loop controller value, typically set to 0 or 1
+
+`--dd-x` is the current iteration's cumulative loop controller value
+(if you did `x = x + 2` in a for loop starting from 0, it would be i:x 0:0, 1:2, 2:4, 3:6...)
+
+`--dd-x-end` is the ending sentinel value for your loop controller that a condition is checked against, typically the condition is "lt" meaning continue if --dd-x is less than this end value.
+
+#### Executing your loop
+
+To run your loop in various contexts, call `--dd-loop()` in a property value.
+
+The loop is short-circuited and does not compute anything beyond where it ends.
+
+```css
+body::after {
+  white-space: pre;
+  content: --dd-loop(0, lt, 10, + 1, var(--my-first-css-loop));
+  /* the same as this if you don't want to use a var() alias */
+  content: --dd-loop(0, lt, 10, + 1, --dd-loop-id-0);
+}
+```
+
+The required parameters in order are:
+
+1. `--dd-x-start` a number value to begin with
+  * you can cast lengths and other dimensions to a number using the cast functions if needed
+
+2. `--dd-condition`
+  * One of the following identifiers:
+    * eq | gt | gte | lt | lte | neq
+  * Before an iteration executes, it calculates the next would-be --dd-x and compares it to the --dd-x-end value, which is the next parameter.
+
+3. `--dd-x-end` a number value to compare --dd-x to in order to determine if the loop should continue.
+
+4. `--dd-calc-partial` This is the formula applied to your initial x, then to the current x each iteration. You can provide `+ 1` to increase --dd-x by one each time. You can also multiply or divide initially then add or subtract from that result by providing a calc partial such as `* 2 - 1`. Other loop controller variations are not supported yet.
+
+5. `--dd-use-loop` - an identifier you provide that connects to the loop body function you intend to execute in this context. This is the value checked against in the `--dd-global-loops` function you overwrote to register your loops.
+
+This is how you read these required parameters:
+
+`--dd-loop(0, lt, 10, + 1, var(--my-first-css-loop));`
+loop while `0` is **less than** `10` and **add one** each time after executing the loop body aliased by `var(--my-first-css-loop)`.
+
+Not dissimilar to the `for (let x = 0; x < 10, x = x + 1) {...}` loop in js.
+
+The remaining parameters are optional. In order, they are:
+
+6. `--dd-joiner` - a value to output in between iterations.
+  * It does not output before the first iteration nor after the last.
+  * set it to the identifier `none` to not produce anything between iterations.
+  * set it to a comma with the do-not-spread `{ , }` syntax if you want your output to be joined by commas:
+    * `--dd-loop(0, + 1, lt, 10, var(--my-first-css-loop), { , });`
+
+7. `--dd-arg1` - any value you wish to pass into this context
+  * It can be a color if you want to use this loop in multiple places with different colors.
+  * It can be a number if you want to modify your loop in each context you use it in.
+  * etc
+
+8. The last 3 optional parameters are
+  * `--dd-arg2`, `--dd-arg3`, and `--dd-arg4`
+  * The same as `--dd-arg1`, can be anything or nothing.
 
 ### Cast number to string
 
@@ -96,13 +205,13 @@ opacity: --dd-gte(50cqw, 20rem);
 
 Demo: https://codepen.io/propjockey/pen/JobdXLz?editors=0100
 
-### Cast length to string
+### Cast length and other dimensions to string
 
-`./functions/cast/length-to-string.css`
+`./functions/cast/dimension-to-string.css`
 
-`--dd-length-to-string(--dd-len <length>, --dd-basis <length>: 1px, --dd-unit <string>: "", --dd-fixed <integer>: 0, --dd-round: nearest)`
+`--dd-dimension-to-string(--dd-dimension, --dd-basis: 1px, --dd-unit <string>: "", --dd-fixed <integer>: 0, --dd-round: nearest)`
 
-basis (optional) is the single unit value of the length provided, defaulting to 1px which will show the length as pixels
+basis (optional for length dimensions) is the single unit value of the length or other dimension provided (96dpi, 10deg, 100ms), defaulting to `1px` which will show a length as pixels
 
 unit (optional) is the string to append after the number, eg "px", defaulting to an empty string.
 
@@ -137,6 +246,39 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.2.0 - May 6th, 2026:
+* /functions/repeat/*
+  * loop.css --dd-loop(from, condition, to, calc stepper partial, loop-id)
+* /functions/other/*
+  * is-int.css --dd-is-int(--dd-any) // returns 1 if it's an integer, otherwise 0
+  * type-of.css --dd-type-of(--dd-any) // returns a string, for example:
+    * `"<length>"`
+    * `"<string>"`
+    * `"<integer>"`
+    * `"<number>"`
+    * `"<length-percentage>"`
+    * `"<length-percentage>+"` // space separated list
+    * `"<length-percentage>#"` // comma separated list
+    * `"<custom-ident>+"`
+    * `"<color>"`
+    * `"<empty>"` // a valid/truthy empty value, the space of a space toggle
+    * `"<initial>"` // not "technically correct" but ultimately more useful
+    * "*" // if not identified
+    * etc etc etc
+* /functions/cast/*
+  * removed length-to-px-number.css
+  * removed length-to-string.css
+  * added dimension-to-number.css --dd-dimension-to-number(--dd-dimension, --dd-basis)
+    * basis is a unit value defaulting to 1px so the result would be a number in terms of px
+    * change basis to 1rem for the number result to be in terms of rem, for example
+  * added dimension-to-string.css --dd-dimension-to-string(--dd-dimension, --dd-basis: 1px, --dd-unit: "", --dd-fixed: 0, --dd-round: nearest)
+    * basis is a unit value defaulting to 1px so the result would be a number in terms of px
+    * if dimension is length, change basis to 1rem for the number result to be in terms of rem, for example
+    * if dimension is time, change basis to 1s for the number result to be in terms of seconds
+  * to-string.css --dd-to-string(--dd-any)
+    * returns the string value of anything that can be converted into a string
+    * returns the string "type-of" result if the value can't directly be stringified
 
 v0.1.2 - May 5th, 2026:
 * Fix filename for int16-to-hex-string.css
@@ -197,8 +339,6 @@ v0.1.0 - May 3rd, 2026:
   * inverted-space-toggle-to-bit.css --dd-ist-to-bit(--dd-ist)
   * digit-to-string.css --dd-digit-to-string(--digit)
   * number-to-string.css --dd-number-to-string(--dd-number, --dd-fixed: 0, --dd-round: nearest)
-  * length-to-string.css --dd-length-to-string(--dd-len, --dd-basis: 1px, --dd-unit: "", --dd-fixed: 0, --dd-round: nearest)
-  * length-to-px-number.css --dd-length-to-px-number(--dd-length)
 * /functions/logic/*
   * bit/*
     * and-bit.css --dd-and-bit(--bit-a, --bit-b)

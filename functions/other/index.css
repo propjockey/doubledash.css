@@ -4,6 +4,5 @@
 // Copyright © 2026 Jane Ori, PropJockey
 */
 
-@import url("./loop.css");
-@import url("./repeat.css");
-@import url("./repeat-join.css");
+@import url("./is-int.css");
+@import url("./type-of.css");

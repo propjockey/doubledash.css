@@ -1,0 +1,19 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-is-int(
+  --dd-any,
+  --_dd-number <number>: -1.5,
+  --_dd-integer <integer>: -1
+) returns <integer> {
+  --_dd-number: calc(var(--dd-any) - var(--dd-any));
+  --_dd-integer: round(down, var(--dd-any));
+  --_dd-is-eq: --dd-eq(var(--_dd-integer), var(--dd-any));
+  result: if(
+    style(--_dd-number: 0) and style(--_dd-is-eq = 1): 1;
+    else: 0;
+  );
+}

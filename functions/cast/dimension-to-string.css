@@ -6,15 +6,15 @@
 
 @import url("./number-to-string.css");
 
-@function --dd-length-to-string(
-  --dd-len <length>,
-  --dd-basis <length>: 1px,
+@function --dd-dimension-to-string(
+  --dd-dimension,
+  --dd-basis: 1px,
   --dd-unit <string>: "",
   --dd-fixed <integer>: 0,
   --dd-round: nearest
 ) {
   result: --dd-number-to-string(
-    calc(var(--dd-len) / var(--dd-basis)),
+    calc(var(--dd-dimension) / var(--dd-basis)),
     var(--dd-fixed),
     var(--dd-round)
   ) var(--dd-unit);

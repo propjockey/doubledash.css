@@ -1,10 +1,12 @@
 {
   "name": "@propjockey/doubledash.css",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "a collection of 100% CSS custom utility --functions()",
   "keywords": [
     "css",
-    "functions"
+    "functions",
+    "loop",
+    "repeat"
   ],
   "homepage": "https://github.com/propjockey/doubledash.css#readme",
   "bugs": {

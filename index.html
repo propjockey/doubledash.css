@@ -1,0 +1,4056 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>doubledash.css - a collection of 100% CSS utility --functions() | by PropJockey.io</title>
+
+  <link rel="icon" type="image/png" href="./favicon.png">
+
+  <meta property="og:title" content="@propjockey/doubledash.css" />
+  <meta property="og:description" content="a collection of 100% CSS utility --functions(). Type casting, boolean logic, conditionals (lt, gte, etc), repeating, looping, binary operations (XOR, NAND, shifting, etc), and more!" />
+  <meta property="og:image" content="https://propjockey.github.io/doubledash.css/assets/social-share.png" />
+  <meta property="og:url" content="https://propjockey.github.io/doubledash.css/" />
+  <meta property="og:type" content="website" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146833088-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-146833088-2');
+  </script>
+  <style>
+    @layer color-overscroll {
+      :where(.color-overscroll) {
+        background: linear-gradient(var(--green), var(--green));
+        background-attachment: fixed;
+      }
+      :where(.color-overscroll > *) {
+        position: relative;
+        background: white;
+      }
+    }
+    :root {
+      background: linear-gradient(
+        to top,
+        transparent 100px,
+        white 100px
+      ), var(--green);
+      @supports (-webkit-hyphens: none) {
+        /* Safari has an agressively stupid behavior to make the browser UI unreadable and obnoxious if there is a bg color. */
+        overscroll-behavior-y: none;
+        background: white;
+      }
+    }
+    :root {
+      container-type: inline-size;
+      width: 100%;
+      overflow-x: hidden;
+      accent-color: var(--pink);
+      --pink: lch(60 109.13 339.29); /* #ff40d6; */
+      --green: #9cd835;
+      --white: #e5f1e4; /* #cbe5ca; */
+      /* --black: #111706; */
+      --black: #000000;
+    }
+    * { margin: 0px; padding: 0px; box-sizing: border-box; font-family: sans-serif; }
+    :where(h5, h6) { font-size: 1em; }
+
+    .propjockey-link {
+      margin-top: -0.25rem;
+    }
+    .propjockey-link img {
+      height: 2.5rem;
+      width: auto;
+    }
+    .npm-link {
+      padding-top: 0.75rem;
+      padding-left: 0.5rem;
+    }
+    .npm-link svg {
+      height: 2.5rem;
+      width: auto;
+    }
+    .gh-link {
+      padding-right: 0.25rem;
+    }
+    .gh-link svg {
+      height: 2.5rem;
+      width: auto;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    code, samp:not(code samp), var:not(code var) {
+      background: var(--white);
+      font-family: monospace;
+      padding-inline: var(--bpu-8px);
+      word-break: break-word;
+    }
+    .console {
+      @container style(--qgte-xs: 1) {
+        white-space: pre;
+      }
+      &::before {
+        content: "$ " / "";
+      }
+    }
+    .console, .html-block, .code-block {
+      display: inline-block;
+      background: var(--white); /* #ffb7ee; */
+      border: var(--bpu-1px) solid var(--green);
+      padding: var(--bpu-4px);
+      padding-inline: var(--bpu-8px);
+      margin-block: var(--bpu-4px);
+      font-family: monospace;
+      font-weight: bold;
+      font-size: var(--bpu-xs);
+      color: #FF00C7;
+      overflow: auto;
+      text-shadow: var(--bpu-1px) 0px rgba(255, 255, 255, 0.75),
+        calc(-1 * var(--bpu-1px)) 0px rgba(255, 255, 255, 0.75),
+        0px var(--bpu-1px) rgba(255, 255, 255, 0.75),
+        0px calc(-1 * var(--bpu-1px)) rgba(255, 255, 255, 0.75);
+    }
+    .html-block, .code-block {
+      display: block;
+      margin-block: var(--bpu-12px);
+      word-break: break-word;
+      --lt-s9-pre: var(--qlt-s9-st) pre;
+      white-space: var(--lt-s9-pre, pre-wrap);
+      overflow-x: var(--qlt-s9-st) auto;
+      max-width: var(--qlt-s9-st) calc(var(--bpu-main-result) - var(--bpu-32px));
+    }
+    .no-wrap {
+      white-space: nowrap;
+    }
+
+    .main-header {
+      position: sticky;
+      top: 0px;
+      height: var(--bpu-40px);
+      z-index: 9;
+      background: var(--black);
+      width: 100%;
+      text-align: center;
+      &, nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      border-bottom: var(--bpu-5px) solid var(--green);
+      font-size: var(--bpu-xs);
+      nav > :not(:last-child) {
+        display: inline-block;
+        margin-right: var(--bpu-24px);
+      }
+      nav > :last-child {
+        position: relative;
+        top: calc(var(--bpu-typography-basis) * 2);
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: calc(-1 * var(--bpu-5px));
+        height: var(--bpu-5px);
+        left: 0px;
+        right: 0px;
+        background: linear-gradient(
+          to right,
+          var(--black),
+          var(--green),
+          var(--white),
+          var(--green),
+          var(--black)
+        );
+      }
+
+      h1 {
+        color: var(--white);
+        font-size: var(--bpu-sm);
+        margin-right: var(--bpu-24px);
+        font-weight: normal;
+      }
+    }
+
+    header a > img,
+    svg[alt="GitHub"] {
+      height: 1.5em;
+      vertical-align: bottom;
+    }
+    svg[alt="npm"] {
+      height: 1.125em;
+      vertical-align: bottom;
+    }
+    header a {
+      color: var(--green);
+    }
+
+    html { scroll-padding-top: var(--bpu-36px); }
+    body {
+      font-size: var(--bpu-sm);
+      /* bp-stage */
+      --bpu-main-max: calc(var(--qin-s12) * 1200);
+      --bp-fluidity: var(--fluid-s4) var(--fluid-s5) var(--fluid-s9) var(--fluid-s12);
+      /* --bpu-main-result will compute to 100% as a <length> below md because the value we pass in is 0 */
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/breakpoint-system@1.1.1/breakpoint-system.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0/functions/index.css">
+  <style>
+    :where(.dd-main-layout[class*="breakpoint-system-st"]) {
+      --lk-bp-0-inline-padding: 0; /* 16 */
+      --lk-bp-1-inline-padding: 0; /* 16 */
+      --lk-bp-2-inline-padding: 0; /* 16 */
+      --lk-bp-3-inline-padding: 0; /* 24 */
+      --lk-bp-4-inline-padding: 0; /* 32 */
+      --lk-bp-5-inline-padding: 0; /* 32 */
+      --lk-bp-6-inline-padding: 0; /* 32 */
+      --lk-bp-7-inline-padding: 0; /* 32 */
+      --lk-bp-8-inline-padding: 0; /* 32 */
+      --lk-bp-9-inline-padding: 0; /* 32 */
+
+      --lk-gap: 0; /* 16 */
+      --lk-basis: 80;
+
+      --bp-0-at: calc(320 - var(--lk-gap) + var(--lk-bp-0-inline-padding) * 2); /* 4 * basis (pad: 352) xxs - 375 */
+      --qgte-s4: var(--bp-qgte-0);
+      --qlt-s4: var(--bp-qlt-0);
+      --qin-s4: var(--bp-qin-0);
+      --fluid-s4: var(--bp-fluid-0);
+
+      --bp-1-at: calc(400 - var(--lk-gap) + var(--lk-bp-1-inline-padding) * 2); /* 5 * basis (pad: 432) xs - 480 */
+      --qgte-s5: var(--bp-qgte-1);
+      --qlt-s5: var(--bp-qlt-1);
+      --qin-s5: var(--bp-qin-1);
+      --fluid-s5: var(--bp-fluid-1);
+
+      --bp-2-at: calc(720 - var(--lk-gap) + var(--lk-bp-2-inline-padding) * 2); /* 9 * basis (pad: 752) sm - 768 */
+      --qgte-s9: var(--bp-qgte-2);
+      --qlt-s9: var(--bp-qlt-2);
+      --qin-s9: var(--bp-qin-2);
+      --fluid-s9: var(--bp-fluid-2);
+
+      --bp-3-at: calc(960 - var(--lk-gap) + var(--lk-bp-3-inline-padding) * 2); /* 12 * basis (pad: 1008) md - 1024 */
+      --qgte-s12: var(--bp-qgte-3);
+      --qlt-s12: var(--bp-qlt-3);
+      --qin-s12: var(--bp-qin-3);
+      --fluid-s12: var(--bp-fluid-3);
+
+      --bp-4-at: calc(1120 - var(--lk-gap) + var(--lk-bp-4-inline-padding) * 2); /* 14 * basis (pad: 1184) lg 1 - 1280 */
+      --qgte-s14: var(--bp-qgte-4);
+      --qlt-s14: var(--bp-qlt-4);
+      --qin-s14: var(--bp-qin-4);
+      --fluid-s14: var(--bp-fluid-4);
+
+      --bp-5-at: calc(1200 - var(--lk-gap) + var(--lk-bp-5-inline-padding) * 2); /* 15 * basis (pad: 1264) lg 2 - 1280 */
+      --qgte-s15: var(--bp-qgte-5);
+      --qlt-s15: var(--bp-qlt-5);
+      --qin-s15: var(--bp-qin-5);
+      --fluid-s15: var(--bp-fluid-5);
+
+      --bp-6-at: calc(1280 - var(--lk-gap) + var(--lk-bp-6-inline-padding) * 2); /* 16 * basis (pad: 1344) xl 1 - 1440 */
+      --qgte-s16: var(--bp-qgte-6);
+      --qlt-s16: var(--bp-qlt-6);
+      --qin-s16: var(--bp-qin-6);
+      --fluid-s16: var(--bp-fluid-6);
+
+      --bp-7-at: calc(1360 - var(--lk-gap) + var(--lk-bp-7-inline-padding) * 2); /* 17 * basis (pad: 1424) xl 2 - 1440 */
+      --qgte-s17: var(--bp-qgte-7);
+      --qlt-s17: var(--bp-qlt-7);
+      --qin-s17: var(--bp-qin-7);
+      --fluid-s17: var(--bp-fluid-7);
+
+      --bp-8-at: calc(1760 - var(--lk-gap) + var(--lk-bp-8-inline-padding) * 2); /* 22 * basis (pad: 1824) xxl 1 - 1920 */
+      --qgte-s22: var(--bp-qgte-8);
+      --qlt-s22: var(--bp-qlt-8);
+      --qin-s22: var(--bp-qin-8);
+      --fluid-s22: var(--bp-fluid-8);
+
+      --bp-9-at: calc(1840 - var(--lk-gap) + var(--lk-bp-9-inline-padding) * 2); /* 23 * basis (pad: 1904) xxl 2 - 1920 */
+      --qgte-s23: var(--bp-qgte-9);
+      --qlt-s23: var(--bp-qlt-9);
+      --qin-s23: var(--bp-qin-9);
+      --fluid-s23: var(--bp-fluid-9);
+
+      --_lk-odd-fixed-rails-fluidity: var(--fluid-s4)
+        var(--fluid-s5) var(--fluid-s9) var(--fluid-s12)
+        var(--fluid-s15) var(--fluid-s17) var(--fluid-s23);
+
+      --_lk-even-fixed-rails-fluidity: var(--fluid-s4)
+        var(--fluid-s5) var(--fluid-s9) var(--fluid-s12)
+        var(--fluid-s14) var(--fluid-s16) var(--fluid-s22);
+
+      --lk-1-basis: calc(var(--lk-basis) - var(--lk-gap));
+      --lk-2-basis: calc(var(--lk-basis) * 2 - var(--lk-gap));
+      --lk-3-basis: calc(var(--lk-basis) * 3 - var(--lk-gap));
+      --lk-4-basis: calc(var(--lk-basis) * 4 - var(--lk-gap));
+      --lk-5-basis: calc(var(--lk-basis) * 5 - var(--lk-gap));
+      --lk-6-basis: calc(var(--lk-basis) * 6 - var(--lk-gap));
+      --lk-7-basis: calc(var(--lk-basis) * 7 - var(--lk-gap));
+      --lk-8-basis: calc(var(--lk-basis) * 8 - var(--lk-gap));
+      --lk-9-basis: calc(var(--lk-basis) * 9 - var(--lk-gap));
+      --lk-10-basis: calc(var(--lk-basis) * 10 - var(--lk-gap));
+      --lk-11-basis: calc(var(--lk-basis) * 11 - var(--lk-gap));
+      --lk-12-basis: calc(var(--lk-basis) * 12 - var(--lk-gap));
+      --lk-13-basis: calc(var(--lk-basis) * 13 - var(--lk-gap));
+      --lk-14-basis: calc(var(--lk-basis) * 14 - var(--lk-gap));
+      --lk-15-basis: calc(var(--lk-basis) * 15 - var(--lk-gap));
+      --lk-16-basis: calc(var(--lk-basis) * 16 - var(--lk-gap));
+      --lk-17-basis: calc(var(--lk-basis) * 17 - var(--lk-gap));
+      --lk-18-basis: calc(var(--lk-basis) * 18 - var(--lk-gap));
+      --lk-19-basis: calc(var(--lk-basis) * 19 - var(--lk-gap));
+      --lk-20-basis: calc(var(--lk-basis) * 20 - var(--lk-gap));
+      --lk-21-basis: calc(var(--lk-basis) * 21 - var(--lk-gap));
+      --lk-22-basis: calc(var(--lk-basis) * 22 - var(--lk-gap));
+      --lk-23-basis: calc(var(--lk-basis) * 23 - var(--lk-gap));
+
+      --lk-1-n: calc(var(--lk-1-basis) * var(--bpu-1));
+      --lk-2-n: calc(var(--lk-2-basis) * var(--bpu-1));
+      --lk-3-n: calc(var(--lk-3-basis) * var(--bpu-1));
+      --lk-4-n: calc(var(--lk-4-basis) * var(--bpu-1));
+      --lk-5-n: calc(var(--lk-5-basis) * var(--bpu-1));
+      --lk-6-n: calc(var(--lk-6-basis) * var(--bpu-1));
+      --lk-7-n: calc(var(--lk-7-basis) * var(--bpu-1));
+      --lk-8-n: calc(var(--lk-8-basis) * var(--bpu-1));
+      --lk-9-n: calc(var(--lk-9-basis) * var(--bpu-1));
+      --lk-10-n: calc(var(--lk-10-basis) * var(--bpu-1));
+      --lk-11-n: calc(var(--lk-11-basis) * var(--bpu-1));
+      --lk-12-n: calc(var(--lk-12-basis) * var(--bpu-1));
+      --lk-13-n: calc(var(--lk-13-basis) * var(--bpu-1));
+      --lk-14-n: calc(var(--lk-14-basis) * var(--bpu-1));
+      --lk-15-n: calc(var(--lk-15-basis) * var(--bpu-1));
+      --lk-16-n: calc(var(--lk-16-basis) * var(--bpu-1));
+      --lk-17-n: calc(var(--lk-17-basis) * var(--bpu-1));
+      --lk-18-n: calc(var(--lk-18-basis) * var(--bpu-1));
+      --lk-19-n: calc(var(--lk-19-basis) * var(--bpu-1));
+      --lk-20-n: calc(var(--lk-20-basis) * var(--bpu-1));
+      --lk-21-n: calc(var(--lk-21-basis) * var(--bpu-1));
+      --lk-22-n: calc(var(--lk-22-basis) * var(--bpu-1));
+      --lk-23-n: calc(var(--lk-23-basis) * var(--bpu-1));
+
+      --lk-1: calc(var(--lk-1-basis) * var(--bpu-1px));
+      --lk-2: calc(var(--lk-2-basis) * var(--bpu-1px));
+      --lk-3: calc(var(--lk-3-basis) * var(--bpu-1px));
+      --lk-4: calc(var(--lk-4-basis) * var(--bpu-1px));
+      --lk-5: calc(var(--lk-5-basis) * var(--bpu-1px));
+      --lk-6: calc(var(--lk-6-basis) * var(--bpu-1px));
+      --lk-7: calc(var(--lk-7-basis) * var(--bpu-1px));
+      --lk-8: calc(var(--lk-8-basis) * var(--bpu-1px));
+      --lk-9: calc(var(--lk-9-basis) * var(--bpu-1px));
+      --lk-10: calc(var(--lk-10-basis) * var(--bpu-1px));
+      --lk-11: calc(var(--lk-11-basis) * var(--bpu-1px));
+      --lk-12: calc(var(--lk-12-basis) * var(--bpu-1px));
+      --lk-13: calc(var(--lk-13-basis) * var(--bpu-1px));
+      --lk-14: calc(var(--lk-14-basis) * var(--bpu-1px));
+      --lk-15: calc(var(--lk-15-basis) * var(--bpu-1px));
+      --lk-16: calc(var(--lk-16-basis) * var(--bpu-1px));
+      --lk-17: calc(var(--lk-17-basis) * var(--bpu-1px));
+      --lk-18: calc(var(--lk-18-basis) * var(--bpu-1px));
+      --lk-19: calc(var(--lk-19-basis) * var(--bpu-1px));
+      --lk-20: calc(var(--lk-20-basis) * var(--bpu-1px));
+      --lk-21: calc(var(--lk-21-basis) * var(--bpu-1px));
+      --lk-22: calc(var(--lk-22-basis) * var(--bpu-1px));
+      --lk-23: calc(var(--lk-23-basis) * var(--bpu-1px));
+
+      --bpu-typography-scalar: 1.2;
+
+      --qin-s4-st: var(--bp-qin-0-st);
+      --qin-s5-st: var(--bp-qin-1-st);
+      --qin-s9-st: var(--bp-qin-2-st);
+      --qin-s12-st: var(--bp-qin-3-st);
+      --qin-s14-st: var(--bp-qin-4-st);
+      --qin-s15-st: var(--bp-qin-5-st);
+      --qin-s16-st: var(--bp-qin-6-st);
+      --qin-s17-st: var(--bp-qin-7-st);
+      --qin-s22-st: var(--bp-qin-8-st);
+      --qin-s23-st: var(--bp-qin-9-st);
+
+      --qgte-s4-st: var(--bp-qgte-0-st);
+      --qgte-s5-st: var(--bp-qgte-1-st);
+      --qgte-s9-st: var(--bp-qgte-2-st);
+      --qgte-s12-st: var(--bp-qgte-3-st);
+      --qgte-s14-st: var(--bp-qgte-4-st);
+      --qgte-s15-st: var(--bp-qgte-5-st);
+      --qgte-s16-st: var(--bp-qgte-6-st);
+      --qgte-s17-st: var(--bp-qgte-7-st);
+      --qgte-s22-st: var(--bp-qgte-8-st);
+      --qgte-s23-st: var(--bp-qgte-9-st);
+
+      --qlt-s4-st: var(--bp-qlt-0-st);
+      --qlt-s5-st: var(--bp-qlt-1-st);
+      --qlt-s9-st: var(--bp-qlt-2-st);
+      --qlt-s12-st: var(--bp-qlt-3-st);
+      --qlt-s14-st: var(--bp-qlt-4-st);
+      --qlt-s15-st: var(--bp-qlt-5-st);
+      --qlt-s16-st: var(--bp-qlt-6-st);
+      --qlt-s17-st: var(--bp-qlt-7-st);
+      --qlt-s22-st: var(--bp-qlt-8-st);
+      --qlt-s23-st: var(--bp-qlt-9-st);
+    }
+    .dd-main-layout {
+      display: grid;
+      gap: 0px;
+      --_lk-gta-9: var(--qgte-s9-st) "h h" "n m" "f f";
+      --_lk-gtc-9: var(--qgte-s9-st) var(--lk-3) 1fr;
+      grid-template-areas: var(--_lk-gta-9, "h" "m" "f");
+      grid-template-columns: var(--_lk-gtc-9, 1fr);
+
+      --_lk-none-if-lt-9: var(--qlt-s9-st) none;
+      --_lk-absolute-if-lt-9: var(--qlt-s9-st) absolute;
+      --_lk-1px-if-lt-9: var(--qlt-s9-st) 1px;
+      --_lk-clip-hidden-if-lt-9: var(--qlt-s9-st) rect(0, 0, 0, 0);
+
+      & > :nth-child(1) { grid-area: h; }
+      & > :nth-child(2) > :nth-child(1) { grid-area: n; display: var(--_lk-none-if-lt-9, block); }
+      & > :nth-child(2) > :nth-child(2) { grid-area: m; }
+      & > :nth-child(3) { grid-area: f; }
+      .subgrid-main {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: subgrid;
+      }
+    }
+
+    .rail-nav {
+      background-color: var(--green);
+      position: sticky;
+      top: var(--bpu-40px);
+      height: calc(100dvh - var(--bpu-40px));
+      overflow-y: auto;
+      background: linear-gradient(var(--green), var(--green));
+      background-attachment: fixed;
+      font-size: var(--bpu-sm);
+      padding: var(--bpu-16px);
+      > strong:first-child {
+        font-size: var(--bpu-14px);
+        --_lk-none-if-gte-9: var(--qgte-s9-st) none;
+        display: var(--_lk-none-if-gte-9, block);
+        margin-bottom: var(--bpu-16px);
+      }
+      dl dl {
+        dt {
+          font-size: var(--bpu-sm);
+          color: var(--black);
+        }
+      }
+      dt {
+        font-size: var(--bpu-md);
+        margin-block: var(--bpu-16px);
+        font-weight: bold;
+        color: var(--pink);
+        --x: 0px 0px var(--bpu-2px) var(--white);
+        text-shadow: --dd-repeat(5, {var(--x),}) var(--x);
+        &:not(dl dl dt)::before {
+          content: "";
+          z-index: -1;
+          position: absolute;
+          left: 0px;
+          right: 0px;
+          height: var(--bpu-lg);
+          background: var(--white);
+        }
+      }
+      dd {
+        margin-block: var(--bpu-4px);
+        margin-left: var(--bpu-16px);
+        a {
+          display: block;
+          padding-block: var(--bpu-4px);
+          color: var(--black);
+          text-decoration: none;
+        }
+      }
+    }
+    main {
+      --bg-color: transparent;
+      --bg-url: url("https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/propjockey-lines.svg");
+      --bg-url2: url("./assets/logo.png");
+    }
+    footer {
+      --bg-color: var(--black);
+      --bg-url: url("./assets/propjockey.svg");
+      --bg-url2: url("./favicon.png");
+    }
+    main, footer {
+      --_lk-bg-left: calc(var(--lk-11) + var(--_lk-ml) * 2);
+      --_lk-bg-width: clamp(0px, (100vw - var(--_lk-bg-left) - var(--bpu-16px)) / 2, var(--lk-1) * 1.5);
+      --_lk-ml: var(--qgte-s12-st) max(0px, (100cqw - var(--bpu-main-result) + var(--lk-3) + var(--lk-1)) / 2 - var(--lk-3));
+      --_lk-bg12: var(--qgte-s12-st) var(--bg-url)
+        var(--_lk-bg-left) var(--bpu-48px) /
+        var(--_lk-bg-width) auto no-repeat fixed,
+        var(--bg-url2)
+        calc(var(--_lk-bg-left) + var(--_lk-bg-width)) var(--bpu-48px) /
+        var(--_lk-bg-width) auto no-repeat fixed, var(--bg-color);
+      background: var(--_lk-bg12, var(--bg-color));
+    }
+    main > * {
+      --_lk-mw: var(--qin-s9-st) var(--lk-6);
+      --_lk-mw12: var(--qgte-s12-st) var(--lk-8);
+      width: var(--_lk-mw, var(--_lk-mw12, 100%));
+      margin-left: var(--_lk-ml, auto);
+      padding-inline: var(--bpu-16px);
+      margin-bottom: var(--bpu-80px);
+    }
+
+    .sticker {
+      --follow-5t3ph: url(https://codepen.io/5t3ph/pen/mdVZYpr?editors=1100);
+      display: inline-grid;
+      grid-template-areas: "text";
+      place-items: center;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      white-space: pre;
+      filter: drop-shadow(var(--bpu-2px) var(--bpu-4px) 0px rgba(0, 0, 0, 0.25));
+      line-height: 1.2;
+      font-size: 0px;
+      overflow-x: var(--qlt-s9-st) auto;
+      max-width: var(--qlt-s9-st) calc(var(--bpu-main-result) - var(--bpu-32px));
+    }
+    .sticker::before, .sticker::after {
+      grid-area: text;
+      --lt-s9-fs: var(--qlt-s9-st) var(--bpu-sm);
+      font-size: var(--lt-s9-fs, var(--bpu-lg));
+      white-space: pre;
+    }
+    .sticker::before {
+      content: attr(data-text);
+      -webkit-text-stroke: 0.21em white;
+      background: no-repeat linear-gradient(white, white) 44% 55% / 90% 58%;
+    }
+    .sticker::after {
+      content: attr(data-text) / "";
+      background: var(--green);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: var(--bpu-1px) black;
+    }
+    main {
+      position: relative;
+      h2 {
+        margin-block: var(--bpu-16px);
+        font-size: var(--bpu-lg);
+        color: var(--green);
+      }
+      h3 {
+        margin-top: var(--bpu-32px);
+        margin-bottom: var(--bpu-16px);
+        height: calc(var(--bpu-sm) * 3);
+        color: var(--black);
+        font-size: var(--bpu-md);
+        align-items: center;
+        display: flex;
+        --_lk-lt-s9-w: var(--qlt-s9-st) calc(100cqw - var(--bpu-32px));
+        width: var(--_lk-lt-s9-w, 100%);
+        overflow-x: auto;
+        white-space: nowrap;
+        > var {
+          color: white;
+          background: none;
+          padding-inline: 0px;
+          font-size: 0.8em;
+          text-shadow: --dd-repeat(4, comma, 0 0 1px black);
+        }
+      }
+      h3::before {
+        content: "";
+        background-color: var(--green);
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        height: inherit;
+        z-index: -1;
+      }
+      h4 {
+        margin-block: var(--bpu-16px);
+      }
+      dl {
+        list-style: disc inside;
+        dt {
+          color: var(--pink);
+          font-weight: bold;
+        }
+        dd {
+          margin: var(--bpu-8px);
+          display: list-item;
+        }
+      }
+    }
+
+    .qlt-s9-sr-only {
+      position: var(--_lk-absolute-if-lt-9, static);
+      width: var(--_lk-1px-if-lt-9, auto);
+      height: var(--_lk-1px-if-lt-9, auto);
+      padding: 0;
+      margin: calc(var(--_lk-1px-if-lt-9, 0px) * -1);
+      overflow: hidden;
+      clip: var(--_lk-clip-hidden-if-lt-9, none);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    article a, h2 ~ p a {
+      color: var(--pink);
+    }
+    article p, h2 ~ p {
+      margin-bottom: var(--bpu-16px);
+    }
+
+    .codepen-button {
+      display: inline-block;
+      cursor: pointer;
+      border: var(--bpu-1px) solid var(--black);
+      background: var(--pink);
+      color: white;
+      font-size: var(--bpu-sm);
+      font-weight: bold;
+      padding-inline: var(--bpu-8px);
+      padding-block: var(--bpu-2px);
+      border-radius: var(--bpu-16px);
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      outline-offset: var(--bpu-3px);
+    }
+  </style>
+
+  <style>
+    footer {
+      display: grid;
+      justify-items: center;
+      padding-inline: calc(
+        var(--qlt-s9) * var(--bpu-6px) +
+        var(--qgte-s9) * var(--bpu-16px)
+      );
+      --background: var(--black);
+      color: var(--white);
+      border-top: var(--bpu-8px) solid var(--green);
+      border-bottom: var(--bpu-2px) solid #ff00c7;
+
+      img {
+        word-break: break-word;
+      }
+
+      h2 { color: white; }
+
+      #receiving-abundance, .copyright {
+        text-align: center;
+        margin-top: var(--bpu-24px);
+        font-size: var(--bpu-xxs);
+      }
+      > p {
+        font-size: var(--bpu-sm);
+        padding-bottom: var(--bpu-20px);
+      }
+      #receiving-abundance {
+        font-size: calc(
+          var(--qin-s4) * var(--bpu-xs) +
+          var(--qgte-s5) * var(--bpu-sm)
+        );
+        font-weight: calc(
+          var(--qin-s4) * 100 +
+          var(--qgte-s5) * 900
+        );
+      }
+      table {
+        margin-inline: auto;
+        width: calc(
+          var(--qlt-s9) * 100% +
+          var(--qgte-s9) * 550px
+        );
+        font-size: var(--bpu-sm);
+        img {
+          width: 100%;
+        }
+      }
+    }
+    @keyframes hide-mid-compat {
+      0%, 49.99% {
+        visibility: visible;
+      }
+      50%, 100% {
+        visibility: collapse;
+        width: 0px;
+        font-size: 0px;
+        display: none;
+      }
+    }
+    .abundance-table {
+      background: #ffffff;
+      color: #000000;
+      @supports (background: paint(for-chromium)) and (animation-composition: add) {
+        @container style(--qlt-s9: 1) {
+          th:nth-child(2),
+          td:nth-child(2) {
+            display: none;
+          }
+        }
+      }
+      @supports not ((background: paint(for-chromium)) and (animation-composition: add)) {
+        th:nth-child(2),
+        td:nth-child(2) {
+          animation: hide-mid-compat 2s step-end
+                  calc(var(--qlt-s9) * -1s) paused;
+        }
+      }
+      td { min-width: 170px; }
+    }
+    .social-table {
+      img { filter: brightness(0) invert(1); }
+      td { min-width: var(--bpu-72px); }
+    }
+    #open-contact {
+      margin-top: var(--bpu-16px);
+      &, & + p {
+        width: 100%;
+        max-width: 600px; /* var(--bpu-main-result); */
+        margin-inline: auto;
+      }
+    }
+
+    .scroll-table {
+      overflow-y: auto;
+      max-width: 100%;
+      width: 100%;
+      white-space: nowrap;
+    }
+  </style>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.querySelectorAll("code").forEach(block => {
+        const textLines = block.textContent.split("\n")
+        const indents = textLines
+          .filter(line => line.trim().length > 0)
+          .map(line => line.match(/^[ \t]*/)[0].length)
+
+        const minIndent = Math.min(...indents)
+        const indentRegex = new RegExp(`^[ \\t]{${minIndent}}`, "gm")
+
+        block.innerHTML = block.innerHTML
+          .replace(indentRegex, "")
+          .replace(/^\s*[\r\n]/, "")
+          .replace(/[\r\n]\s*$/, "")
+          .replace(/@URL@/g, "https://unpkg.com/@propjockey/doubledash.css@0.3.0")
+      })
+    })
+
+    // I forgive me. :)
+    const escapeForOnClick = str => str
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/&/g, '&amp;')
+    const unescapeFromOnClick = str => str
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/\\'/g, "'")
+      .replace(/\\\\/g, '\\')
+    const postToCodepen = function (title, css, html) {
+      const codepenform = document.forms["codepenform"]
+      const codpenData = {
+        editors: "010", // hide js panel
+        html: unescapeFromOnClick(html).replace(/^ {14}/gm, "").replace(/\n{3,}/g, "\n\n").trim(),
+        css: css.replace(/^ {14}/gm, "").replace(/\n{3,}/g, "\n\n").trim(),
+        js: "// @propjockey/doubledash.css does not use JS! <3",
+        title: unescapeFromOnClick(title || "") || "@propjockey/doubledash.css --function() example",
+        layout: "left",
+        tags: ["propjockey", "doubledash.css", "CSS custom functions"]
+      }
+      codepenform.querySelector("[name='data']").value = JSON.stringify(codpenData)
+      codepenform.submit()
+      return false
+    }
+    const postToCodepenButton = function (title, html) {
+      document.write(
+        `<button class="codepen-button"
+          aria-label="View this example live on CodePen"
+          onclick="postToCodepen(\`${
+            escapeForOnClick(title)
+          }\`, this.previousElementSibling.previousElementSibling.innerText, \`${
+            escapeForOnClick(html)
+          }\`)"
+        >
+          CodePen ↗
+        </button>`
+      )
+    }
+  </script>
+</head>
+<body class="dd-main-layout breakpoint-system-st">
+  <header class="main-header">
+    <h1 class="qlt-s9-sr-only">@propjockey/doubledash.css</h1>
+    <nav>
+      <a href="https://propjockey.github.io/doubledash.css/"><img alt="home page for @propjockey/doubledash.css" src="./favicon.png" /></a>
+      <a href="#open-contact" title="Contact Socials and Support">🩷</a>
+      <a href="https://github.com/propjockey/doubledash.css" title="Leave a star on GitHub!"><svg alt="GitHub" xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 34 34"><path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+      <a href="https://www.npmjs.com/package/@propjockey/doubledash.css" title="NPM"><svg alt="npm" viewBox="0 0 905 290"><path fill="currentColor" d="M240,250h100v-50h100V0H240V250z M340,50h50v100h-50V50z M480,0v200h100V50h50v150h50V50h50v150h50V0H480z M0,200h100V50h50v150h50V0H0V200z"></path></svg></a>
+    </nav>
+  </header>
+  <div class="subgrid-main">
+    <section class="rail-nav">
+      <strong>@propjockey/doubledash.css</strong>
+      <dl>
+        <dt style="margin-top: 0px;">Getting Started</dt>
+        <dd><a href="#dd-details">Introduction</a></dd>
+        <dd><a href="#install">Install &amp; Import</a></dd>
+        <dd><a href="#open-contact">Open Contact 👽</a></dd>
+        <dd><a href="#receiving-abundance">Donate to PropJockey</a></dd>
+
+        <dt>Type Casting</dt>
+        <dd><a href="#bit-to-ist">--dd-bit-to-ist</a></dd>
+        <dd><a href="#bit-to-st">--dd-bit-to-st</a></dd>
+        <dd><a href="#dcb-to-int16">--dd-dcb-to-int16</a></dd>
+        <dd><a href="#digit-to-string">--dd-digit-to-string</a></dd>
+        <dd><a href="#dimension-to-number">--dd-dimension-to-number</a></dd>
+        <dd><a href="#dimension-to-string">--dd-dimension-to-string</a></dd>
+        <dd><a href="#int16-to-bit-string">--dd-int16-to-bit-string</a></dd>
+        <dd><a href="#int16-to-dcb-nibble">--dd-int16-to-dcb-nibble</a></dd>
+        <dd><a href="#int16-to-hex-string">--dd-int16-to-hex-string</a></dd>
+        <dd><a href="#ist-to-bit">--dd-ist-to-bit</a></dd>
+        <dd><a href="#number-to-string">--dd-number-to-string</a></dd>
+        <dd><a href="#st-to-bit">--dd-st-to-bit</a></dd>
+        <dd><a href="#to-string">--dd-to-string</a></dd>
+        <dd><a href="#to-typed">--dd-to-typed</a></dd>
+
+        <dt>Comparitors</dt>
+        <dd><a href="#cmp">--dd-cmp</a></dd>
+        <dd><a href="#eq">--dd-eq</a></dd>
+        <dd><a href="#gt">--dd-gt</a></dd>
+        <dd><a href="#gte">--dd-gte</a></dd>
+        <dd><a href="#lt">--dd-lt</a></dd>
+        <dd><a href="#lte">--dd-lte</a></dd>
+        <dd><a href="#neq">--dd-neq</a></dd>
+
+        <dt>Logical Operations</dt>
+        <dd>
+          <dl>
+            <dt>on Single Bits</dt>
+            <dd><a href="#and-bit">--dd-and-bit</a></dd>
+            <dd><a href="#nand-bit">--dd-nand-bit</a></dd>
+            <dd><a href="#nor-bit">--dd-nor-bit</a></dd>
+            <dd><a href="#not-bit">--dd-not-bit</a></dd>
+            <dd><a href="#or-bit">--dd-or-bit</a></dd>
+            <dd><a href="#xnor-bit">--dd-xnor-bit</a></dd>
+            <dd><a href="#xor-bit">--dd-xor-bit</a></dd>
+          </dl>
+        </dd>
+        <dd>
+          <dl>
+            <dt>on 16 Bit Integers</dt>
+            <dd><a href="#and-int16">--dd-and-int16</a></dd>
+            <dd><a href="#get-bit-int16">--dd-get-bit-int16</a></dd>
+            <dd><a href="#get-byte-int16">--dd-get-byte-int16</a></dd>
+            <dd><a href="#get-nibble-int16">--dd-get-nibble-int16</a></dd>
+            <dd><a href="#msb-int16">--dd-msb-int16</a></dd>
+            <dd><a href="#nand-int16">--dd-nand-int16</a></dd>
+            <dd><a href="#nor-int16">--dd-nor-int16</a></dd>
+            <dd><a href="#not-int16">--dd-not-int16</a></dd>
+            <dd><a href="#or-int16">--dd-or-int16</a></dd>
+            <dd><a href="#set-bit-int16">--dd-set-bit-int16</a></dd>
+            <dd><a href="#shift-left-int16">--dd-shift-left-int16</a></dd>
+            <dd><a href="#shift-right-int16">--dd-shift-right-int16</a></dd>
+            <dd><a href="#toggle-bit-int16">--dd-toggle-bit-int16</a></dd>
+            <dd><a href="#xnor-int16">--dd-xnor-int16</a></dd>
+            <dd><a href="#xor-int16">--dd-xor-int16</a></dd>
+          </dl>
+        </dd>
+        <dd>
+          <dl>
+            <dt>on Inverted Space Toggles</dt>
+            <dd><a href="#and-ist">--dd-and-ist</a></dd>
+            <dd><a href="#nand-ist">--dd-nand-ist</a></dd>
+            <dd><a href="#nor-ist">--dd-nor-ist</a></dd>
+            <dd><a href="#not-ist">--dd-not-ist</a></dd>
+            <dd><a href="#or-ist">--dd-or-ist</a></dd>
+            <dd><a href="#xnor-ist">--dd-xnor-ist</a></dd>
+            <dd><a href="#xor-ist">--dd-xor-ist</a></dd>
+          </dl>
+        </dd>
+        <dd>
+          <dl>
+            <dt>on Space Toggles</dt>
+            <dd><a href="#and-st">--dd-and-st</a></dd>
+            <dd><a href="#nand-st">--dd-nand-st</a></dd>
+            <dd><a href="#nor-st">--dd-nor-st</a></dd>
+            <dd><a href="#not-st">--dd-not-st</a></dd>
+            <dd><a href="#or-st">--dd-or-st</a></dd>
+            <dd><a href="#xnor-st">--dd-xnor-st</a></dd>
+            <dd><a href="#xor-st">--dd-xor-st</a></dd>
+          </dl>
+        </dd>
+
+        <dt>Iteration</dt>
+        <dd><a href="#loop">--dd-loop</a></dd>
+        <dd><a href="#repeat">--dd-repeat</a></dd>
+
+        <dt>Other Functions</dt>
+        <dd><a href="#compute">--dd-compute</a></dd>
+        <dd><a href="#is-int">--dd-is-int</a></dd>
+        <dd><a href="#type-of">--dd-type-of</a></dd>
+      </dl>
+    </section>
+    <main>
+      <section>
+        <h2 id="dd-details" class="sticker" data-text="Getting Started">Getting Started</h2>
+        <dl>
+          <dt>@propjockey/<wbr />doubledash.css</dt>
+          <dd>A collection of custom --functions() in CSS.</dd>
+          <dd>Easily cast between types.</dd>
+          <dd>Quickly compare values.</dd>
+          <dd>Execute bitwise operations.</dd>
+          <dd>Run the world's first 100% CSS loops.</dd>
+          <dd>No builds, no JS.</dd>
+        </dl>
+        <h3 id="install">Install & Import:</h3>
+        <code class="console">npm install @propjockey/doubledash.css</code>
+        <p>Then import <code>node_modules/@propjockey/doubledash.css/doubledash.css</code> into your project.</p>
+        <b style="margin-block: var(--bpu-16px); display: block;">OR</b>
+        <p>
+          Use your favorite NPM CDN and include specific functions on your page for small projects:<br>
+          <code class="html-block">&lt;link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.3.0/functions/repeat/loop.css"&gt;</code>
+        </p>
+        <b style="margin-block: var(--bpu-16px); display: block;">OR</b>
+        <p>
+          Use your favorite NPM CDN and import specific functions straight into your CSS for small projects:<br>
+          <code class="html-block">@import url("https://unpkg.com/@propjockey/doubledash.css@0.3.0/functions/repeat/loop.css");</code>
+        </p>
+      </section>
+
+      <section>
+        <h2 id="type-casting" class="sticker" data-text="Type Casting">Type Casting</h2>
+        <p>
+          <code>/functions/cast/index.css</code>
+        </p>
+        <article>
+          <h3 id="bit-to-ist">--dd-bit-to-ist(<var>--dd-bit</var>)</h3>
+          <p>Cast a bit into an <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=the%20binary%20permutations.-,Inverted%3F,-The%20standard%20space&text=Inverted%3F&text=Inverted%3F">inverted</a> <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=Inverted%3F-,Space%20Toggle%3F,-CSS%20APIs%3F%20Catch">space toggle</a>.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit</code> &lt;integer&gt; 0 or 1</p>
+          <h4>Returns</h4>
+          <p>Returns <code>initial</code> if the argument was <code>1</code>, returns &lt;empty&gt; space <code>&nbsp;</code> if the argument was <code>0</code>.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/bit-to-inverted-space-toggle.css");
+
+            @import url("@URL@/functions/compare/gt.css");
+
+            .charge-indicator-color {
+              --current: 50;
+              --red-if-not-gt-10: --dd-bit-to-ist(
+                --dd-gt(var(--current), 10)
+              ) red;
+              --yellow-if-not-gt-50: --dd-bit-to-ist(
+                --dd-gt(var(--current), 50)
+              ) yellow;
+              --lime-if-not-gt-90: --dd-bit-to-ist(
+                --dd-gt(var(--current), 90)
+              ) lime;
+              --color: var(--red-if-not-gt-10,
+                var(--yellow-if-not-gt-50,
+                  var(--lime-if-not-gt-90,
+                    green
+                  )
+                )
+              );
+              width: calc(var(--current) * 1%);
+              background-color: var(--color);
+              height: 1rem;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-bit-to-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="charge-indicator-color" style="--current: 5;">5%</div>
+              <div class="charge-indicator-color" style="--current: 15;">15%</div>
+              <div class="charge-indicator-color" style="--current: 55;">55%</div>
+              <div class="charge-indicator-color" style="--current: 95;">95%</div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#ist-to-bit">--dd-ist-to-bit</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="bit-to-st">--dd-bit-to-st(<var>--dd-bit</var>)</h3>
+          <p>Cast a bit into a <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=Inverted%3F-,Space%20Toggle%3F,-CSS%20APIs%3F%20Catch">space toggle</a>.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit</code> &lt;integer&gt; 0 or 1</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;empty&gt; space <code>&nbsp;</code> if the argument was <code>1</code>, returns <code>initial</code> if the argument was <code>0</code>.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/bit-to-space-toggle.css");
+
+            @import url("@URL@/functions/compare/lte.css");
+
+            .charge-indicator-color {
+              --current: 50;
+              --red-if-lte-10: --dd-bit-to-st(
+                --dd-lte(var(--current), 10)
+              ) red;
+              --yellow-if-lte-50: --dd-bit-to-st(
+                --dd-lte(var(--current), 50)
+              ) yellow;
+              --lime-if-lte-90: --dd-bit-to-st(
+                --dd-lte(var(--current), 90)
+              ) lime;
+              --color: var(--red-if-lte-10,
+                var(--yellow-if-lte-50,
+                  var(--lime-if-lte-90,
+                    green
+                  )
+                )
+              );
+              width: calc(var(--current) * 1%);
+              background-color: var(--color);
+              height: 1rem;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-bit-to-st() function | @propjockey/doubledash.css demo`, `
+              <div class="charge-indicator-color" style="--current: 5;">5%</div>
+              <div class="charge-indicator-color" style="--current: 15;">15%</div>
+              <div class="charge-indicator-color" style="--current: 55;">55%</div>
+              <div class="charge-indicator-color" style="--current: 95;">95%</div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#st-to-bit">--dd-st-to-bit</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="dcb-to-int16">--dd-dcb-to-int16(<var>--dd-arg1</var> [, <var>--dd-arg2</var> [, <var>--dd-arg3</var> [, <var>--dd-arg4</var>]]])</h3>
+          <p>Cast up to 4 decimal-coded-binary nibbles into a single int16. Because CSS does not support writing binary, we instead write decimal using only 0's and 1's as if it were binary. We group them into 4-bit nibbles because 8 decimal digits is more than 21 bits (where CSS integers become lossy).</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-arg1</code> &lt;integer&gt; up to four digits of 1 or 0: 1010, 0001, etc</p>
+          <p><code>--dd-arg2</code> <code>--dd-arg3</code> <code>--dd-arg4</code> the same as arg1 but optional.</p>
+          <p>The most significant bit is the left-most bit of arg1. The least significant bit is the right-most bit of the last argument provided.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;integer&gt; up to 16 bits.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+
+            @import url("@URL@/functions/cast/number-to-string.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .decimal-coded-binary::after {
+              --int16: --dd-dcb-to-int16(1111, 0010, 1010, 1001);
+
+              content: 
+                "Decimal: " --dd-number-to-string(var(--int16)) "\A"
+                "Binary: " --dd-int16-to-bit-string(var(--int16));
+
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-dcb-to-int16() function | @propjockey/doubledash.css demo`,
+              `<div class="decimal-coded-binary"></div>`
+            );
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#int16-to-dcb-nibble">--dd-int16-to-dcb-nibble</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="digit-to-string">--dd-digit-to-string(<var>--dd-digit</var> [, <var>--dd-base</var>])</h3>
+          <p>Cast a digit/value into a single-character string.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-digit</code> &lt;integer&gt; to cast into a string, typically 0 to 9.</p>
+          <p><code>--dd-base</code> a keyword value, one of: base32hex | base32 | base64</p>
+          <p>The number base is optional and defaults to <a href="https://en.wikipedia.org/wiki/Base32#Base_32_Encoding_with_Extended_Hex_Alphabet_per_%C2%A77">base32hex</a>.</p>
+          <h4>Returns</h4>
+          <p>Returns a single character &lt;string&gt; with the specified encoding:</p>
+          <p><a href="https://en.wikipedia.org/wiki/Base32#Base_32_Encoding_with_Extended_Hex_Alphabet_per_%C2%A77">Read about base32hex</a>.</p>
+          <p><a href="https://en.wikipedia.org/wiki/Base32#Base_32_Encoding_per_%C2%A76">Read about base32</a>.</p>
+          <p><a href="https://en.wikipedia.org/wiki/Base64#Base64table">Read about base64</a>.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/digit-to-string.css");
+
+            @import url("@URL@/functions/repeat/loop.css");
+            @import url("@URL@/functions/cast/number-to-string.css");
+
+            @function --dd-loop-id-0() {
+              result: --dd-number-to-string(var(--dd-x)) " : "
+                --dd-digit-to-string(var(--dd-x), var(--dd-arg1));
+            }
+
+            .base32hex::after {
+              content: "base32hex \A" --dd-loop(0, lt, 32, + 1, --dd-loop-id-0, "\A", base32hex);
+              white-space: pre;
+            }
+            .base32::after {
+              content: "base32 \A" --dd-loop(0, lt, 32, + 1, --dd-loop-id-0, "\A", base32);
+              white-space: pre;
+            }
+            .base64::after {
+              content: "base64 \A" --dd-loop(0, lt, 64, + 1, --dd-loop-id-0, "\A", base64);
+              white-space: pre;
+            }
+            body {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-digit-to-string() function | @propjockey/doubledash.css demo`, `
+              <div class="base32hex"></div>
+              <div class="base32"></div>
+              <div class="base64"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="dimension-to-number">--dd-dimension-to-number(<var>--dd-dimension</var> [, <var>--dd-basis</var>])</h3>
+          <p>Cast a dimension into a &lt;number&gt;. Included for completeness sake.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-dimension</code> any &lt;dimension&gt; (100px, 3deg, 4vh, 7s)</p>
+          <p><code>--dd-basis</code> any &lt;dimension&gt; with a numeric component of 1. (1px, 1deg, 1vh, 1s)</p>
+          <p>The basis defaults to <code>1px</code> so can be omitted if the first parameter is any length dimension and you want the result in terms of pixels.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;number&gt; by executing <code>calc(var(--dd-dimension) / var(--dd-basis))</code>.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/dimension-to-number.css");
+
+            .screen-width::before {
+              counter-reset: sw --dd-dimension-to-number(100vw, 1px);
+              content: counter(sw);
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-dimension-to-number() function | @propjockey/doubledash.css demo`,
+              `<div class="screen-width">px</div>`
+            );
+          </script>
+        </article>
+
+        <article>
+          <h3 id="dimension-to-string">--dd-dimension-to-string(<var>--dd-dimension</var> [, <var>--dd-basis</var> [, <var>--dd-unit</var> [, <var>--dd-fixed</var> [, <var>--dd-round</var>]]]])</h3>
+          <p>Cast a dimension into a &lt;string&gt;+.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-dimension</code> any &lt;dimension&gt; (100px, 3deg, 4vh, 7s)</p>
+          <p><code>--dd-basis</code> any &lt;dimension&gt; with a numeric component of 1. (1px, 1deg, 1vh, 1s)</p>
+          <p>The basis defaults to <code>1px</code> so can be omitted if the first parameter is any length dimension and you want the result in terms of pixels and aren't specifying any further arguments.</p>
+          <p><code>--dd-unit</code> a string defaulting to an empty string "" appended after the value. ("px", "deg", "vh", "s")</p>
+          <p><code>--dd-fixed</code> an &lt;integer&gt; up to 6 specifying how much decimal precision to use in the output. The practical limit is also 6 if the whole-number part is a single digit, 5 if 2, 4 if 3, etc.</p>
+          <p><code>--dd-round</code> the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/round#%3Crounding-strategy%3E">rounding-strategy</a> used on the number to reach the precision, defaulting to <var>nearest</var>.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;string&gt;+ padded to the right with 0's as needed if fixed is specified.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/dimension-to-string.css");
+
+            .screen-width-string-in-em::before {
+              content: --dd-dimension-to-string(100vw, 1em, "em", 3, nearest);
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-dimension-to-string() function | @propjockey/doubledash.css demo`,
+              `<div class="screen-width-string-in-em"></div>`
+            );
+          </script>
+        </article>
+
+        <article>
+          <h3 id="int16-to-bit-string">--dd-int16-to-bit-string(<var>--dd-int16</var> [, <var>--dd-min-length</var>])</h3>
+          <p>Cast a 16 bit integer into a binary string+.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> &lt;integer&gt; up to 16 bits.</p>
+          <p><code>--dd-min-length</code> defaults to 1, an integer between 1 and 16.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;string&gt;+ up to 16 characters long.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+
+            .bit-string::after {
+              --int16: --dd-dcb-to-int16(1111, 0010, 1010, 1001);
+
+              content: "Binary: " --dd-int16-to-bit-string(var(--int16));
+            }
+
+            .bit-string-min-length::after {
+              --int16: --dd-dcb-to-int16(101);
+
+              content: "Binary: " --dd-int16-to-bit-string(var(--int16), 8);
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-int16-to-bit-string() function | @propjockey/doubledash.css demo`, `
+              <div class="bit-string"></div>
+              <div class="bit-string-min-length"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="int16-to-dcb-nibble">--dd-int16-to-dcb-nibble(<var>--dd-int16</var> [, <var>--dd-which-nibble</var>])</h3>
+          <p>Cast 4 bits of a 16 bit integer into a decimal-coded-binary integer.</p>
+          <p>Reverse of <a href="#dcb-to-int16">--dd-dcb-to-int16</a> which exists to simulate directly writing binary in CSS.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> &lt;integer&gt; up to 16 bits.</p>
+          <p><code>--dd-which-nibble</code> defaults to 0, an integer between 0 and 3, the offset of which nibble to return from the int16 where 0 means return the 4 least significant bits.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;integer&gt; of 4 bits encoded to decimal. Eleven is returned from an int16 equal to three (if the which-nibble offset is 0) because 3 in binary is 11.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/int16-to-dcb-nibble.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+
+            .int16-to-dcb-nibble::after {
+              --int16: --dd-dcb-to-int16(1111, 0010, 1010, 1001);
+
+              --dcb-of-nibble3: --dd-int16-to-dcb-nibble(var(--int16), 3);
+              --dcb-of-nibble2: --dd-int16-to-dcb-nibble(var(--int16), 2);
+              --dcb-of-nibble1: --dd-int16-to-dcb-nibble(var(--int16), 1);
+              --dcb-of-nibble0: --dd-int16-to-dcb-nibble(var(--int16), 0);
+
+              counter-reset:
+                int16 var(--int16)
+                dcb3 var(--dcb-of-nibble3)
+                dcb2 var(--dcb-of-nibble2)
+                dcb1 var(--dcb-of-nibble1)
+                dcb0 var(--dcb-of-nibble0)
+              ;
+
+              content:
+                "Decimal coded representation of binary extracted from int16: "
+                counter(int16) "\A"
+                "Nibble 3: " counter(dcb3) "\A"
+                "Nibble 2: " counter(dcb2) "\A"
+                "Nibble 1: " counter(dcb1) "\A"
+                "Nibble 0: " counter(dcb0);
+
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-int16-to-dcb-nibble() function | @propjockey/doubledash.css demo`, `
+              <div class="int16-to-dcb-nibble"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#dcb-to-int16">--dd-dcb-to-int16</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="int16-to-hex-string">--dd-int16-to-hex-string(<var>--dd-int16</var> [, <var>--dd-min-length</var>])</h3>
+          <p>Cast a 16 bit integer into a hexadecimal string+.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> &lt;integer&gt; up to 16 bits.</p>
+          <p><code>--dd-min-length</code> defaults to 1, an integer between 1 and 4.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;string&gt;+ up to 4 characters long.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/int16-to-hex-string.css");
+
+            .hex-string::after {
+              content:
+                "Cast 16 bit integers to hexadecimal strings \A"
+                "255: " --dd-int16-to-hex-string(255) "\A"
+                "127: " --dd-int16-to-hex-string(127, 4) "\A"
+                "65281: " --dd-int16-to-hex-string(65281)
+              ;
+
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-int16-to-hex-string() function | @propjockey/doubledash.css demo`, `
+              <div class="hex-string"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="ist-to-bit">--dd-ist-to-bit(<var>--dd-ist</var>)</h3>
+          <p>Cast an <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=the%20binary%20permutations.-,Inverted%3F,-The%20standard%20space&text=Inverted%3F&text=Inverted%3F">inverted</a> <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=Inverted%3F-,Space%20Toggle%3F,-CSS%20APIs%3F%20Catch">space toggle</a> to a bit.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist</code> <code>initial</code>/IACVT or &lt;empty&gt; (space)</p>
+          <h4>Returns</h4>
+          <p>Returns <code>1</code> if the argument was <code>initial</code>, returns <code>0</code> if the argument was &lt;empty&gt; space <code>&nbsp;</code>.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/inverted-space-toggle-to-bit.css");
+
+            @import url("@URL@/functions/logic/inverted-space-toggle/index.css");
+
+            .ist-to-bit::after {
+              --initial: initial;
+              --space: ;
+
+              counter-reset:
+                iandi --dd-ist-to-bit(--dd-and-ist(var(--initial), var(--initial)))
+                inandi --dd-ist-to-bit(--dd-nand-ist(var(--initial), var(--initial)))
+                inori --dd-ist-to-bit(--dd-nor-ist(var(--initial), var(--initial)))
+                iori --dd-ist-to-bit(--dd-or-ist(var(--initial), var(--initial)))
+                ixnori --dd-ist-to-bit(--dd-xnor-ist(var(--initial), var(--initial)))
+                ixori --dd-ist-to-bit(--dd-xor-ist(var(--initial), var(--initial)))
+
+                iands --dd-ist-to-bit(--dd-and-ist(var(--initial), var(--space)))
+                inands --dd-ist-to-bit(--dd-nand-ist(var(--initial), var(--space)))
+                inors --dd-ist-to-bit(--dd-nor-ist(var(--initial), var(--space)))
+                iors --dd-ist-to-bit(--dd-or-ist(var(--initial), var(--space)))
+                ixnors --dd-ist-to-bit(--dd-xnor-ist(var(--initial), var(--space)))
+                ixors --dd-ist-to-bit(--dd-xor-ist(var(--initial), var(--space)))
+
+                sands --dd-ist-to-bit(--dd-and-ist(var(--space), var(--space)))
+                snands --dd-ist-to-bit(--dd-nand-ist(var(--space), var(--space)))
+                snors --dd-ist-to-bit(--dd-nor-ist(var(--space), var(--space)))
+                sors --dd-ist-to-bit(--dd-or-ist(var(--space), var(--space)))
+                sxnors --dd-ist-to-bit(--dd-xnor-ist(var(--space), var(--space)))
+                sxors --dd-ist-to-bit(--dd-xor-ist(var(--space), var(--space)))
+              ;
+              content: "op.. i_i i_s s_s\A"
+                "----- --- --- ---\A"
+                "and." " " counter(iandi) " " counter(iands) " " counter(sands) "\A"
+                "nand" " " counter(inandi) " " counter(inands) " " counter(snands) "\A"
+                "nor." " " counter(inori) " " counter(inors) " " counter(snors) "\A"
+                "or.." " " counter(iori) " " counter(iors) " " counter(sors) "\A"
+                "xnor" " " counter(ixnori) " " counter(ixnors) " " counter(sxnors) "\A"
+                "xor." " " counter(ixori) " " counter(ixors) " " counter(sxors);
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr 1fr;
+              justify-content: space-around;
+              white-space: pre;
+              text-align-last: justify;
+              font-family: monospace;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-ist-to-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="ist-to-bit"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#bit-to-ist">--dd-bit-to-ist</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="number-to-string">--dd-number-to-string(<var>--dd-number</var> [, <var>--dd-fixed</var> [, <var>--dd-round</var>]])</h3>
+          <p>Cast a number into a &lt;string&gt;+.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-number</code> any &lt;number&gt; (100, 3.4, 4.7)</p>
+          <p><code>--dd-fixed</code> an &lt;integer&gt; up to 6 specifying how much decimal precision to use in the output. The practical limit is also 6 if the whole-number part is a single digit, 5 if 2, 4 if 3, etc.</p>
+          <p><code>--dd-round</code> the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/round#%3Crounding-strategy%3E">rounding-strategy</a> used on the number to reach the precision, defaulting to <var>nearest</var>.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;string&gt;+ padded to the right with 0's as needed if fixed is specified.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/number-to-string.css");
+
+            .screen-width-string-in-em::before {
+              content: --dd-number-to-string(calc(100vw / 1em), 3, nearest) "em";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-number-to-string() function | @propjockey/doubledash.css demo`,
+              `<div class="screen-width-string-in-em"></div>`
+            );
+          </script>
+        </article>
+
+        <article>
+          <h3 id="st-to-bit">--dd-st-to-bit(<var>--dd-st</var>)</h3>
+          <p>Cast a <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=Inverted%3F-,Space%20Toggle%3F,-CSS%20APIs%3F%20Catch">space toggle</a> to a bit.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st</code> &lt;empty&gt; (space) or <code>initial</code>/IACVT</p>
+          <h4>Returns</h4>
+          <p>Returns <code>1</code> if the argument was &lt;empty&gt; space <code>&nbsp;</code>, returns <code>0</code> if the argument was <code>initial</code>.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/space-toggle-to-bit.css");
+
+            @import url("@URL@/functions/logic/space-toggle/index.css");
+
+            .st-to-bit::after {
+              --space: ;
+              --initial: initial;
+
+              counter-reset:
+                sands --dd-st-to-bit(--dd-and-st(var(--space), var(--space)))
+                snands --dd-st-to-bit(--dd-nand-st(var(--space), var(--space)))
+                snors --dd-st-to-bit(--dd-nor-st(var(--space), var(--space)))
+                sors --dd-st-to-bit(--dd-or-st(var(--space), var(--space)))
+                sxnors --dd-st-to-bit(--dd-xnor-st(var(--space), var(--space)))
+                sxors --dd-st-to-bit(--dd-xor-st(var(--space), var(--space)))
+
+                sandi --dd-st-to-bit(--dd-and-st(var(--space), var(--initial)))
+                snandi --dd-st-to-bit(--dd-nand-st(var(--space), var(--initial)))
+                snori --dd-st-to-bit(--dd-nor-st(var(--space), var(--initial)))
+                sori --dd-st-to-bit(--dd-or-st(var(--space), var(--initial)))
+                sxnori --dd-st-to-bit(--dd-xnor-st(var(--space), var(--initial)))
+                sxori --dd-st-to-bit(--dd-xor-st(var(--space), var(--initial)))
+
+                iandi --dd-st-to-bit(--dd-and-st(var(--initial), var(--initial)))
+                inandi --dd-st-to-bit(--dd-nand-st(var(--initial), var(--initial)))
+                inori --dd-st-to-bit(--dd-nor-st(var(--initial), var(--initial)))
+                iori --dd-st-to-bit(--dd-or-st(var(--initial), var(--initial)))
+                ixnori --dd-st-to-bit(--dd-xnor-st(var(--initial), var(--initial)))
+                ixori --dd-st-to-bit(--dd-xor-st(var(--initial), var(--initial)))
+              ;
+              content: "op.. s_s s_i i_i\A"
+                "----- --- --- ---\A"
+                "and." " " counter(sands) " " counter(sandi) " " counter(iandi) "\A"
+                "nand" " " counter(snands) " " counter(snandi) " " counter(inandi) "\A"
+                "nor." " " counter(snors) " " counter(snori) " " counter(inori) "\A"
+                "or.." " " counter(sors) " " counter(sori) " " counter(iori) "\A"
+                "xnor" " " counter(sxnors) " " counter(sxnori) " " counter(ixnori) "\A"
+                "xor." " " counter(sxors) " " counter(sxori) " " counter(ixori);
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr 1fr;
+              justify-content: space-around;
+              white-space: pre;
+              text-align-last: justify;
+              font-family: monospace;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-st-to-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="st-to-bit"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#bit-to-st">--dd-bit-to-st</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="to-string">--dd-to-string(<var>--dd-any</var>)</h3>
+          <p>Cast a anything to a string.</p>
+          <p>If it cannot be converted into a string, it will return <a href="#type-of">--dd-type-of</a> instead.</p>
+          <p>The following types are currently returned as string data: string, string+, number, length (as px), percentage, angle (as deg), time (as seconds), resolution (as dpi).</p>
+          <p>Integers return without decimal points, numbers and all dimension types return 2 decimal points of precision.</p>
+          <p>All other types return their type-of string.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-any</code> Any value.</p>
+          <h4>Returns</h4>
+          <p>Returns &lt;string&gt;+.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .to-string::after {
+              white-space: pre;
+              content:
+                --dd-to-string("doubledash.css") "\A"
+                --dd-to-string({"PropJockey" " " "Jane Ori"}) "\A"
+                --dd-to-string(999.945) "\A"
+                --dd-to-string(1234) "\A"
+                --dd-to-string(100vw) "\A"
+                --dd-to-string(7%) "\A"
+                --dd-to-string(2.5rad) "\A"
+                --dd-to-string(1234ms) "\A"
+                --dd-to-string(96dpi) "\A"
+                "\A"
+                --dd-to-string(calc(7px + 100%)) "\A"
+                --dd-to-string({7px, 100%}) "\A"
+                --dd-to-string({7px 100%}) "\A"
+                --dd-to-string(hotpink) "\A"
+                --dd-to-string({hotpink, rebeccapurple}) "\A"
+                --dd-to-string({hotpink rebeccapurple}) "\A"
+                "\A"
+                --dd-to-string({"PropJockey", " ", "Jane Ori"}) "\A"
+                --dd-to-string({999.945, 1234}) "\A"
+                --dd-to-string({999.945 1234}) "\A"
+                "\A"
+                --dd-to-string({1234, 4321}) "\A"
+                --dd-to-string({1234 4321}) "\A"
+                "\A"
+                --dd-to-string({100vw, 10px}) "\A"
+                --dd-to-string({100vw 10px}) "\A"
+                --dd-to-string({7%, 100%}) "\A"
+                --dd-to-string({7% 100%}) "\A"
+                --dd-to-string({2.5rad, 10deg}) "\A"
+                --dd-to-string({2.5rad 10deg}) "\A"
+                --dd-to-string({1234ms, 8s}) "\A"
+                --dd-to-string({1234ms 8s}) "\A"
+                --dd-to-string({96dpi, 72dpi}) "\A"
+                --dd-to-string({96dpi 72dpi}) "\A"
+                "\A"
+                --dd-to-string(PropJockey) "\A"
+                --dd-to-string({PropJockey, PropJockey}) "\A"
+                --dd-to-string({PropJockey PropJockey}) "\A"
+                --dd-to-string(var(--undefined)) "\A"
+                --dd-to-string(var(--undefined, )) "\A"
+                "\A"
+                --dd-to-string(linear-gradient(red 0% 100%)) "\A"
+                --dd-to-string({linear-gradient(red 0% 100%), url("./")}) "\A"
+                --dd-to-string({linear-gradient(red 0% 100%) url("./")}) "\A"
+                --dd-to-string(url("./")) "\A"
+                --dd-to-string({url("./"), url("./")}) "\A"
+                --dd-to-string({url("./") url("./")}) "\A"
+                --dd-to-string(rotate(-1deg)) "\A"
+                --dd-to-string({rotate(-1deg), rotate(-1deg)}) "\A"
+                --dd-to-string({rotate(-1deg) rotate(-1deg)}) "\A"
+                "\A"
+                --dd-to-string({PropJockey url("https://jane.propjockey.io")})
+              ;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-to-string() function | @propjockey/doubledash.css demo`, `
+              <div class="to-string"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#type-of">--dd-type-of</a>
+          </p>
+        </article>
+
+        <article>
+          <h3 id="to-typed">--dd-to-typed(<var>--dd-any</var>)</h3>
+          <p>Cast a anything to its corresponding type, which often computes the value.</p>
+          <p>There are caveats everywhere in CSS, among them, typed vs untyped var values can behave differently <a href="https://css-tip.com/if-trick/">like with if style</a> and in large calc()s.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-any</code> Any value.</p>
+          <h4>Returns</h4>
+          <p>Returns the same value, typed specifically if it can be, which often causes it to compute.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/cast/to-typed.css");
+
+            .untyped {
+              --color: red;
+              --number: calc(200 / 7);
+              --integer: calc(100 / 25);
+              --length-percentage-csv: calc(10vw + 10px), calc(10% * 1.25);
+            }
+            .typed {
+              --color: --dd-to-typed(red);
+              --number: --dd-to-typed(calc(200 / 7));
+              --integer: --dd-to-typed(calc(100 / 25));
+              --length-percentage-csv: --dd-to-typed({calc(10vw + 10px), calc(10% * 1.25)});
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-to-typed() function | @propjockey/doubledash.css demo`, `
+              Right-click these, inspect, "elements" -> "computed" tab, filter to vars by searching "--", make sure "show all" is checked:<br />
+              <div class="untyped">Untyped</div>
+              <div class="typed">Typed</div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#type-of">--dd-type-of</a>
+            <a href="#compute">--dd-compute</a>
+          </p>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="comparitors" class="sticker" data-text="Comparitors">Comparitors</h2>
+        <p>
+          <code>/functions/compare/index.css</code>
+        </p>
+        <p>Compare two numbers, integers, or dimensions with each other (less than, greater than, etc) and get back boolean bit flags to use in <a href="https://css-tricks.com/dry-switching-with-css-variables-the-difference-of-one-declaration/">calc() switches</a>, check them with if(style()), or <a href="#bit-to-st">cast them to space toggles</a> to flip any property (and any number of properties).</p>
+        <article>
+          <h3 id="cmp">--dd-cmp(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>The base comparitor that indicates the balance between left and right arguments.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>An integer of -1, 0, or 1 for less than, equal to, and greater than, respectively. If it's -1, "left is less than right".</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/cmp.css");
+
+            .cmp::after {
+              --balance: --dd-cmp(100vw, 100vh);
+              content: "The screen width is " if(
+                style(--balance: -1): "less than";
+                style(--balance: 1): "greater than";
+                style(--balance: 0): "equal to";
+                else: "incomprehensible with respect to";
+              ) " the screen height.";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-cmp() function | @propjockey/doubledash.css demo`, `
+              <div class="cmp"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="eq">--dd-eq(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>Is left equal to right?</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>1 if equal, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/eq.css");
+
+            .comparitor::after {
+              --eq: --dd-eq(100vw, 100vmin);
+              content: "The screen is in " if(
+                style(--eq: 1): "portrait orientation. Or it's a square.";
+                else: "landscape orientation.";
+              );
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-eq() function | @propjockey/doubledash.css demo`, `
+              <div class="comparitor"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="gt">--dd-gt(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>Is left greater than right?</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>1 if greater than, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/gt.css");
+
+            .comparitor::after {
+              --gt: --dd-gt(180deg, 3.1rad);
+              content: "180deg is " if(
+                style(--gt: 1): "greater than";
+                else: "not greater than";
+              ) " 3.1rad.";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-gt() function | @propjockey/doubledash.css demo`, `
+              <div class="comparitor"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="gte">--dd-gte(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>Is left greater than or equal to right?</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>1 if left is greater than or equal to right, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/gte.css");
+
+            .comparitor::after {
+              --gte: --dd-gte(180deg, 3.2rad);
+              content: "180deg is " if(
+                style(--gte: 1): "greater than or equal to";
+                else: "less than";
+              ) " 3.2rad.";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-gte() function | @propjockey/doubledash.css demo`, `
+              <div class="comparitor"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="lt">--dd-lt(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>Is left less than right?</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>1 if left is less than right, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/lt.css");
+
+            .comparitor::after {
+              --lt: --dd-lt(1s, 1000.01ms);
+              content: "1 second is " if(
+                style(--lt: 1): "less than";
+                else: "not less than";
+              ) " 1000.01 milliseconds";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-lt() function | @propjockey/doubledash.css demo`, `
+              <div class="comparitor"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="lte">--dd-lte(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>Is left less than or equal to right?</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>1 if left is less than or equal to right, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/lte.css");
+
+            .comparitor::after {
+              --lte: --dd-lte(1.00001s, 1000.01ms);
+              content: "1.00001 seconds is " if(
+                style(--lte: 1): "less than or equal to";
+                else: "greater than";
+              ) " 1000.01 milliseconds";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-lte() function | @propjockey/doubledash.css demo`, `
+              <div class="comparitor"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="neq">--dd-neq(<var>--dd-left</var>, <var>--dd-right</var>)</h3>
+          <p>Is left unequal to right?</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-left</code> A dimension or number.</p>
+          <p><code>--dd-right</code> A dimension or number.</p>
+          <h4>Returns</h4>
+          <p>1 if unequal, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/compare/neq.css");
+
+            .comparitor::after {
+              --neq: --dd-neq(100vw, 100vmin);
+              content: "The screen is in" if(
+                style(--neq: 1): "landscape orientation";
+                else: "portrait orientation, or it's a square";
+              ) ".";
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-neq() function | @propjockey/doubledash.css demo`, `
+              <div class="comparitor"></div>
+            `);
+          </script>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="bit-logic" class="sticker" data-text="Bit Logic">Bit Logic</h2>
+        <p>
+          <code>/functions/logic/bit/index.css</code>
+        </p>
+
+        <article>
+          <h3 id="and-bit">--dd-and-bit(<var>--dd-bit-a</var>, <var>--dd-bit-b</var>)</h3>
+          <p>Single bit a AND b, a &amp; b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit-a</code> An integer of either 1 or 0.</p>
+          <p><code>--dd-bit-b</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if a AND b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/and-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                --dd-to-string(var(--truthy)) " and "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-and-bit(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " and "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-and-bit(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " and "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-and-bit(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " and "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-and-bit(var(--falsey), var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-and-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nand-bit">--dd-nand-bit(<var>--dd-bit-a</var>, <var>--dd-bit-b</var>)</h3>
+          <p>Single bit NOT a AND b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit-a</code> An integer of either 1 or 0.</p>
+          <p><code>--dd-bit-b</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if NOT a AND b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/nand-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                --dd-to-string(var(--truthy)) " nand "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nand-bit(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " nand "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nand-bit(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nand "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nand-bit(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nand "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nand-bit(var(--falsey), var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nand-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nor-bit">--dd-nor-bit(<var>--dd-bit-a</var>, <var>--dd-bit-b</var>)</h3>
+          <p>Single bit NOT a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit-a</code> An integer of either 1 or 0.</p>
+          <p><code>--dd-bit-b</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if NOT a OR b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/nor-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                --dd-to-string(var(--truthy)) " nor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nor-bit(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " nor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nor-bit(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nor-bit(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nor-bit(var(--falsey), var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nor-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="not-bit">--dd-not-bit(<var>--dd-bit</var>)</h3>
+          <p>Single bit: NOT bit</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if the input bit was 0, else 1</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/not-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                " not "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-not-bit(var(--truthy))
+                ) "\A"
+
+                " not "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-not-bit(var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-not-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="or-bit">--dd-or-bit(<var>--dd-bit-a</var>, <var>--dd-bit-b</var>)</h3>
+          <p>Single bit a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit-a</code> An integer of either 1 or 0.</p>
+          <p><code>--dd-bit-b</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if a OR b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/or-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                --dd-to-string(var(--truthy)) " or "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-or-bit(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " or "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-or-bit(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " or "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-or-bit(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " or "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-or-bit(var(--falsey), var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-or-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xnor-bit">--dd-xnor-bit(<var>--dd-bit-a</var>, <var>--dd-bit-b</var>)</h3>
+          <p>Single bit NOT a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit-a</code> An integer of either 1 or 0.</p>
+          <p><code>--dd-bit-b</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if NOT a XOR b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/xnor-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                --dd-to-string(var(--truthy)) " xnor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xnor-bit(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " xnor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xnor-bit(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xnor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xnor-bit(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xnor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xnor-bit(var(--falsey), var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xnor-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xor-bit">--dd-xor-bit(<var>--dd-bit-a</var>, <var>--dd-bit-b</var>)</h3>
+          <p>Single bit a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-bit-a</code> An integer of either 1 or 0.</p>
+          <p><code>--dd-bit-b</code> An integer of either 1 or 0.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if a XOR b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/bit/xor-bit.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: 1;
+              --falsey: 0;
+
+              content:
+                "Single-bit logic \A"
+                --dd-to-string(var(--truthy)) " xor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xor-bit(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " xor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xor-bit(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xor-bit(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xor-bit(var(--falsey), var(--falsey))
+                )
+              ;
+              text-transform: uppercase;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xor-bit() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="int16-logic" class="sticker" data-text="int16 Logic">int16 Logic</h2>
+        <p>
+          <code>/functions/logic/int16/index.css</code>
+        </p>
+        <p>All of the single-bit logical operators can be done on 16 bit integers as well, along with many more bitwise operations. All of this has <a href="https://propjockey.github.io/css-bin-bits/#:~:text=css%2Dbin%2Dbits%20%2D%20a,more%2C%20all%20from%20your%20CSS">long been possible in CSS with libraries like css-bin-bits</a> but custom CSS functions have made it nearly trivial.</p>
+        <p>Negative values are not properly managed yet so please do not rely on the partial negative implementation. Please do reach out if you have use cases to motivate the final development of bitwise operations on negative 16-bit integers.</p>
+
+        <article>
+          <h3 id="and-int16">--dd-and-int16(<var>--dd-int16-a</var>, <var>--dd-int16-b</var>)</h3>
+          <p>int16 a AND b, a &amp; b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16-a</code> A 16 bit integer.</p>
+          <p><code>--dd-int16-b</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer: 1 if a AND b, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/and-int16.css");
+
+            @property --tick {
+              syntax: "&lt;number>";
+              inherits: false;
+              initial-value: 0;
+            }
+
+            @keyframes move { to { --tick: 512; } }
+
+            .glitch-tick {
+              transform: translateX(calc(1px * var(--tick)));
+
+              /* 182 = 10110110 */
+              --glitch-tick: --dd-and-int16(
+                round(down, var(--tick)),
+                182
+              );
+
+              box-shadow: calc(
+                (var(--glitch-tick) - 150) * 1px
+              ) 1px 15px #0084;
+
+              animation: move 5s linear infinite;
+              width: 50px;
+              height: 50px;
+              background: black;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-and-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="glitch-tick"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="get-bit-int16">--dd-get-bit-int16(<var>--dd-int16</var>, <var>--dd-which-bit</var>)</h3>
+          <p>Extract a specific bit from a 16 bit integer, 0 based index from least significant to most</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-which-bit</code> An integer in range [0, 15].</p>
+          <h4>Returns</h4>
+          <p>a single bit integer</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/get-bit-int16.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "bit 0: " --dd-to-string(--dd-get-bit-int16(var(--int16), 0)) "\A"
+                "bit 1: " --dd-to-string(--dd-get-bit-int16(var(--int16), 1)) "\A"
+                "bit 9: " --dd-to-string(--dd-get-bit-int16(var(--int16), 9)) "\A"
+                "bit 14: " --dd-to-string(--dd-get-bit-int16(var(--int16), 14)) "\A"
+                "bit 15: " --dd-to-string(--dd-get-bit-int16(var(--int16), 15)) "\A"
+                "bit 16: " --dd-to-string(--dd-get-bit-int16(var(--int16), 16)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-get-bit-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p><a href="#set-bit-int16">--dd-set-bit-int16</a></p>
+          <p><a href="#toggle-bit-int16">--dd-toggle-bit-int16</a></p>
+        </article>
+
+        <article>
+          <h3 id="get-byte-int16">--dd-get-byte-int16(<var>--dd-int16</var>, <var>--dd-which-byte</var>)</h3>
+          <p>Extract a byte from a 16 bit integer, 0 based index from least significant to most</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-which-byte</code> An integer in range [0, 1].</p>
+          <h4>Returns</h4>
+          <p>a single byte integer</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/get-byte-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "byte 0: " --dd-int16-to-bit-string(--dd-get-byte-int16(var(--int16), 0)) "\A"
+                "byte 1: " --dd-int16-to-bit-string(--dd-get-byte-int16(var(--int16), 1)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-get-byte-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="get-nibble-int16">--dd-get-nibble-int16(<var>--dd-int16</var>, <var>--dd-which-nibble</var>)</h3>
+          <p>Extract a nibble from a 16 bit integer, 0 based index from least significant to most</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-which-nibble</code> An integer in range [0, 3].</p>
+          <h4>Returns</h4>
+          <p>a single nibble (4bits) integer</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/get-nibble-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "nibble 0: " --dd-int16-to-bit-string(--dd-get-nibble-int16(var(--int16), 0)) "\A"
+                "nibble 1: " --dd-int16-to-bit-string(--dd-get-nibble-int16(var(--int16), 1)) "\A"
+                "nibble 2: " --dd-int16-to-bit-string(--dd-get-nibble-int16(var(--int16), 2), 4) "\A"
+                "nibble 3: " --dd-int16-to-bit-string(--dd-get-nibble-int16(var(--int16), 3)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-get-nibble-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="msb-int16">--dd-msb-int16(<var>--dd-int16</var>)</h3>
+          <p>Returns the 0 based bit index of the most significant bit in a 16 bit integer.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>an integer in range [0, 15]</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/msb-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --int16-a: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              --int16-b: 0;
+              --int16-c: --dd-dcb-to-int16(11, 0010, 1010, 1001);
+              --int16-d: --dd-dcb-to-int16(0000, 0110, 0000);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16-a)) "\A"
+                "msb index: " --dd-to-string(--dd-msb-int16(var(--int16-a))) "\A"
+                "\A"
+                "Binary: " --dd-int16-to-bit-string(var(--int16-b)) "\A"
+                "msb index: " --dd-to-string(--dd-msb-int16(var(--int16-b))) "\A"
+                "\A"
+                "Binary: " --dd-int16-to-bit-string(var(--int16-c)) "\A"
+                "msb index: " --dd-to-string(--dd-msb-int16(var(--int16-c))) "\A"
+                "\A"
+                "Binary: " --dd-int16-to-bit-string(var(--int16-d)) "\A"
+                "msb index: " --dd-to-string(--dd-msb-int16(var(--int16-d))) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-msb-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nand-int16">--dd-nand-int16(<var>--dd-int16-a</var>, <var>--dd-int16-b</var>)</h3>
+          <p>int16 NOT a AND b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16-a</code> A 16 bit integer.</p>
+          <p><code>--dd-int16-b</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer: NOT a AND b</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/nand-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16-a: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              --int16-b: --dd-dcb-to-int16(0100, 1101, 0101, 0110);
+
+              content: "nand\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-nand-int16(
+                    var(--int16-a),
+                    var(--int16-a)
+                  ),
+                  16
+                ) "\A"
+                "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-b),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-nand-int16(
+                    var(--int16-a),
+                    var(--int16-b)
+                  ),
+                  16
+                ) "\A"
+              ;
+              font-family: monospace;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nand-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nor-int16">--dd-nor-int16(<var>--dd-int16-a</var>, <var>--dd-int16-b</var>)</h3>
+          <p>int16 NOT a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16-a</code> A 16 bit integer.</p>
+          <p><code>--dd-int16-b</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer: NOT a OR b</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/nor-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16-a: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              --int16-b: --dd-dcb-to-int16(0100, 1101, 0101, 0110);
+
+              content: "nor\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-nor-int16(
+                    var(--int16-a),
+                    var(--int16-a)
+                  ),
+                  16
+                ) "\A"
+                "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-b),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-nor-int16(
+                    var(--int16-a),
+                    var(--int16-b)
+                  ),
+                  16
+                ) "\A"
+              ;
+              font-family: monospace;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nor-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="not-int16">--dd-not-int16(<var>--dd-int16</var>)</h3>
+          <p>NOT int16</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer inverted</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/not-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+
+              content: "not\A"
+                --dd-int16-to-bit-string(
+                  var(--int16),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-not-int16(
+                    var(--int16)
+                  ),
+                  16
+                ) "\A"
+              ;
+              font-family: monospace;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-not-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="or-int16">--dd-or-int16(<var>--dd-int16-a</var>, <var>--dd-int16-b</var>)</h3>
+          <p>int16 a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16-a</code> A 16 bit integer.</p>
+          <p><code>--dd-int16-b</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer: a OR b</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/or-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16-a: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              --int16-b: --dd-dcb-to-int16(0100, 0000, 0101, 0110);
+
+              content: "or\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-or-int16(
+                    var(--int16-a),
+                    var(--int16-a)
+                  ),
+                  16
+                ) "\A"
+                "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-b),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-or-int16(
+                    var(--int16-a),
+                    var(--int16-b)
+                  ),
+                  16
+                ) "\A"
+              ;
+              font-family: monospace;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-or-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="set-bit-int16">--dd-set-bit-int16(<var>--dd-int16</var>, <var>--dd-which-bit</var>, <var>--dd-to-bit-value</var>)</h3>
+          <p>Sets a specific bit in a 16 bit integer, 0 based index from least significant to most</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-which-bit</code> An integer in range [0, 15].</p>
+          <p><code>--dd-to-bit-value</code> A single bit integer.</p>
+          <h4>Returns</h4>
+          <p>The 16 bit input integer with the corresponding bit set to the specified value.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/set-bit-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "bit 0 to 0: " --dd-int16-to-bit-string(--dd-set-bit-int16(var(--int16), 0, 0)) "\A"
+                "bit 1 to 0: " --dd-int16-to-bit-string(--dd-set-bit-int16(var(--int16), 1, 0)) "\A"
+                "bit 9 to 0: " --dd-int16-to-bit-string(--dd-set-bit-int16(var(--int16), 9, 1)) "\A"
+                "bit 14 to 1: " --dd-int16-to-bit-string(--dd-set-bit-int16(var(--int16), 14, 1)) "\A"
+                "bit 15 to 0: " --dd-int16-to-bit-string(--dd-set-bit-int16(var(--int16), 15, 0)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-set-bit-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p><a href="#get-bit-int16">--dd-get-bit-int16</a></p>
+          <p><a href="#toggle-bit-int16">--dd-toggle-bit-int16</a></p>
+        </article>
+
+        <article>
+          <h3 id="shift-left-int16">--dd-shift-left-int16(<var>--dd-int16</var>, <var>--dd-distance</var>)</h3>
+          <p>Shifts the bits in a 16 bit integer to the left (increase significance) by the specified distance.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-distance</code> An integer in range [0, 15].</p>
+          <h4>Returns</h4>
+          <p>The 16 bit input integer shifted.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/shift-left-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "shift-left 0: " --dd-int16-to-bit-string(--dd-shift-left-int16(var(--int16), 0)) "\A"
+                "shift-left 1: " --dd-int16-to-bit-string(--dd-shift-left-int16(var(--int16), 1)) "\A"
+                "shift-left 6: " --dd-int16-to-bit-string(--dd-shift-left-int16(var(--int16), 6)) "\A"
+                "shift-left 7: " --dd-int16-to-bit-string(--dd-shift-left-int16(var(--int16), 7)) "\A"
+                "shift-left 15: " --dd-int16-to-bit-string(--dd-shift-left-int16(var(--int16), 15)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-shift-left-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p><a href="#shift-right-int16">--dd-shift-right-int16</a></p>
+        </article>
+
+        <article>
+          <h3 id="shift-right-int16">--dd-shift-right-int16(<var>--dd-int16</var>, <var>--dd-distance</var>)</h3>
+          <p>Shifts the bits in a 16 bit integer to the right (decrease significance) by the specified distance.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-distance</code> An integer in range [0, 15].</p>
+          <h4>Returns</h4>
+          <p>The 16 bit input integer shifted.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/shift-right-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "shift-right 0: " --dd-int16-to-bit-string(--dd-shift-right-int16(var(--int16), 0)) "\A"
+                "shift-right 1: " --dd-int16-to-bit-string(--dd-shift-right-int16(var(--int16), 1)) "\A"
+                "shift-right 6: " --dd-int16-to-bit-string(--dd-shift-right-int16(var(--int16), 6)) "\A"
+                "shift-right 7: " --dd-int16-to-bit-string(--dd-shift-right-int16(var(--int16), 7)) "\A"
+                "shift-right 15: " --dd-int16-to-bit-string(--dd-shift-right-int16(var(--int16), 15)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-shift-right-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p><a href="#shift-left-int16">--dd-shift-left-int16</a></p>
+        </article>
+
+        <article>
+          <h3 id="toggle-bit-int16">--dd-toggle-bit-int16(<var>--dd-int16</var>, <var>--dd-which-bit</var>)</h3>
+          <p>Flips a specific bit in a 16 bit integer, 0 based index from least significant to most</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16</code> A 16 bit integer.</p>
+          <p><code>--dd-which-bit</code> An integer in range [0, 15].</p>
+          <h4>Returns</h4>
+          <p>The 16 bit input integer with the corresponding bit flipped.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/toggle-bit-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              content:
+                "Binary: " --dd-int16-to-bit-string(var(--int16)) "\A"
+                "bit 0 toggled: " --dd-int16-to-bit-string(--dd-toggle-bit-int16(var(--int16), 0)) "\A"
+                "bit 1 toggled: " --dd-int16-to-bit-string(--dd-toggle-bit-int16(var(--int16), 1)) "\A"
+                "bit 9 toggled: " --dd-int16-to-bit-string(--dd-toggle-bit-int16(var(--int16), 9)) "\A"
+                "bit 14 toggled: " --dd-int16-to-bit-string(--dd-toggle-bit-int16(var(--int16), 14)) "\A"
+                "bit 15 toggled: " --dd-int16-to-bit-string(--dd-toggle-bit-int16(var(--int16), 15)) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-toggle-bit-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p><a href="#get-bit-int16">--dd-get-bit-int16</a></p>
+          <p><a href="#set-bit-int16">--dd-set-bit-int16</a></p>
+        </article>
+
+        <article>
+          <h3 id="xnor-int16">--dd-xnor-int16(<var>--dd-int16-a</var>, <var>--dd-int16-b</var>)</h3>
+          <p>int16 NOT a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16-a</code> A 16 bit integer.</p>
+          <p><code>--dd-int16-b</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer: NOT a XOR b</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/xnor-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16-a: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              --int16-b: --dd-dcb-to-int16(0100, 0000, 0101, 0110);
+
+              content: "xnor\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-xnor-int16(
+                    var(--int16-a),
+                    var(--int16-a)
+                  ),
+                  16
+                ) "\A"
+                "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-b),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-xnor-int16(
+                    var(--int16-a),
+                    var(--int16-b)
+                  ),
+                  16
+                ) "\A"
+              ;
+              font-family: monospace;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xnor-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xor-int16">--dd-xor-int16(<var>--dd-int16-a</var>, <var>--dd-int16-b</var>)</h3>
+          <p>int16 a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-int16-a</code> A 16 bit integer.</p>
+          <p><code>--dd-int16-b</code> A 16 bit integer.</p>
+          <h4>Returns</h4>
+          <p>a 16 bit integer: a XOR b</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/int16/xor-int16.css");
+
+            @import url("@URL@/functions/cast/dcb-to-int16.css");
+            @import url("@URL@/functions/cast/int16-to-bit-string.css");
+
+            .logic-operation::after {
+              --int16-a: --dd-dcb-to-int16(1011, 0010, 1010, 1001);
+              --int16-b: --dd-dcb-to-int16(0100, 0000, 0101, 0110);
+
+              content: "xor\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-xor-int16(
+                    var(--int16-a),
+                    var(--int16-a)
+                  ),
+                  16
+                ) "\A"
+                "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-a),
+                    16
+                ) "\A"
+                --dd-int16-to-bit-string(
+                  var(--int16-b),
+                    16
+                ) "\A"
+                "----------------\A"
+                --dd-int16-to-bit-string(
+                  --dd-xor-int16(
+                    var(--int16-a),
+                    var(--int16-b)
+                  ),
+                  16
+                ) "\A"
+              ;
+              font-family: monospace;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xor-int16() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="inverted-space-toggle-logic" class="sticker" data-text="Inverted Space Toggle Logic">Inverted Space Toggle Logic</h2>
+        <p>
+          <code>/functions/logic/inverted-space-toggle/index.css</code>
+        </p>
+        <p>Since <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=the%20binary%20permutations.-,Inverted%3F,-The%20standard%20space&text=Inverted%3F&text=Inverted%3F">inverted</a> <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=Inverted%3F-,Space%20Toggle%3F,-CSS%20APIs%3F%20Catch">space toggles</a> represent boolean operators, they can be combined logically just like bits to form complex conditionals.</p>
+
+        <article>
+          <h3 id="and-ist">--dd-and-ist(<var>--dd-ist-a</var>, <var>--dd-ist-b</var>)</h3>
+          <p>Inverted Space Toggle a AND b, a &amp; b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist-a</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <p><code>--dd-ist-b</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if a AND b, else space (&lt;empty&gt;)</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/and-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " and "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-and-ist(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " and "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-and-ist(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " and "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-and-ist(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " and "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-and-ist(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-and-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nand-ist">--dd-nand-ist(<var>--dd-ist-a</var>, <var>--dd-ist-b</var>)</h3>
+          <p>Inverted Space Toggle NOT a AND b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist-a</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <p><code>--dd-ist-b</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if NOT a AND b, else space (&lt;empty&gt;)</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/nand-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " nand "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nand-ist(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " nand "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nand-ist(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nand "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nand-ist(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nand "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nand-ist(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nand-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nor-ist">--dd-nor-ist(<var>--dd-ist-a</var>, <var>--dd-ist-b</var>)</h3>
+          <p>Inverted Space Toggle NOT a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist-a</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <p><code>--dd-ist-b</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if NOT a OR b, else space (&lt;empty&gt;)</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/nor-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " nor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nor-ist(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " nor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nor-ist(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nor-ist(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nor-ist(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nor-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="not-ist">--dd-not-ist(<var>--dd-ist</var>)</h3>
+          <p>Inverted Space Toggle: NOT bit</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if the input was space, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/not-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                " not "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-not-ist(var(--truthy))
+                ) "\A"
+
+                " not "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-not-ist(var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-not-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="or-ist">--dd-or-ist(<var>--dd-ist-a</var>, <var>--dd-ist-b</var>)</h3>
+          <p>Inverted Space Toggle a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist-a</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <p><code>--dd-ist-b</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if a OR b, else space (&lt;empty&gt;)</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/or-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " or "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-or-ist(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " or "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-or-ist(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " or "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-or-ist(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " or "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-or-ist(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-or-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xnor-ist">--dd-xnor-ist(<var>--dd-ist-a</var>, <var>--dd-ist-b</var>)</h3>
+          <p>Inverted Space Toggle NOT a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist-a</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <p><code>--dd-ist-b</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if NOT a XOR b, else space (&lt;empty&gt;)</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/xnor-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " xnor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xnor-ist(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " xnor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xnor-ist(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xnor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xnor-ist(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xnor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xnor-ist(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xnor-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xor-ist">--dd-xor-ist(<var>--dd-ist-a</var>, <var>--dd-ist-b</var>)</h3>
+          <p>Inverted Space Toggle a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-ist-a</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <p><code>--dd-ist-b</code> An Inverted Space Toggle either <code>initial</code> or space (&lt;empty&gt;).</p>
+          <h4>Returns</h4>
+          <p>an Inverted Space Toggle: initial if a XOR b, else space (&lt;empty&gt;)</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/inverted-space-toggle/xor-ist.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: initial;
+              --falsey: ;
+
+              content:
+                "Inverted Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " xor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xor-ist(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " xor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xor-ist(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xor-ist(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xor-ist(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xor-ist() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="space-toggle-logic" class="sticker" data-text="Space Toggle Logic">Space Toggle Logic</h2>
+        <p>
+          <code>/functions/logic/space-toggle/index.css</code>
+        </p>
+        <p>Since <a href="https://dev.to/janeori/css-the-single-coolest-api-technique-you-can-imagine-4ma8#:~:text=Inverted%3F-,Space%20Toggle%3F,-CSS%20APIs%3F%20Catch">space toggles</a> represent boolean operators, they can be combined logically just like bits to <a href="https://propjockey.github.io/bcd7sdd/">form complex conditionals</a>.</p>
+
+        <article>
+          <h3 id="and-st">--dd-and-st(<var>--dd-st-a</var>, <var>--dd-st-b</var>)</h3>
+          <p>Space Toggle a AND b, a &amp; b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st-a</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <p><code>--dd-st-b</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if a AND b, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/and-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " and "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-and-st(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " and "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-and-st(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " and "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-and-st(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " and "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-and-st(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-and-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nand-st">--dd-nand-st(<var>--dd-st-a</var>, <var>--dd-st-b</var>)</h3>
+          <p>Space Toggle NOT a AND b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st-a</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <p><code>--dd-st-b</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if NOT a AND b, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/nand-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " nand "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nand-st(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " nand "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nand-st(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nand "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nand-st(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nand "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nand-st(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nand-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="nor-st">--dd-nor-st(<var>--dd-st-a</var>, <var>--dd-st-b</var>)</h3>
+          <p>Space Toggle NOT a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st-a</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <p><code>--dd-st-b</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if NOT a OR b, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/nor-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " nor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nor-st(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " nor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nor-st(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-nor-st(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " nor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-nor-st(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-nor-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="not-st">--dd-not-st(<var>--dd-st</var>)</h3>
+          <p>Space Toggle: NOT bit</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if the input was initial, else space</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/not-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                " not "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-not-st(var(--truthy))
+                ) "\A"
+
+                " not "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-not-st(var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-not-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="or-st">--dd-or-st(<var>--dd-st-a</var>, <var>--dd-st-b</var>)</h3>
+          <p>Space Toggle a OR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st-a</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <p><code>--dd-st-b</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if a OR b, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/or-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " or "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-or-st(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " or "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-or-st(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " or "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-or-st(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " or "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-or-st(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-or-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xnor-st">--dd-xnor-st(<var>--dd-st-a</var>, <var>--dd-st-b</var>)</h3>
+          <p>Space Toggle NOT a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st-a</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <p><code>--dd-st-b</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if NOT a XOR b, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/xnor-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " xnor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xnor-st(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " xnor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xnor-st(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xnor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xnor-st(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xnor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xnor-st(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xnor-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+
+        <article>
+          <h3 id="xor-st">--dd-xor-st(<var>--dd-st-a</var>, <var>--dd-st-b</var>)</h3>
+          <p>Space Toggle a XOR b</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-st-a</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <p><code>--dd-st-b</code> A Space Toggle either space (&lt;empty&gt;) or <code>initial</code>.</p>
+          <h4>Returns</h4>
+          <p>A Space Toggle: space (&lt;empty&gt;) if a XOR b, else initial</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/logic/space-toggle/xor-st.css");
+
+            @import url("@URL@/functions/cast/to-string.css");
+
+            .logic-operation::after {
+              --truthy: ;
+              --falsey: initial;
+
+              content:
+                "Space Toggle logic \A"
+                --dd-to-string(var(--truthy)) " xor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xor-st(var(--truthy), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--truthy)) " xor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xor-st(var(--truthy), var(--falsey))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xor "
+                --dd-to-string(var(--truthy)) " = "
+                --dd-to-string(
+                  --dd-xor-st(var(--falsey), var(--truthy))
+                ) "\A"
+
+                --dd-to-string(var(--falsey)) " xor "
+                --dd-to-string(var(--falsey)) " = "
+                --dd-to-string(
+                  --dd-xor-st(var(--falsey), var(--falsey))
+                )
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-xor-st() function | @propjockey/doubledash.css demo`, `
+              <div class="logic-operation"></div>
+            `);
+          </script>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="iteration" class="sticker" data-text="Iteration">Iteration</h2>
+        <p>
+          <code>/functions/repeat/index.css</code>
+        </p>
+        <p>There are <a href="https://github.com/w3c/csswg-drafts/issues/13862">many use cases</a> for repeating values in CSS, the functions here begin to enable this directly in CSS. Byond practical, iteration is also excellent for mathematical artwork by creators like Ana Tudor. Because <a href="https://codepen.io/thebabydino/pen/kOzaYp?editors=0100">her beautiful work may require n<sup>2</sup> loops and setting multiple values during a loop</a>, not all variations on iteration are currently practical to achieve yet (but soon will be!) in CSS. However, <a href="https://codepen.io/propjockey/pen/ZYBQzzO?editors=0100">SOME for-loop-based artwork</a> can be done in 100% CSS now.</p>
+
+        <article>
+          <h3 id="loop">--dd-loop(<var>--dd-x-start</var>, <var>--dd-comparitor</var>, <var>--dd-x-end</var>, <var>--dd-calc-partial-iter</var>, <var>--dd-use-loop</var>[, <var>--dd-joiner</var>])</h3>
+          <p>Basic for loops in 100% CSS. The maximum iteration count is 1024.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-x-start</code> a &lt;number&gt; the intial value of the loop controller, typically 0 or 1.</p>
+          <p><code>--dd-comparitor</code> an identifier, one of: lt|gt|lte|gte|eq|neq.</p>
+          <p><code>--dd-x-end</code> a &lt;number&gt; the value to compare the current x against to determine if the loop continues each iteration.</p>
+          <p><code>--dd-calc-partial-iter</code> A calc partial in the shape of <code>x = x <var>(partial here)</var></code>, typically set to <code>+ 1</code>.</p>
+          <p><code>--dd-use-loop</code> any one of the 64 available loop identifiers from <code>--dd-loop-id-0</code> to <code>--dd-loop-id-63</code>.</p>
+          <p><code>--dd-joiner</code> Anything. Optional output between iterations. Keyword `none` to skip/ignore the parameter and not use a joiner, keyword `comma` to join iterations with a comma.</p>
+          <p><code>--dd-arg1</code> through <code>--dd-arg16</code> anything, optional, contextual parameters to pass into your loop body.</p>
+          <h4>Returns</h4>
+          <p>The final result of running the identified loop.</p>
+          <h4>Example</h4>
+          <p>Optionally alias your loops:</p>
+          <code class="code-block">
+            :root {
+              --my-first-css-loop:       --dd-loop-id-0;
+              --my-other-loop-alias:     --dd-loop-id-1;
+              --propjockey-ftw:          --dd-loop-id-2;
+              --give-jane-ori-abundance: --dd-loop-id-3;
+            }
+          </code>
+          <p>Override any of the built in loop-id functions (don't alias here):</p>
+          <code class="code-block">
+            @function --dd-loop-id-0() {
+              result: "--dd-i: " --dd-number-to-string(var(--dd-i))
+                "\A --dd-x: " --dd-number-to-string(var(--dd-x), 2)
+                "\A --dd-x-start: " --dd-number-to-string(var(--dd-x-start), 2)
+                "\A --dd-x-end: " --dd-number-to-string(var(--dd-x-end), 2)
+                "\A --dd-arg1: " --dd-to-string(var(--dd-arg1))
+                "\A --dd-arg2: " --dd-to-string(var(--dd-arg2))
+                "\A --dd-arg3: " --dd-to-string(var(--dd-arg3))
+                "\A --dd-arg4: " --dd-to-string(var(--dd-arg4))
+                "\A\A"
+              ;
+            }
+
+            @function --dd-loop-id-3() {
+              result: calc(var(--dd-i) + var(--dd-x)) calc(-1 * var(--dd-i) - var(--dd-x));
+            }
+          </code>
+          <p>Your loop function body has access to the variables shown in the examples:</p>
+          <p><code>--dd-i</code> is the current integer iteration index, starting from 0. The maximum value is 1023 (1024 iterations)</p>
+          <p><code>--dd-x-start</code> is the initial loop controller value, typically set to 0 or 1.</p>
+          <p><code>--dd-x</code> is the current iteration's cumulative loop controller value.</p>
+          <p>(if you did `x = x + 2` in a for loop starting from 0, it would be i:x 0:0, 1:2, 2:4, 3:6...)</p>
+          <p><code>--dd-x-end</code> is the ending sentinel value for your loop controller that a condition is checked against, typically the condition is "lt" meaning "continue if --dd-x is less than this end value."</p>
+          <p><code>--dd-arg1</code> (through <code>--dd-arg16</code>) the contextual arguments optionally passed into <code>--dd-loop()</code>.</p>
+
+          <h5 id="loop-execution">Executing your loop</h5>
+          <p>To run your loop in various contexts, call `--dd-loop()` in a property value.</p>
+          <p>The loop is short-circuited and does not compute anything beyond where it ends.</p>
+          <code class="code-block">
+            @import url("@URL@/functions/repeat/loop.css");
+
+            body::after {
+              white-space: pre;
+              content: --dd-loop(0, lt, 10, + 1, var(--my-first-css-loop));
+              /* the same as this if you don't want to use a var() alias */
+              content: --dd-loop(0, lt, 10, + 1, --dd-loop-id-0);
+            }
+          </code>
+          <p>You would read these as: loop while `0` is <strong>less than</strong> `10` and <strong>add one</strong> each time after executing the loop function body aliased by <code>var(--my-first-css-loop)</code>.</p>
+          <p>Similar to the <code>for (let x = 0; x < 10, x = x + 1) {...}</code> loop in js.</p>
+          <a
+            target="_blank"
+            aria-label="View this example live on CodePen"
+            href="https://codepen.io/propjockey/pen/RNoWBBK"
+            class="codepen-button"
+            style="text-decoration: none; margin-bottom: var(--bpu-16px);"
+          >CodePen ↗</a>
+          <p>And another example, Ana Tudor's artwork, forked and converted to 100% CSS:</p>
+          <a
+            target="_blank"
+            aria-label="View this example live on CodePen"
+            href="https://codepen.io/propjockey/pen/ZYBQzzO?editors=0100"
+            class="codepen-button"
+            style="text-decoration: none;"
+          >CodePen ↗</a>
+        </article>
+
+        <article>
+          <h3 id="loop">--dd-repeat(<var>--dd-count</var> [, <var>--dd-joiner</var>], <var>--dd-any</var>)</h3>
+          <p>Basic repetition of a value in 100% CSS. The maximum iteration count is 255. Great for *-shadow properties, parallel array properties like background and animation long hands, etc.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-count</code> a &lt;integer&gt; the number of times to repeat the value.</p>
+          <p><code>--dd-joiner</code> Anything. Optional output between iterations. Keyword `none` to skip manually (or the entire parameter can be omitted to skip automatically), use keyword `comma` to join iterations with a comma.</p>
+          <p><code>--dd-any</code> anything, the value to repeat.</p>
+          <h4>Returns</h4>
+          <p>The `any` value repeated `count` times, optionally joined between iterations with `joiner`.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/repeat/repeat.css");
+
+            body::before {
+              --star-family: --dd-repeat(3, "👽");
+              content: var(--star-family);
+            }
+
+            body::after {
+              --star-family: --dd-repeat(3, " ", "👽");
+              content: var(--star-family);
+
+              text-shadow: --dd-repeat(4, comma, 0px 0px 2px black);
+            }
+          </code>
+          <script>
+            postToCodepenButton(`CSS --dd-repeat() function | @propjockey/doubledash.css demo`, ``);
+          </script>
+        </article>
+      </section>
+
+      <section>
+        <h2 id="other" class="sticker" data-text="Other Functions">Other Functions</h2>
+        <p>
+          <code>/functions/other/index.css</code>
+        </p>
+        <article>
+          <h3 id="compute">--dd-compute(<var>--dd-any</var>)</h3>
+          <p>Cast a anything to its corresponding type, which often computes the value.</p>
+          <p>There are caveats everywhere in CSS, among them, typed vs untyped var values can behave differently <a href="https://css-tip.com/if-trick/">like with if style</a> and in large calc()s.</p>
+          <p>This is an alias of casting <a href="#to-typed">--dd-to-typed()</a></p>
+          <h4>Arguments</h4>
+          <p><code>--dd-any</code> Any value.</p>
+          <h4>Returns</h4>
+          <p>Returns the same value, typed specifically if it can be, which often causes it to compute.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/other/compute.css");
+
+            .untyped {
+              --color: red;
+              --number: calc(200 / 7);
+              --integer: calc(100 / 25);
+              --length-percentage-csv: calc(10vw + 10px), calc(10% * 1.25);
+            }
+            .typed {
+              --color: --dd-compute(red);
+              --number: --dd-compute(calc(200 / 7));
+              --integer: --dd-compute(calc(100 / 25));
+              --length-percentage-csv: --dd-compute({calc(10vw + 10px), calc(10% * 1.25)});
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-compute() function | @propjockey/doubledash.css demo`, `
+              Right-click these, inspect, "elements" -> "computed" tab, filter to vars by searching "--", make sure "show all" is checked:<br />
+              <div class="untyped">Untyped</div>
+              <div class="typed">Typed</div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p><a href="#type-of">--dd-type-of</a></p>
+          <p><a href="#to-typed">--dd-to-typed</a></p>
+        </article>
+
+        <article>
+          <h3 id="is-int">--dd-is-int(<var>--dd-any</var>)</h3>
+          <p>Test if a value is an integer.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-any</code> Any value to test.</p>
+          <h4>Returns</h4>
+          <p>a bit: 1 if the input was an integer, else 0</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/other/is-int.css");
+
+            .other-is-int::after {
+              counter-reset: isBeautifulStarFriendInt --dd-is-int(👽)
+                isStringInt --dd-is-int("PropJockey")
+                isNumberInt --dd-is-int(0.999)
+                isIntInt --dd-is-int(calc(1000 * 0.999))
+              ;
+
+              content:
+                "isBeautifulStarFriendInt: " counter(isBeautifulStarFriendInt) "\A"
+                "isStringInt: " counter(isStringInt) "\A"
+                "isNumberInt: " counter(isNumberInt) "\A"
+                "isIntInt: " counter(isIntInt)
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-is-int() function | @propjockey/doubledash.css demo`, `
+              <div class="other-is-int"></div>
+            `);
+          </script>
+        </article>
+        
+        <article>
+          <h3 id="type-of">--dd-type-of(<var>--dd-any</var>)</h3>
+          <p>Check the type of anything.</p>
+          <h4>Arguments</h4>
+          <p><code>--dd-any</code> Any value.</p>
+          <h4>Returns</h4>
+          <p>Returns a string indicating the type. While not technically correct, because it's more useful, it returns "&lt;initial&gt;" for IACVT values.</p>
+          <h4>Example</h4>
+          <code class="code-block">
+            @import url("@URL@/functions/other/type-of.css");
+
+            .type-of::after {
+              --color: --dd-type-of(red);
+              --id: --dd-type-of(rebeccablack);
+              --number: --dd-type-of(calc(200 / 7));
+              --integer: --dd-type-of(calc(100 / 25));
+              --length-percentage-csv: --dd-type-of({calc(10vw + 10px), calc(10% * 1.25)});
+              --length-percentage-ssv: --dd-type-of({calc(10vw + 10px) calc(10% * 1.25)});
+              --initial: --dd-type-of();
+              --space: --dd-type-of(var(--_--, ));
+              --transform-list: --dd-type-of({
+                rotate(10deg) rotate(10deg)
+              });
+              --transform-csv: --dd-type-of({
+                rotate(10deg), rotate(10deg)
+              });
+
+              content: "\A"
+                var(--color) "\A"
+                var(--id) "\A"
+                var(--number) "\A"
+                var(--integer) "\A"
+                var(--length-percentage-csv) "\A"
+                var(--length-percentage-ssv) "\A"
+                var(--initial) "\A"
+                var(--space) "\A"
+                var(--transform-list) "\A"
+                var(--transform-csv) "\A"
+              ;
+              white-space: pre;
+            }
+          </code>
+          <script>
+            postToCodepenButton(
+              `CSS --dd-type-of() function | @propjockey/doubledash.css demo`, `
+              <div class="type-of">Type of</div>
+            `);
+          </script>
+          <h4>Related Functions</h4>
+          <p>
+            <a href="#to-typed">--dd-to-typed</a>
+          </p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <h2 id="open-contact" style="text-align: left;">Open Contact 👽</h2>
+    <p style="text-align: left;">Please do reach out if you need help with any of this, have feature requests, or want to share what you've created!</p>
+    <div class="scroll-table">
+      <table class="social-table">
+        <thead>
+          <tr>
+            <th style="text-align:center">PropJockey</th>
+            <th style="text-align:center">CodePen</th>
+            <th style="text-align:center">DEV Blog</th>
+            <th style="text-align:center">GitHub</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center">
+              <a href="https://propjockey.io"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/propjockey-lines.svg" alt="PropJockey.io"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://codepen.io/propjockey"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/codepen.svg" alt="CodePen"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://dev.to/janeori"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/dev.svg" alt="DEV Blog"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://github.com/propjockey"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/github.svg" alt="GitHub"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll-table">
+      <table class="social-table">
+        <thead>
+          <tr>
+            <th style="text-align:center">Mastodon</th>
+            <th style="text-align:center">LinkedIn</th>
+            <th style="text-align:center">X</th>
+            <th style="text-align:center">Bluesky</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center">
+              <a href="https://front-end.social/@JaneOri"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/mastodon.svg" alt="Mastodon"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://www.linkedin.com/in/janeori/"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/linkedin.svg" alt="LinkedIn"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://x.com/jane0ri"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/x.svg" alt="X"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://bsky.app/profile/janeori.propjockey.io"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/external-social/100px/color-responsive/bluesky.svg" alt="Bluesky"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 id="receiving-abundance">
+      My heart is open to receive abundance in all forms,<br>flowing to me in many expected and unexpected ways.
+    </h3>
+    <div class="scroll-table">
+      <table class="abundance-table">
+        <thead>
+          <tr>
+            <th style="text-align:center">PayPal</th>
+            <th style="text-align:center">Ko-fi</th>
+            <th style="text-align:center">Venmo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center">
+              <a href="https://www.paypal.com/donate/?cmd=_s-xclick&amp;hosted_button_id=9Z925L3SJJ8BS&amp;source=qr&amp;ssrt=1772865628068"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/QR-Codes/svg/200px/paypal.svg" alt="PayPal"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://ko-fi.com/janeori"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/QR-Codes/svg/200px/ko-fi.svg" alt="Ko-fi"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://account.venmo.com/u/JaneOri"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/QR-Codes/svg/200px/venmo.svg" alt="Venmo"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll-table">
+      <table class="abundance-table">
+        <thead>
+          <tr>
+            <th style="text-align:center">BTC</th>
+            <th style="text-align:center">XRP</th>
+            <th style="text-align:center">ETH</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center">
+              <a href="https://app.ens.domains/janeori.eth"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/QR-Codes/svg/200px/btc.svg" alt="BTC bc1qe2ss8hvmskcxpmk046msrjpmy9qults2yusgn9"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://bithomp.com/en/account/X7zmKiqEhMznSXgj9cirEnD5sWo3iZPqbNPChdEKV9sM9WF"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/QR-Codes/svg/200px/xrp.svg" alt="XRP rw2ciyaNshpHe7bCHo4bRWq6pqqynnWKQg : 459777128"></a>
+            </td>
+            <td style="text-align:center">
+              <a href="https://app.ens.domains/janeori.eth"><img src="https://raw.githubusercontent.com/propjockey/propjockey-brand/main/QR-Codes/svg/200px/eth.svg" alt="ETH 0x674D4191dEBf9793e743D21a4B8c4cf1cC3beF54"></a>
+            </td>
+          </tr>
+          <tr style="font-size: var(--bpu-xs);">
+            <td style="text-align:center">bc1qe...usgn9</td>
+            <td style="text-align:center">rw2ci...nWKQg
+              <br>: 459777128</td>
+            <td style="text-align:center">0x674...beF54</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <form style="display: none;" name="codepenform" method="post" action="https://codepen.io/pen/define/" target="_blank">
+      <input type="hidden" name="data" value="">
+    </form>
+    <p class="copyright">&copy; 2026 Jane Ori, PropJockey. All rights reserved.</p>
+  </footer>
+</body>
+</html>

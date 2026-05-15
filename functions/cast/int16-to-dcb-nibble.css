@@ -7,5 +7,5 @@
 @import url("../logic/int16/bitwise.css");
 
 @function --dd-int16-to-dcb-nibble(--dd-int16 <integer>, --dd-which-nibble <integer>: 0) {
-  result: --dd-bitwise(var(--dd-int16), nibble, var(--dd-which-nibble), 10);
+  result: --dd-bitwise(var(--dd-int16), get-nibble, var(--dd-which-nibble), 10);
 }

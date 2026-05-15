@@ -7,5 +7,6 @@
 @import url("./not-ist.css");
 
 @function --dd-nor-ist(--dd-ist-a, --dd-ist-b) {
-  result: --dd-not-ist(var(--dd-ist-a) var(--dd-ist-b));
+  --_dd-avoid-bug: var(--dd-ist-a) var(--dd-ist-b);
+  result: --dd-not-ist(var(--_dd-avoid-bug));
 }

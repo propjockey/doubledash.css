@@ -6,11 +6,9 @@
 
 @import url("./is-int.css");
 
-/* Reports <initial> for initial because it's
-// more useful than being technically correct
-*/
-@function --dd-type-of(
+@function --dd-to-typed(
   --dd-any,
+  --dd-tight: false,
   --_dd-number <number>: -1,
   --_dd-string <string>: "0",
   --_dd-color <color>: red,
@@ -53,7 +51,10 @@
   --_dd-percentage-ssv <percentage>+: -1%,
   --_dd-length-percentage-ssv <length-percentage>+: calc(-1px - 1%),
   --_dd-image-ssv <image>+: linear-gradient(red 0% 100%),
-  --_dd-url-ssv <url>+: url("./")
+  --_dd-url-ssv <url>+: url("./"),
+  
+  --_dd-use-number <number>: -1,
+  --_dd-use-integer <integer>: -1
 ) {
   --_dd-number: calc(var(--dd-any) - var(--dd-any));
   --_dd-string: var(--dd-any);
@@ -69,10 +70,9 @@
   --_dd-resolution: var(--dd-any);
   --_dd-transform-function: var(--dd-any);
   --_dd-transform-list: var(--dd-any);
-
-  --_dd-space-toggle-empty: var(--dd-any) 1;
-  --_dd-space-toggle-initial1: var(--dd-any, 1);
-  --_dd-space-toggle-initial2: var(--dd-any, 2);
+  
+  --_dd-use-number: var(--dd-any);
+  --_dd-use-integer: var(--dd-any);
 
   --_dd-number-csv: var(--dd-any);
   --_dd-string-csv: var(--dd-any);
@@ -102,53 +102,48 @@
   --_dd-url-ssv: var(--dd-any);
 
   result: if(
-    style(--dd-is-int(var(--dd-any)) = 1): "<integer>";
-    style(--_dd-number: 0): "<number>";
-    not style(var(--_dd-string, 1) = 1): "<string>";
-    not style(var(--_dd-color, 1) = 1): "<color>";
-    not style(var(--_dd-identifier, 1) = 1): "<custom-ident>";
-    not style(var(--_dd-angle, 1) = 1): "<angle>";
-    not style(var(--_dd-time, 1) = 1): "<time>";
-    not style(var(--_dd-resolution, 1) = 1): "<resolution>";
-    not style(var(--_dd-length, 1) = 1): "<length>";
-    not style(var(--_dd-percentage, 1) = 1): "<percentage>";
-    not style(var(--_dd-length-percentage, 1) = 1): "<length-percentage>";
-    not style(var(--_dd-url, 1) = 1): "<url>";
-    not style(var(--_dd-image, 1) = 1): "<image>";
-    not style(var(--_dd-transform-function, 1) = 1): "<transform-function>";
-    not style(var(--_dd-transform-list, 1) = 1): "<transform-list>";
+    style(--dd-is-int(var(--dd-any)) = 1): var(--_dd-use-integer);
+    style(--_dd-number: 0): var(--_dd-use-number);
+    not style(var(--_dd-string, 1) = 1): var(--_dd-string);
+    not style(var(--_dd-color, 1) = 1): var(--_dd-color);
+    not style(var(--_dd-identifier, 1) = 1): var(--_dd-identifier);
+    not style(var(--_dd-angle, 1) = 1): var(--_dd-angle);
+    not style(var(--_dd-time, 1) = 1): var(--_dd-time);
+    not style(var(--_dd-resolution, 1) = 1): var(--_dd-resolution);
+    not style(var(--_dd-length, 1) = 1): var(--_dd-length);
+    not style(var(--_dd-percentage, 1) = 1): var(--_dd-percentage);
+    not style(var(--_dd-length-percentage, 1) = 1): var(--_dd-length-percentage);
+    not style(var(--_dd-url, 1) = 1): var(--_dd-url);
+    not style(var(--_dd-image, 1) = 1): var(--_dd-image);
+    not style(var(--_dd-transform-function, 1) = 1): var(--_dd-transform-function);
+    not style(var(--_dd-transform-list, 1) = 1): var(--_dd-transform-list);
 
-    style(--_dd-space-toggle-empty: 1): "<empty>";
-    (style(--_dd-space-toggle-initial1 = 1) and
-      style(--_dd-space-toggle-initial2 = 2)
-    ): "<initial>";
+    not style(var(--_dd-number-csv, 1) = 1): var(--_dd-number-csv);
+    not style(var(--_dd-string-csv, 1) = 1): var(--_dd-string-csv);
+    not style(var(--_dd-color-csv, 1) = 1): var(--_dd-color-csv);
+    not style(var(--_dd-identifier-csv, 1) = 1): var(--_dd-identifier-csv);
+    not style(var(--_dd-angle-csv, 1) = 1): var(--_dd-angle-csv);
+    not style(var(--_dd-time-csv, 1) = 1): var(--_dd-time-csv);
+    not style(var(--_dd-resolution-csv, 1) = 1): var(--_dd-resolution-csv);
+    not style(var(--_dd-length-csv, 1) = 1): var(--_dd-length-csv);
+    not style(var(--_dd-percentage-csv, 1) = 1): var(--_dd-percentage-csv);
+    not style(var(--_dd-length-percentage-csv, 1) = 1): var(--_dd-length-percentage-csv);
+    not style(var(--_dd-url-csv, 1) = 1): var(--_dd-url-csv);
+    not style(var(--_dd-image-csv, 1) = 1): var(--_dd-image-csv);
+    not style(var(--_dd-transform-function-csv, 1) = 1): var(--_dd-transform-function-csv);
 
-    not style(var(--_dd-number-csv, 1) = 1): "<number>#";
-    not style(var(--_dd-string-csv, 1) = 1): "<string>#";
-    not style(var(--_dd-color-csv, 1) = 1): "<color>#";
-    not style(var(--_dd-identifier-csv, 1) = 1): "<custom-ident>#";
-    not style(var(--_dd-angle-csv, 1) = 1): "<angle>#";
-    not style(var(--_dd-time-csv, 1) = 1): "<time>#";
-    not style(var(--_dd-resolution-csv, 1) = 1): "<resolution>#";
-    not style(var(--_dd-length-csv, 1) = 1): "<length>#";
-    not style(var(--_dd-percentage-csv, 1) = 1): "<percentage>#";
-    not style(var(--_dd-length-percentage-csv, 1) = 1): "<length-percentage>#";
-    not style(var(--_dd-url-csv, 1) = 1): "<url>#";
-    not style(var(--_dd-image-csv, 1) = 1): "<image>#";
-    not style(var(--_dd-transform-function-csv, 1) = 1): "<transform-function>#";
-
-    not style(var(--_dd-number-ssv, 1) = 1): "<number>+";
-    not style(var(--_dd-string-ssv, 1) = 1): "<string>+";
-    not style(var(--_dd-color-ssv, 1) = 1): "<color>+";
-    not style(var(--_dd-identifier-ssv, 1) = 1): "<custom-ident>+";
-    not style(var(--_dd-angle-ssv, 1) = 1): "<angle>+";
-    not style(var(--_dd-time-ssv, 1) = 1): "<time>+";
-    not style(var(--_dd-resolution-ssv, 1) = 1): "<resolution>+";
-    not style(var(--_dd-length-ssv, 1) = 1): "<length>+";
-    not style(var(--_dd-percentage-ssv, 1) = 1): "<percentage>+";
-    not style(var(--_dd-length-percentage-ssv, 1) = 1): "<length-percentage>+";
-    not style(var(--_dd-url-ssv, 1) = 1): "<url>+";
-    not style(var(--_dd-image-ssv, 1) = 1): "<image>+";
-    else: "*";
+    not style(var(--_dd-number-ssv, 1) = 1): var(--_dd-number-ssv);
+    not style(var(--_dd-string-ssv, 1) = 1): var(--_dd-string-ssv);
+    not style(var(--_dd-color-ssv, 1) = 1): var(--_dd-color-ssv);
+    not style(var(--_dd-identifier-ssv, 1) = 1): var(--_dd-identifier-ssv);
+    not style(var(--_dd-angle-ssv, 1) = 1): var(--_dd-angle-ssv);
+    not style(var(--_dd-time-ssv, 1) = 1): var(--_dd-time-ssv);
+    not style(var(--_dd-resolution-ssv, 1) = 1): var(--_dd-resolution-ssv);
+    not style(var(--_dd-length-ssv, 1) = 1): var(--_dd-length-ssv);
+    not style(var(--_dd-percentage-ssv, 1) = 1): var(--_dd-percentage-ssv);
+    not style(var(--_dd-length-percentage-ssv, 1) = 1): var(--_dd-length-percentage-ssv);
+    not style(var(--_dd-url-ssv, 1) = 1): var(--_dd-url-ssv);
+    not style(var(--_dd-image-ssv, 1) = 1): var(--_dd-image-ssv);
+    else: var(--dd-any);
   );
 }

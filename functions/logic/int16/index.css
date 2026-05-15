@@ -12,11 +12,11 @@
 @import url("./or-int16.css");
 @import url("./xnor-int16.css");
 @import url("./xor-int16.css");
-@import url("./get-int16.css");
-@import url("./set-int16.css");
-@import url("./toggle-int16.css");
+@import url("./get-bit-int16.css");
+@import url("./set-bit-int16.css");
+@import url("./toggle-bit-int16.css");
 @import url("./msb-int16.css");
 @import url("./shift-left-int16.css");
 @import url("./shift-right-int16.css");
-@import url("./byte-int16.css");
-@import url("./nibble-int16.css");
+@import url("./get-byte-int16.css");
+@import url("./get-nibble-int16.css");

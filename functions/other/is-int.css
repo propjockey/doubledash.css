@@ -4,6 +4,8 @@
 // Copyright © 2026 Jane Ori, PropJockey
 */
 
+@import url("../compare/eq.css");
+
 @function --dd-is-int(
   --dd-any,
   --_dd-number <number>: -1.5,

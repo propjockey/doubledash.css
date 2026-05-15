@@ -6,6 +6,8 @@ NPM: https://www.npmjs.com/package/@propjockey/doubledash.css
 
 GitHub: https://github.com/propjockey/doubledash.css
 
+Website / Docs: https://propjockey.github.io/doubledash.css/
+
 Install:
 `$ npm install @propjockey/doubledash.css`
 Then import the `/node_modules/@propjockey/doubledash.css/doubledash.css` file into your project.
@@ -14,7 +16,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.2.2/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.3.0/doubledash.css">
 ```
 
 OR
@@ -22,226 +24,12 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.2.2/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.3.0/functions/repeat/index.css");
 ```
 
-## Functions
+[![Visit the website!](https://propjockey.github.io/doubledash.css/assets/social.png)](https://propjockey.github.io/doubledash.css/)
 
-### Compare
-
-* /functions/compare/*
-  * cmp.css --dd-cmp(--left, --right)
-  * eq.css --dd-eq(--left, --right)
-  * neq.css --dd-neq(--left, --right)
-  * gt.css --dd-gt(--left, --right)
-  * gte.css --dd-gte(--left, --right)
-  * lt.css --dd-lt(--left, --right)
-  * lte.css --dd-lte(--left, --right)
-
-These all take --left and --right which must be the same type:
-`<length>|<number>`
-
-cmp returns an integer, -1, 0, or 1 for less than, equal to, and greater than, respectively
-
-the rest return a boolean bit flag 0 or 1
-"is left gte right?"
-
-```css
-opacity: --dd-gte(50cqw, 20rem);
-```
-
-### --dd-repeat(--n, --x)
-
-`./functions/repeat/repeat.css`
-
-`--n` is an integer greater than 0, less than 256
-
-`--x` is anything
-
-Outputs --x repeated --n times.
-
-```css
---star-family: --dd-repeat(3, 👽);
-/* 👽 👽 👽 */
-```
-
-### --dd-repeat-join(--n, --join, --x)
-
-`./functions/repeat/repeat-join.css`
-
-`--n` is an integer greater than 0, less than 256
-
-`--join` is a separator
-
-`--x` is anything
-
-Outputs --x repeated --n times, each separated by --join
-
-```css
-text-shadow: --dd-repeat-join(4, {, }, 0px 0px 2px black);
-/* 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black */
-```
-
-### Iterative Looping (like for loops in JS)
-
-`./functions/repeat/loop.css`
-
-The maximum iteration count is 1024.
-
-You can register up to 64 individual loops for use in any property contexts.
-(functions are global so make sure not to overwrite any of your definitions)
-
-They must be named `--dd-loop-id-0`, `--dd-loop-id-1`, etc up to index `63`.
-
-You can alias them globally for easier use later:
-
-```css
-:root {
-  --my-first-css-loop:       --dd-loop-id-0;
-  --my-other-loop-alias:     --dd-loop-id-1;
-  --propjockey-ftw:          --dd-loop-id-2;
-  --give-jane-ori-abundance: --dd-loop-id-3;
-}
-```
-
-Define their output functions like so:
-
-```css
-@function --dd-loop-id-0() {
-  result: "--dd-i: " --dd-number-to-string(var(--dd-i))
-    "\A --dd-x: " --dd-number-to-string(var(--dd-x), 2)
-    "\A --dd-x-start: " --dd-number-to-string(var(--dd-x-start), 2)
-    "\A --dd-x-end: " --dd-number-to-string(var(--dd-x-end), 2)
-    "\A --dd-arg1: " --dd-to-string(var(--dd-arg1))
-    "\A --dd-arg2: " --dd-to-string(var(--dd-arg2))
-    "\A --dd-arg3: " --dd-to-string(var(--dd-arg3))
-    "\A --dd-arg4: " --dd-to-string(var(--dd-arg4))
-    "\A\A"
-  ;
-}
-
-@function --dd-loop-id-3() {
-  result: calc(var(--dd-i) + var(--dd-x)) calc(-1 * var(--dd-i) - var(--dd-x));
-}
-```
-
-Your loop function body has access to the variables shown in the example.
-
-`--dd-i` is the current integer iteration index, starting from 0. The maximum value is 1023 (1024 iterations)
-
-`--dd-x-start` is the initial loop controller value, typically set to 0 or 1
-
-`--dd-x` is the current iteration's cumulative loop controller value
-(if you did `x = x + 2` in a for loop starting from 0, it would be i:x 0:0, 1:2, 2:4, 3:6...)
-
-`--dd-x-end` is the ending sentinel value for your loop controller that a condition is checked against, typically the condition is "lt" meaning continue if --dd-x is less than this end value.
-
-#### Executing your loop
-
-To run your loop in various contexts, call `--dd-loop()` in a property value.
-
-The loop is short-circuited and does not compute anything beyond where it ends.
-
-```css
-body::after {
-  white-space: pre;
-  content: --dd-loop(0, lt, 10, + 1, var(--my-first-css-loop));
-  /* the same as this if you don't want to use a var() alias */
-  content: --dd-loop(0, lt, 10, + 1, --dd-loop-id-0);
-}
-```
-
-The required parameters in order are:
-
-1. `--dd-x-start` a number value to begin with
-   * you can cast lengths and other dimensions to a number using the cast functions if needed
-
-2. `--dd-condition`
-   * One of the following identifiers:
-     * eq | gt | gte | lt | lte | neq
-   * Before an iteration executes, it calculates the next would-be --dd-x and compares it to the --dd-x-end value, which is the next parameter.
-
-3. `--dd-x-end` a number value to compare --dd-x to in order to determine if the loop should continue.
-
-4. `--dd-calc-partial` This is the formula applied to your initial x, then to the current x each iteration. You can provide `+ 1` to increase --dd-x by one each time. You can also multiply or divide initially then add or subtract from that result by providing a calc partial such as `* 2 - 1`. Other loop controller variations are not supported yet.
-
-5. `--dd-use-loop` - an identifier you provide that connects to the loop body function you intend to execute in this context. This is the value checked against in the `--dd-global-loops` function you overwrote to register your loops.
-
-This is how you read these required parameters:
-
-`--dd-loop(0, lt, 10, + 1, var(--my-first-css-loop));`
-loop while `0` is **less than** `10` and **add one** each time after executing the loop body aliased by `var(--my-first-css-loop)`.
-
-Not dissimilar to the `for (let x = 0; x < 10, x = x + 1) {...}` loop in js.
-
-The remaining parameters are optional. In order, they are:
-
-6. `--dd-joiner` - a value to output in between iterations.
-   * It does not output before the first iteration nor after the last.
-   * set it to the identifier `none` to not produce anything between iterations.
-   * set it to a comma with the do-not-spread `{ , }` syntax if you want your output to be joined by commas:
-     * `--dd-loop(0, + 1, lt, 10, var(--my-first-css-loop), { , });`
-
-7. `--dd-arg1` - any value you wish to pass into this context
-   * It can be a color if you want to use this loop in multiple places with different colors.
-   * It can be a number if you want to modify your loop in each context you use it in.
-   * etc
-
-8. The remaining optional parameters are
-   * `--dd-arg2`, through `--dd-arg16`
-   * The same as `--dd-arg1`, can be anything or nothing.
-
-> [!NOTE]
-> We can't pass them as actual args because the spec is overly strict with no reason provided about calling a function with more parameters than defined (but not with fewer), which means *YOU* would have to define _all of them_ every time you define a loop function in order for me to pass them at all, or else it would just silently not work. 🙄
-> (there are a TON of extremely unfortunate and irritating authoring problems with the current CSS function spec, I hide what I can for you.)
-
-### Cast number to string
-
-`./functions/cast/number-to-string.css`
-
-`--dd-number-to-string(--dd-number, --dd-fixed: 0, --dd-round: nearest)`
-
-`--dd-number` is the number to cast to string
-
-`--dd-fixed` is an integer for the decimal precision to show in the string, defaulting to 0, maximum 6 decimal places though native CSS precision only allows up to 6 if the number is between 1 and 0, and with 6 digits left of the decimal, it doesn't have room for any decimal precision. The outuput remains fixed length in any case, using 0 as needed.
-
-`--dd-round` is the rounding strategy used to reach the precision specified, defaulting to `nearest`.
-
-Demo: https://codepen.io/propjockey/pen/JobdXLz?editors=0100
-
-### Cast length and other dimensions to string
-
-`./functions/cast/dimension-to-string.css`
-
-`--dd-dimension-to-string(--dd-dimension, --dd-basis: 1px, --dd-unit <string>: "", --dd-fixed <integer>: 0, --dd-round: nearest)`
-
-basis (optional for length dimensions) is the single unit value of the length or other dimension provided (96dpi, 10deg, 100ms), defaulting to `1px` which will show a length as pixels
-
-unit (optional) is the string to append after the number, eg "px", defaulting to an empty string.
-
-fixed (optional) is the decimal precision, same as in `cast/number-to-string.css`
-
-round (optional) defaulting to `nearest`, same as in `cast/number-to-string.css`
-
-Demo: https://codepen.io/propjockey/pen/dPOoMmx?editors=0100
-
-### --dd-bit-to-st(--dd-bit)
-
-takes a bit, 0 or 1, and returns a space toggle (space if 1, initial if 0)
-
-### --dd-bit-to-ist(--dd-bit)
-
-takes a bit, 0 or 1, and returns an [inverted space toggle](https://propjockey.breakpoint-system.com/#space-toggle-brief) (initial if 1, space if 0)
-
-### --dd-st-to-bit(--dd-st)
-
-takes a space toggle and returns a bit (1 if space, 0 if initial)
-
-### --dd-ist-to-bit(--dd-ist)
-
-takes an [inverted space toggle](https://propjockey.breakpoint-system.com/#space-toggle-brief) and returns a bit (1 if initial, 0 if space)
-
-### TODO: Document the rest shown in the changelog
+### TODOs
 
 So many ✨
 
@@ -250,6 +38,41 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.3.0 - May 15th, 2026:
+* /functions/cast/to-typed.css
+  * --dd-to-typed(--dd-any) returns the same value typed if it can be, which often computes the value
+* /functions/other/compute.css
+  * --dd-compute(--dd-any) alias of --dd-to-typed()
+* /functions/other/is-int.css
+  * fixed import omission
+* /functions/logic/int16/*
+  * renamed functions and files for clarity
+    * get-int16 became get-bit-int16
+    * set-int16 became set-bit-int16
+    * byte-int16 became get-byte-int16
+    * nibble-int16 became get-nibble-int16
+* /functions/repeat/*
+  * modified repeat.css
+    * --repeat(--n[, --joiner], --x);
+    * added an optional joiner parameter to the signature
+    * if --joiner is the keyword `comma`, it uses a comma joiner
+      * so you don't have to write `--n, {,}, --x`
+    * if --joiner is the keyword `none`, it doesn't use a joiner
+      * so you can always write 3 parameters if you prefer
+      * so it is consistent with the joiner param in loop
+  * deleted `repeat-join.css`
+  * modified loop.css
+    * if --joiner is the keyword `comma`, it uses a comma joiner
+      * so you don't have to write `--n, {,}, --x`
+* /functions/logic/inverted-space-toggle/*
+  * --dd-or-ist fixed export name
+  * --dd-nor-ist fixed by avoiding a CSS bug/edgecase
+  * --dd-xnor-ist fixed by avoiding a CSS bug/edgecase
+* /functions/logic/space-toggle/*
+  * --dd-xnor-st fixed by avoiding a CSS bug/edgecase
+* added a website for documentation
+  * https://propjockey.github.io/doubledash.css/
 
 v0.2.2 - May 7th, 2026:
 * Added more optional argument parameters to `--dd-loop()` after looking more closely at [Ana Tudor's beautiful CSS work](https://codepen.io/thebabydino/pen/AvqmXO?editors=0100) and seeing how often she needs more than I originally shipped.

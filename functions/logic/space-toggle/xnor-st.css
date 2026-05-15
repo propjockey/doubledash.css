@@ -8,7 +8,6 @@
 @import url("./xor-st.css");
 
 @function --dd-xnor-st(--dd-st-a, --dd-st-b) {
-  result: --dd-not-st(
-    --dd-xor-st(var(--dd-st-a), var(--dd-st-b))
-  );
+  --_dd-avoid-bug: --dd-xor-st(var(--dd-st-a), var(--dd-st-b));
+  result: --dd-not-st(var(--_dd-avoid-bug));
 }

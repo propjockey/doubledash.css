@@ -1,0 +1,11 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("./bitwise.css");
+
+@function --dd-get-nibble-int16(--dd-int16 <integer>, --dd-which-nibble <integer>) returns <integer> {
+  result: --dd-bitwise(var(--dd-int16), get-nibble, var(--dd-which-nibble), 2);
+}

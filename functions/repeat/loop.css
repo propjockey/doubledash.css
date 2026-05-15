@@ -59,7 +59,11 @@
 ) {
   --dd-x: --_dd-O1-x(var(--dd-i));
   result:
-    if(style(--dd-i: 0) or style(--dd-joiner: none): ; else: var(--dd-joiner, );)
+    if(
+      style(--dd-i: 0) or style(--dd-joiner: none): ;
+      style(--dd-joiner: comma): ,;
+      else: var(--dd-joiner, );
+    )
     if(
       style(--dd-use-loop: --dd-loop-id-0): --dd-loop-id-0();
       style(--dd-use-loop: --dd-loop-id-1): --dd-loop-id-1();

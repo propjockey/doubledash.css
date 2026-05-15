@@ -8,6 +8,10 @@
 @import url("../../cast/digit-to-string.css");
 @import url("../../compare/gte.css");
 
+/* todo: propose counter() accepting calc in the first argument directly. */
+/* https://w3c.github.io/predefined-counter-styles/#binary */
+/* https://w3c.github.io/predefined-counter-styles/#upper-hexadecimal */
+/* can't just use those ^ because it'd need to counter-reset too. */
 @function --_dd-bw-string-exe(--dd-int16-op, --dd-min-length) {
   result: if(
     style(--dd-int16-op: bit-string):
@@ -405,7 +409,7 @@
         (1 - var(--_dd-bw-a-0))
       )
     );
-    style(--dd-int16-op: get): if(
+    style(--dd-int16-op: get-bit): if(
       style(--dd-int16-b = 15): var(--_dd-bw-a-15);
       style(--dd-int16-b = 14): var(--_dd-bw-a-14);
       style(--dd-int16-b = 13): var(--_dd-bw-a-13);
@@ -424,7 +428,7 @@
       style(--dd-int16-b = 0): var(--_dd-bw-a-0);
       else: NaN;
     );
-    style(--dd-int16-op: set): calc(
+    style(--dd-int16-op: set-bit): calc(
       var(--_dd-a-sign) * (
         if(style(--dd-int16-b = 15): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-15);) * pow(2, 15) +
         if(style(--dd-int16-b = 14): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-14);) * pow(2, 14) +
@@ -444,7 +448,7 @@
         if(style(--dd-int16-b = 0): clamp(0, var(--dd-int16-set-bit-to), 1); else: var(--_dd-bw-a-0);)
       )
     );
-    style(--dd-int16-op: toggle): calc(
+    style(--dd-int16-op: toggle-bit): calc(
       var(--_dd-a-sign) * (
         if(style(--dd-int16-b = 15): (1 - var(--_dd-bw-a-15)); else: var(--_dd-bw-a-15);) * pow(2, 15) +
         if(style(--dd-int16-b = 14): (1 - var(--_dd-bw-a-14)); else: var(--_dd-bw-a-14);) * pow(2, 14) +
@@ -465,8 +469,8 @@
       )
     );
     style(--dd-int16-op: msb): var(--_dd-bw-msb);
-    style(--dd-int16-op: byte): --_dd-bw-byte(var(--dd-int16-b));
-    style(--dd-int16-op: nibble): --_dd-bw-nibble(var(--dd-int16-b), var(--dd-int16-set-bit-to));
+    style(--dd-int16-op: get-byte): --_dd-bw-byte(var(--dd-int16-b));
+    style(--dd-int16-op: get-nibble): --_dd-bw-nibble(var(--dd-int16-b), var(--dd-int16-set-bit-to));
     else: --_dd-bw-split-b(var(--dd-int16-a), var(--dd-int16-op), var(--dd-int16-b));
   );
 }
@@ -528,11 +532,12 @@
 }
 
 /*
-// --dd-int16-op: and|nand|nor|or|xor|xnor|left|right|not|toggle|set|get|nibble|byte
+// --dd-int16-op: and|nand|nor|or|xor|xnor|left|right|not|
+// toggle-bit|set-bit|get-bit|get-nibble|get-byte
 // these don't split a and don't split b:
 // right
 // these don't split b:
-// not|toggle|set|get|msb|hex-string|bit-string|nibble|byte
+// not|toggle-bit|set-bit|get-bit|msb|hex-string|bit-string|get-nibble|get-byte
 // toggle, set, and get use --dd-int16-b to index the bit
 // set uses --dd-int16-set-bit-to to write the bit indicated by --dd-int16-b in --dd-int16-a
 // --dd-int16-a, --dd-int16-b, and --dd-int16-set-bit-to are integers,

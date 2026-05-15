@@ -10,7 +10,7 @@
 // more useful than being technically correct
 */
 @function --dd-type-of(
-  --dd-any,
+  --dd-any: initial,
   --_dd-number <number>: -1,
   --_dd-string <string>: "0",
   --_dd-color <color>: red,

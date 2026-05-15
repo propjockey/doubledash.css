@@ -16,7 +16,7 @@ OR
 
 Use your favorite NPM CDN and include it on your page for small projects. Like so:
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.3.1/doubledash.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@propjockey/doubledash.css@0.3.2/doubledash.css">
 ```
 
 OR
@@ -24,7 +24,7 @@ OR
 Use your favorite NPM CDN and import specific functions straight into your CSS for small projects. Like so:
 
 ```css
-@import url("https://unpkg.com/@propjockey/doubledash.css@0.3.1/functions/repeat/index.css");
+@import url("https://unpkg.com/@propjockey/doubledash.css@0.3.2/functions/repeat/index.css");
 ```
 
 ## Visit the website documentation!
@@ -40,6 +40,9 @@ And as soon as we have ...vargument spreading (which absolutely should have happ
 Miiiight add mixins once those are here too.
 
 ## CHANGELOG:
+
+v0.3.2 - May 15th, 2026:
+* fixed type-of to allow `initial` argument
 
 v0.3.1 - May 15th, 2026:
 * fixed readme image

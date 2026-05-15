@@ -407,13 +407,17 @@
       grid-template-areas: var(--_lk-gta-9, "h" "m" "f");
       grid-template-columns: var(--_lk-gtc-9, 1fr);
 
-      --_lk-none-if-lt-9: var(--qlt-s9-st) none;
       --_lk-absolute-if-lt-9: var(--qlt-s9-st) absolute;
       --_lk-1px-if-lt-9: var(--qlt-s9-st) 1px;
       --_lk-clip-hidden-if-lt-9: var(--qlt-s9-st) rect(0, 0, 0, 0);
 
       & > :nth-child(1) { grid-area: h; }
-      & > :nth-child(2) > :nth-child(1) { grid-area: n; display: var(--_lk-none-if-lt-9, block); }
+      :where(& > :nth-child(2) > :nth-child(1)) {
+        --mobile-open: none;
+        --_lk-mobile-open-if-lt-9: var(--qlt-s9-st) var(--mobile-open);
+        grid-area: n;
+        display: var(--_lk-mobile-open-if-lt-9, block);
+      }
       & > :nth-child(2) > :nth-child(2) { grid-area: m; }
       & > :nth-child(3) { grid-area: f; }
       .subgrid-main {
@@ -424,15 +428,19 @@
     }
 
     .rail-nav {
-      background-color: var(--green);
       position: sticky;
       top: var(--bpu-40px);
       height: calc(100dvh - var(--bpu-40px));
       overflow-y: auto;
-      background: linear-gradient(var(--green), var(--green));
+      background: linear-gradient(var(--green), var(--green)), var(--green);
       background-attachment: fixed;
       font-size: var(--bpu-sm);
       padding: var(--bpu-16px);
+      &.mobile-open {
+        --mobile-open: block;
+        width: var(--qlt-s9-st) 100dvw;
+        z-index: var(--qlt-s9-st) 9;
+      }
       > strong:first-child {
         font-size: var(--bpu-14px);
         --_lk-none-if-gte-9: var(--qgte-s9-st) none;
@@ -725,6 +733,18 @@
       width: 100%;
       white-space: nowrap;
     }
+
+    .mobile-open-button {
+      width: var(--bpu-sm);
+      height: var(--bpu-sm);
+      --fif: calc(var(--bpu-sm) / 5);
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--green) 0px var(--fif),
+        transparent var(--fif) calc(var(--fif) * 2)
+      );
+      border: 0px none;
+    }
   </style>
 
   <script>
@@ -790,12 +810,31 @@
         </button>`
       )
     }
+
+    const toggleNav = (mobileButton) => {
+      const rn = document.getElementById("rail-nav")
+      const isOpen = !rn.classList.contains("mobile-open")
+      rn.classList.toggle("mobile-open")
+      mobileButton.setAttribute("aria-expanded", `${isOpen}`)
+    }
+    const closeMobileNav = (mobileNav) => {
+      mobileNav.classList.remove("mobile-open")
+    }
   </script>
 </head>
 <body class="dd-main-layout breakpoint-system-st">
   <header class="main-header">
     <h1 class="qlt-s9-sr-only">@propjockey/doubledash.css</h1>
     <nav>
+      <button
+        class="mobile-open-button"
+        onclick="toggleNav(this)"
+        aria-expanded="false"
+        aria-label="main navigation"
+        aria-controls="rail-nav"
+        style="display: var(--qgte-s9-st) none;"
+        aria-expanded="false" 
+      ></button>
       <a href="https://propjockey.github.io/doubledash.css/"><img alt="home page for @propjockey/doubledash.css" src="./favicon.png" /></a>
       <a href="#open-contact" title="Contact Socials and Support">🩷</a>
       <a href="https://github.com/propjockey/doubledash.css" title="Leave a star on GitHub!"><svg alt="GitHub" xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 34 34"><path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
@@ -803,7 +842,7 @@
     </nav>
   </header>
   <div class="subgrid-main">
-    <section class="rail-nav">
+    <section class="rail-nav" id="rail-nav" onclick="closeMobileNav(this)">
       <strong>@propjockey/doubledash.css</strong>
       <dl>
         <dt style="margin-top: 0px;">Getting Started</dt>

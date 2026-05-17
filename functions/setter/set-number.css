@@ -1,0 +1,19 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-set-number(
+  --dd-any: initial,
+  --dd-fallback: initial,
+  --_dd-0-if-num <number>: -1,
+  --_dd-num <number>: -1
+) {
+  --_dd-0-if-num: calc(var(--dd-any) - var(--dd-any));
+  --_dd-num: var(--dd-any);
+  result: if(
+    style(--_dd-0-if-num: 0): var(--_dd-num);
+    else: var(--dd-fallback);
+  );
+}

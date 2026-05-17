@@ -1,0 +1,41 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@function --dd-unmultiply-type(
+  --dd-type <string>: "*"
+) returns <string> {
+  result: if(
+    style(--dd-type: "<number>#"): "<number>";
+    style(--dd-type: "<string>#"): "<string>";
+    style(--dd-type: "<color>#"): "<color>";
+    style(--dd-type: "<custom-ident>#"): "<custom-ident>";
+    style(--dd-type: "<angle>#"): "<angle>";
+    style(--dd-type: "<time>#"): "<time>";
+    style(--dd-type: "<resolution>#"): "<resolution>";
+    style(--dd-type: "<length>#"): "<length>";
+    style(--dd-type: "<percentage>#"): "<percentage>";
+    style(--dd-type: "<length-percentage>#"): "<length-percentage>";
+    style(--dd-type: "<url>#"): "<url>";
+    style(--dd-type: "<image>#"): "<image>";
+    style(--dd-type: "<transform-function>#"): "<transform-function>";
+
+    style(--dd-type: "<number>+"): "<number>";
+    style(--dd-type: "<string>+"): "<string>";
+    style(--dd-type: "<color>+"): "<color>";
+    style(--dd-type: "<custom-ident>+"): "<custom-ident>";
+    style(--dd-type: "<angle>+"): "<angle>";
+    style(--dd-type: "<time>+"): "<time>";
+    style(--dd-type: "<resolution>+"): "<resolution>";
+    style(--dd-type: "<length>+"): "<length>";
+    style(--dd-type: "<percentage>+"): "<percentage>";
+    style(--dd-type: "<length-percentage>+"): "<length-percentage>";
+    style(--dd-type: "<url>+"): "<url>";
+    style(--dd-type: "<image>+"): "<image>";
+    style(--dd-type: "<transform-function>+"): "<transform-function>";
+    style(--dd-type: "<transform-list>"): "<transform-function>";
+    else: var(--dd-type, "*");
+  );
+}

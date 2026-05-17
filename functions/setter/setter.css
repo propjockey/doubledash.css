@@ -1,0 +1,53 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("../other/compute.css");
+@import url("../other/type-of.css");
+@import url("../other/unmultiply-type.css");
+
+@function --dd-setter(
+  --dd-type <string>: "*",
+  --dd-any: initial,
+  --dd-fallback: initial,
+  --_dd-identifier <custom-ident>: id,
+  --_dd-identifier-csv <custom-ident>#: id,
+  --_dd-identifier-ssv <custom-ident>+: id
+) {
+  --_dd-arg-type-unmultiplied: --dd-unmultiply-type(var(--dd-type));
+  --_dd-type: --dd-type-of(var(--dd-any));
+
+  --_dd-identifier: var(--dd-any);
+  --_dd-identifier-csv: var(--dd-any);
+  --_dd-identifier-ssv: var(--dd-any);
+
+  /* TODO: can't properly test <integer> multipliers without vargument spreading */
+  result: if(
+    style(--_dd-type: var(--_dd-arg-type-unmultiplied)): --dd-compute(var(--dd-any));
+    style(--_dd-arg-type-unmultiplied: "<number>") and style(--_dd-type: "<integer>"): --dd-compute(var(--dd-any));
+
+    style(--_dd-arg-type-unmultiplied: "<image>") and style(--_dd-type: "<url>"): --dd-compute(var(--dd-any));
+    style(--dd-type: "<image>#") and style(--_dd-type: "<url>#"): --dd-compute(var(--dd-any));
+    style(--dd-type: "<image>+") and style(--_dd-type: "<url>+"): --dd-compute(var(--dd-any));
+
+    style(--_dd-arg-type-unmultiplied: "<custom-ident>") and style(--_dd-type: "<color>") and (
+      not style(var(--_dd-identifier, 1) = 1)
+    ): --dd-compute(var(--dd-any));
+
+    style(--dd-type: "<custom-ident>#") and (
+      style(--_dd-type: "<color>#") or style(--_dd-type: "<color>")
+    ) and (
+      not style(var(--_dd-identifier-csv, 1) = 1)
+    ): --dd-compute(var(--dd-any));
+
+    style(--dd-type: "<custom-ident>+") and (
+      style(--_dd-type: "<color>+") or style(--_dd-type: "<color>")
+    ) and (
+      not style(var(--_dd-identifier-ssv, 1) = 1)
+    ): --dd-compute(var(--dd-any));
+
+    else: var(--dd-fallback);
+  );
+}

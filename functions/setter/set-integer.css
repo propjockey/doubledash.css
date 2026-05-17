@@ -1,0 +1,20 @@
+/*! @license
+// @propjockey/doubledash.css
+// BSD 2-Clause License
+// Copyright © 2026 Jane Ori, PropJockey
+*/
+
+@import url("../other/is-int.css");
+
+@function --dd-set-integer(
+  --dd-any: initial,
+  --dd-fallback: initial,
+  --_dd-int <integer>: -1
+) {
+  --_dd-is-int: --dd-is-int(var(--dd-any));
+  --_dd-int: var(--dd-any);
+  result: if(
+    style(--_dd-is-int = 1): var(--_dd-int);
+    else: var(--dd-fallback);
+  );
+}
